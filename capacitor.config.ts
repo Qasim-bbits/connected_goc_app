@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.company.photogallery',
-  appName: 'photo-gallery',
+  appId: 'com.company.goc',
+  appName: 'goc',
   webDir: 'build',
   bundledWebRuntime: false
 };
