@@ -44,7 +44,6 @@ setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
-            {/* <SelectPlate/> */}
 
     <IonReactRouter>
 
@@ -53,8 +52,6 @@ const App: React.FC = () => (
                     <Route path="/home" component={Home} exact={true} />
                     <Route path="/selectPlate" component={SelectPlate} exact={true} />
                     <Route path="/selectParkingRate" component={SelectParkingRate} exact={true} />
-
-
                     <Redirect from="/" to="/home" exact />
 
         </IonRouterOutlet>
