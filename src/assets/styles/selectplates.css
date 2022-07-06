@@ -1,0 +1,25 @@
+.new-background-color {
+    --background: #00008B;
+    --color: #ffffff;
+   
+}
+.card-background-color {
+    --background: rgb(255, 255, 255);
+    --color: #111;
+    
+
+}
+div {
+    margin-top: 5px;
+}
+
+.icon {
+
+    flex-direction: column;
+    display: block;
+        
+        /* vertical-align: middle; */
+
+}
+
+

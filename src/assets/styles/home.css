@@ -1,0 +1,74 @@
+.new-background-color {
+    --background: #00008B;
+}
+.map-marker-centered {
+    /* background-image: url('../logo/favicon.png') no-repeat;
+    width: 50px;
+    height: 60px;
+    position: absolute;
+    z-index: 20; */
+    left: calc(50% - 15.5px);
+    top: calc(50% - 2px);
+    transition: all 0.4s ease;
+}
+.map-container {
+    position: relative;
+    width: 1500px;
+    height: 1000px;
+}
+.map {
+
+        width: 1500px;
+        height: 1000px;
+        z-index: 1;
+
+}
+.img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+    margin-bottom: 100;
+}
+.mapBtn.Mui-button{
+    margin-top: 100px;
+    border-radius: 30;
+    padding: 2;
+    width: 200; 
+    display:'block';
+}
+
+/* ion-split-pane {
+    --border: none !important;
+
+    ion-menu {
+        --background: var(--ion-color-primary) !important;
+
+        ion-content {
+            --background: var(--ion-color-primary) !important;
+
+            ion-list-header {
+                --background: var(--ion-color-primary) !important;
+                --color: #FFFFFF !important;
+            }
+
+            ion-item {
+                --background: var(--ion-color-primary) !important;
+                --color: #FFFFFF !important;
+
+                ion-icon {
+                    padding-right: 10px !important;
+                }
+            }
+        }
+    }
+} */
+
+/* ion-content {
+
+    --ion-background-color: #ffffff;
+    --color: #111111;
+} */
+ion-toolbar {
+    --color: #222;
+}
