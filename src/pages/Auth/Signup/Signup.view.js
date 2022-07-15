@@ -1,19 +1,14 @@
-import React, { Fragment } from "react";
-
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-const theme = createTheme();
+import { IonRouterLink } from "@ionic/react";
+
 const themeLight = createTheme({
 	palette: {
 		background: {
@@ -47,7 +42,7 @@ export default function SignupView(props) {
 					}}
 				>
 					<img
-						src={require("../../../assets/logo/logo_blue.svg").default}
+						src={require("../../../assets/logo/goc_logo_variant.svg").default}
 						alt="Blinkay Logo."
 						style={{ margin: 50, maxWidth: 250 }}
 					/>
@@ -55,6 +50,28 @@ export default function SignupView(props) {
 						What is your email address?
 					</Typography>
 					<Box component="form" onSubmit={props.handleSubmit} sx={{ mt: 6 }}>
+						<TextField
+							margin="normal"
+							required
+							fullWidth
+							id="fName"
+							label="Type your first name"
+							name="fName"
+							autoComplete="fName"
+							autoFocus
+							variant="standard"
+						/>
+						<TextField
+							margin="normal"
+							required
+							fullWidth
+							id="lName"
+							label="Type your last name"
+							name="lName"
+							autoComplete="lName"
+							autoFocus
+							variant="standard"
+						/>
 						<TextField
 							margin="normal"
 							required
@@ -67,7 +84,20 @@ export default function SignupView(props) {
 							variant="standard"
 						/>
 
+						<TextField
+							margin="normal"
+							required
+							fullWidth
+							id="password"
+							label="Type your password"
+							name="password"
+							autoComplete="password"
+							autoFocus
+							variant="standard"
+						/>
+
 						<Grid container alignItems="center" justifyContent="center">
+							{/* <IonRouterLink routerLink={props.dataStatus ? ["/home"] : []}> */}
 							<Button
 								type="submit"
 								variant="contained"
@@ -79,16 +109,17 @@ export default function SignupView(props) {
 									width: 200,
 									display: "block",
 								}}
+								onClick={() => {}}
+								routerLink={"login"}
 							>
 								Continue
 							</Button>
+							{/* </IonRouterLink> */}
 						</Grid>
 						<Grid container>
 							<Grid item>
 								I already have an account
-								<Link href="#" variant="body2">
-									{"   Login"}
-								</Link>
+								<IonRouterLink routerLink={"login"}> Login</IonRouterLink>
 							</Grid>
 						</Grid>
 					</Box>
