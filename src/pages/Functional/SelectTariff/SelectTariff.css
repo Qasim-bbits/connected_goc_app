@@ -1,0 +1,18 @@
+.rate-cycle-text {
+    position: absolute;
+    transform: translate(42vw,16vh);
+}
+.rate-cycle {
+    display: flex;
+    justify-content: center;
+}
+.tax-info {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 6% 0 6%;
+}
+.payment-button {
+    margin-top: 10%;
+    display: flex;
+    justify-content: center;
+}
