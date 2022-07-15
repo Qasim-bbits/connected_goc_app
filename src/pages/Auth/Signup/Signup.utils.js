@@ -21,7 +21,6 @@ export default function SignupUtils() {
 		if (loading) {
 			return;
 		}
-
 		setLoading(true);
 		try {
 			const response = await fetch("http://130.211.236.52/api/signup/", {
@@ -43,7 +42,6 @@ export default function SignupUtils() {
 			});
 			result = await response.json();
 			console.log(result);
-
 			if (result.status != "success") {
 				bool = false;
 			} else {
@@ -54,10 +52,10 @@ export default function SignupUtils() {
 			alert("Oops", e.message);
 		}
 		setLoading(false);
-
 		if (!bool) {
 			alert("Unsuccessful Signup!");
 		} else {
+			// TODO:navigate to home
 			// navigation.navigate("Sync Screen", {
 			// 	token: t,
 			// });

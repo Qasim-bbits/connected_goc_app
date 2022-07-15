@@ -97,7 +97,6 @@ export default function SignupView(props) {
 						/>
 
 						<Grid container alignItems="center" justifyContent="center">
-							{/* <IonRouterLink routerLink={props.dataStatus ? ["/home"] : []}> */}
 							<Button
 								type="submit"
 								variant="contained"
@@ -114,7 +113,6 @@ export default function SignupView(props) {
 							>
 								Continue
 							</Button>
-							{/* </IonRouterLink> */}
 						</Grid>
 						<Grid container>
 							<Grid item>
