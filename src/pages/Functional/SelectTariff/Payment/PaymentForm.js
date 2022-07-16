@@ -1,13 +1,6 @@
 import React, {useState} from 'react';
 import {
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardSubtitle,
-  IonCardTitle,
   IonCol,
-  IonContent,
-  IonGrid,
   IonInput,
   IonButton,
   IonRow

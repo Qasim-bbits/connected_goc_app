@@ -1,56 +1,22 @@
 import "../../../assets/styles/selectparkingrate.css";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { wifi } from "ionicons/icons";
 import {
-	IonSearchbar,
 	IonBackButton,
-	IonMenu,
 	IonHeader,
 	IonToolbar,
 	IonTitle,
 	IonContent,
-	IonList,
 	IonItem,
-	IonRouterOutlet,
-	IonMenuButton,
 	IonButtons,
-	IonMenuToggle,
 	IonPage,
-	IonButton,
-	IonModal,
-	IonLabel,
-	IonInput,
 	IonCard,
 	IonCardContent,
 	IonIcon,
 } from "@ionic/react";
 
-const themeLight = createTheme({
-	palette: {
-		background: {
-			default: "#ffffff",
-		},
-		text: {
-			primary: "#ffffff",
-		},
-	},
-});
-
-const themeDark = createTheme({
-	palette: {
-		background: {
-			default: "#ffffff",
-		},
-		text: {
-			primary: "#ffffff",
-		},
-	},
-});
-
 export default function SelectParkingRate(props) {
 	return (
 		<IonPage>
-			<ThemeProvider theme={themeLight}>
 				<IonHeader>
 					<IonToolbar text-center class="ion-text-center new-background-color">
 						<IonButtons slot="start">
@@ -80,7 +46,6 @@ export default function SelectParkingRate(props) {
 						</IonCardContent>
 					</IonCard>
 				</IonContent>
-			</ThemeProvider>
 		</IonPage>
 	);
 }
