@@ -1,0 +1,12 @@
+.remember-me {
+    --ion-item-background: none;
+    --padding-start: none;
+    --inner-padding-end: none;
+    --inner-border-width: 0;
+}
+.forget-password {
+    --ion-item-background: none;
+    --ion-item-border-color: none;
+    --inner-padding-end: none;
+    --inner-border-width: 0;
+}
