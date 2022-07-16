@@ -1,9 +1,6 @@
 import React from "react";
-
 import "../../../assets/styles/home.css";
-
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
 import {
 	IonSearchbar,
 	IonMenu,
@@ -37,7 +34,7 @@ import {
 	IonSelect,
 	IonSelectOption,
 } from "@ionic/react";
-
+import { getCenterOfBounds } from "geolib";
 import Map from "../../../components/map";
 
 const themeLight = createTheme({
@@ -210,7 +207,29 @@ export default function Home(props) {
 								<IonItem
 									button
 									onclick={async () => {
-										setCenterProp(search.polygon[0]);
+										// setCenterProp(search.polygon[0]);
+										// setCenterProp(
+										// 	getCenterOfBounds([
+										// 		{ lat: 45.415421753842104, lng: -76.35184636553302 },
+										// 		{ lat: 44.95758775225658, lng: -75.82429385901366 },
+										// 		{ lat: 45.241046984450755, lng: -75.11170427931212 },
+										// 		{ lat: 45.759814362346, lng: -75.49752626169197 },
+										// 		{ lat: 45.415421753842104, lng: -76.35184636553302 },
+										// 	])
+										// );
+										const cities = search.polygon.map(function (row) {
+											return { latitude: row.lat, longitude: row.lng };
+										});
+
+										let centerPolygon = getCenterOfBounds(cities);
+
+										let centerPolygonLatLng = {
+											lat: centerPolygon.latitude,
+											lng: centerPolygon.longitude,
+										};
+
+										setCenterProp(centerPolygonLatLng);
+
 										console.log("centerProp", centerProp);
 										setSelectedCity(search);
 									}}
@@ -250,7 +269,19 @@ export default function Home(props) {
 										zones.map((zone) => {
 											if (zone._id === e.detail.value) {
 												setSelectedZone(zone);
-												setCenterProp(zone.polygon[0]);
+												// setCenterProp(zone.polygon[0]);
+												const zones = zone.polygon.map(function (row) {
+													return { latitude: row.lat, longitude: row.lng };
+												});
+
+												let centerPolygon = getCenterOfBounds(zones);
+
+												let centerPolygonLatLng = {
+													lat: centerPolygon.latitude,
+													lng: centerPolygon.longitude,
+												};
+
+												setCenterProp(centerPolygonLatLng);
 											}
 										});
 										console.log(e.detail.value);

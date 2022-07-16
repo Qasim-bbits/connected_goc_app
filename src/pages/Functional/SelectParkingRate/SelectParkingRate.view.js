@@ -1,9 +1,6 @@
 import "../../../assets/styles/selectparkingrate.css";
-
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
 import { wifi } from "ionicons/icons";
-
 import {
 	IonSearchbar,
 	IonBackButton,

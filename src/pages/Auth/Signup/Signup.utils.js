@@ -1,5 +1,4 @@
 import React from "react";
-
 import SignupView from "./Signup.view";
 
 let bool;

@@ -1,12 +1,6 @@
 import React from "react";
-
 import "../assets/styles/home.css";
-
-// import Modal from '@mui/material/Modal';
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-
 import { GoogleMap, useJsApiLoader, Polygon } from "@react-google-maps/api";
 import {
 	IonButton,
@@ -16,15 +10,14 @@ import {
 	IonRow,
 	IonCol,
 } from "@ionic/react";
+import { isPointInPolygon } from "geolib";
+
 const containerStyle = {
 	width: "100%",
 	height: "90%",
 };
 
 const c = {
-	//   lat: -3.745,
-	//   lng: -38.523
-
 	lat: 25.774,
 	lng: -80.19,
 };
@@ -45,15 +38,23 @@ export default function Map(props) {
 	});
 
 	const [map, setMap] = React.useState(null);
+	const [showConfirmBtn, setShowConfirmBtn] = React.useState(true);
 
-	// const [mapCenter, setMapCenter] = React.useState(
-	// 	props.center === null || props.center === undefined ? c : props.center
-	// );
+	// let showConfirmBtn = true;
 
 	let mapCenter =
 		props.center === null || props.center === undefined ? c : props.center;
 
 	const [markerPosition, setMarkerPosition] = React.useState(mapCenter);
+
+	// const toggleConfrimBtn = () => {
+	// 	if (props.zone.polygon != null) {
+	// 		showConfirmBtn = isPointInPolygon(mapCenter, props.zone.polygon);
+	// 		console.log("ddddd", showConfirmBtn);
+	// 	}
+
+	// 	// console.log("issss", isPointInPolygon(mapCenter, props.zone.polygon));
+	// };
 
 	const onLoad = React.useCallback(function callback(map) {
 		const bounds = new window.google.maps.LatLngBounds(mapCenter);
@@ -63,12 +64,15 @@ export default function Map(props) {
 
 	React.useEffect(() => {
 		if (props.center != null) {
-			// setMapCenter(props.center);
 			mapCenter = props.center;
 			console.log("prop center", props.center);
 			console.log("mapCenter", mapCenter);
-			// console.log("actual",map.getCenter().lat(),map.getCenter().lng());
 		} else console.log("props center is null");
+
+		if (props.zone.polygon != null) {
+			setShowConfirmBtn(isPointInPolygon(mapCenter, props.zone.polygon));
+			console.log("ddddd", showConfirmBtn);
+		}
 	}, [map]);
 
 	const onUnmount = React.useCallback(function callback(map) {
@@ -108,7 +112,7 @@ export default function Map(props) {
 						className="map-marker-centered"
 					>
 						<img
-							src={require("../assets/logo/result.svg").default}
+							src={require("../assets/logo/marker.svg").default}
 							alt="eee"
 							width="30"
 							height="30"
@@ -116,7 +120,6 @@ export default function Map(props) {
 					</div>
 
 					<Box
-						// alignItems='center' justifyContent='center' textAlign='center' marginBottom={0}
 						style={{
 							marginTop: 450,
 							alignItems: "center",
@@ -131,7 +134,7 @@ export default function Map(props) {
 								borderRadius: 30,
 								padding: 2,
 								width: 200,
-								display: "flex",
+								display: "block",
 								margin: "0 auto",
 							}}
 							onClick={{}}
@@ -141,19 +144,6 @@ export default function Map(props) {
 							Confirm your zone
 						</IonButton>
 					</Box>
-
-					{/* <IonFab vertical='center' horizontal='center'>
-
-        <IonFabButton
-        type="submit"
-        style={{ marginTop: 7, marginBottom: 5, borderRadius: 30, padding: 2, width: 200, display:'flex',margin: '0 auto',}} 
-        onClick={{}}
-        size='default'
-        routerLink={"/selectPlate"}
-        >
-            Confirm your zone
-        </IonFabButton>
-      </IonFab> */}
 
 					<Polygon
 						path={props.city.polygon}
@@ -169,7 +159,6 @@ export default function Map(props) {
 					/>
 					<Polygon
 						path={props.zone.polygon}
-						// key={1}
 						editable={true}
 						options={{
 							strokeColor: "#63E5FF",
@@ -186,5 +175,3 @@ export default function Map(props) {
 
 	return isLoaded ? renderMap() : <></>;
 }
-
-// export default React.memo(Map);

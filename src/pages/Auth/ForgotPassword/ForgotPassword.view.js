@@ -1,18 +1,12 @@
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-const theme = createTheme();
 const themeLight = createTheme({
 	palette: {
 		background: {
@@ -45,7 +39,6 @@ export default function ForgotPassword(props) {
 						alignItems: "center",
 					}}
 				>
-					{/* <img src= {require("../../../assets/logo/logo_blue.svg").default} alt="Blinkay Logo." style={{margin : 100, maxWidth : 250 }}/> */}
 					<Box component="form" onSubmit={props.handleSubmit} sx={{ mt: 1 }}>
 						<Typography component="p">
 							Please write your username and we will send your password to the
