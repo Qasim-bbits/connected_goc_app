@@ -25,6 +25,14 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 import './theme/variables.css';
 
+/* Screens */
+import Signup from './pages/Auth/Signup/Signup.utils';
+import Login from './pages/Auth/Login/Login.utils';
+import ForgotPassword from './pages/Auth/ForgotPassword/ForgotPassword.utils';
+import Home from './pages/Functional/Home/Home.utils';
+import SelectPlate from './pages/Functional/SelectPlate/SelectPlate.utils';
+import SelectParkingRate from './pages/Functional/SelectParkingRate/SelectParkingRate.utils';
+import SelectTariffUtils from "./pages/Functional/SelectTariff/SelectTariff.utils";
 
 setupIonicReact();
 
