@@ -72,3 +72,12 @@
 ion-toolbar {
     --color: #222;
 }
+
+#searchBarCity {
+    /* margin-left: "400px"; */
+    padding-left: 5% ;
+}
+#searchBarZone {
+    /* margin-left: "400px"; */
+    padding-left: 5%;
+}
