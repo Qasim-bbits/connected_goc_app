@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import { CircleSlider } from "react-circle-slider";
 import moment from 'moment';
 import './SelectTariff.css';
@@ -15,11 +15,6 @@ import {
   IonItem,
 } from '@ionic/react';
 import {Divider} from "@mui/material";
-import {PaymentSheet} from "./Payment/PaymentSheet";
-import {ApplePay} from "./Payment/ApplePay";
-import {GooglePay} from "./Payment/GooglePay";
-import {useCapacitorStripe} from "@capacitor-community/stripe/dist/esm/react/provider";
-import StripeCheckoutButton from "./Payment/StripeCheckoutButton";
 import PaymentForm from "./Payment/PaymentForm";
 
 const cycleData = [
@@ -48,7 +43,6 @@ const cycleData = [
 
 export default function SelectTariff(props) {
 
-  const { isApplePayAvailable, isGooglePayAvailable } = useCapacitorStripe()
   const [step, setStep] = useState(0)
 
   const handleOnChange = (value) => {
@@ -131,11 +125,9 @@ export default function SelectTariff(props) {
           />
           </div>
           <div className='payment-button'>
-            {isApplePayAvailable ?? <ApplePay/>}
-            {isGooglePayAvailable ?? <GooglePay/>}
-            {/*<PaymentSheet amount={cycleData[step].rate/100} />*/}
-            {/*  <StripeCheckoutButton price={cycleData[step].rate/100} />*/}
-            <PaymentForm/>
+            {/*{isApplePayAvailable ?? <ApplePay/>}*/}
+            {/*{isGooglePayAvailable ?? <GooglePay/>}*/}
+            <PaymentForm amount={cycleData[step].rate/100}/>
           </div>
         </IonContent>
       </IonContent>

@@ -12,12 +12,17 @@ import {
   IonButton,
   IonRow
 } from "@ionic/react";
+import Toast from "../../../../components/toast";
 
 function PaymentForm(props) {
-  const [cardNum, setCardNum] = useState(null)
+  const {
+    amount,
+  } = props
+  const [cardNum, setCardNum] = useState('')
   const [expDate, setExpDate] = useState("");
   const [cvv, setCvv] = useState(null);
-  const [message, setMessage] = useState("");
+  const [toastOpen, setToastOpen] = useState(false);
+  const [message, setMessage] = useState('');
 
   let handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,13 +33,17 @@ function PaymentForm(props) {
           cardNum: cardNum,
           expDate: expDate,
           cvv: cvv,
+          amount: amount,
         }),
+        headers: { 'Content-Type': 'application/json' },
       });
       let resJson = await res.json();
       if (res.status === 200) {
-        setMessage("User created successfully");
+        setMessage("Payment Successful");
+        setToastOpen(true)
       } else {
-        setMessage("Some error occured");
+        setMessage("Payment Failed. Something went wrong");
+        setToastOpen(true)
       }
     } catch (err) {
       console.log(err);
@@ -57,50 +66,59 @@ function PaymentForm(props) {
     console.log(cardNum)
   }
   return (
+    <>
     <form onSubmit={handleSubmit}>
-      <IonGrid>
         <IonRow>
+          <IonCol>
           <IonInput
             inputMode='tel'
             value={cardNum}
-            onChange={(e) => handleCardNum(e.target.value)}
+            onIonChange={(e) => handleCardNum(e.target.value)}
             placeholder='Card Number'
             pattern="[\d| ]{16,22}"
-            format
             style={{backgroundColor: '#fff', borderRadius: '10px', marginBottom: '5px', color: 'black'}}
           />
+          </IonCol>
         </IonRow>
         <IonRow>
           <IonCol>
             <IonInput
               type="text"
               value={expDate}
-              onChange={(e) => setExpDate(e.target.value)}
+              onIonChange={(e) => setExpDate(e.target.value)}
               placeholder='Expiry Date'
               style={{backgroundColor: '#fff', borderRadius: '10px', marginBottom: '5px', color: 'black'}}
             />
           </IonCol>
           <IonCol>
             <IonInput
-              inputMode='numeric'
+              inputMode='number'
               value={cvv}
               id='cvv'
-              onChange={(e) => setCvv(e.target.value)}
+              maxlength='3'
+              onIonChange={(e) => setCvv(e.target.value)}
               placeholder='CVV'
               style={{backgroundColor: '#fff', borderRadius: '10px', marginBottom: '5px', color: 'black'}}
             />
           </IonCol>
         </IonRow>
         <IonRow>
+          <IonCol>
           <IonButton
             type="submit"
             style={{width: '100%'}}
           >
-            Pay
+            Pay ${amount}
           </IonButton>
+          </IonCol>
         </IonRow>
-      </IonGrid>
     </form>
+      <Toast
+        message={message}
+        toastOpen={toastOpen}
+        setToastOpen={setToastOpen}
+      />
+      </>
   );
 }
 
