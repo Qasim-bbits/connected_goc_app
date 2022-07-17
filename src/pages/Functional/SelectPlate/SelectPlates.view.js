@@ -1,22 +1,16 @@
 import React from "react";
 import "../../../assets/styles/selectplates.css";
 import Plates from "../../../components/plates";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { carOutline, trashOutline, pencil } from "ionicons/icons";
 import {
-	IonSearchbar,
 	IonBackButton,
-	IonMenu,
 	IonHeader,
 	IonToolbar,
 	IonTitle,
 	IonContent,
 	IonList,
 	IonItem,
-	IonRouterOutlet,
-	IonMenuButton,
 	IonButtons,
-	IonMenuToggle,
 	IonPage,
 	IonButton,
 	IonModal,
@@ -25,36 +19,12 @@ import {
 	IonCard,
 	IonCardContent,
 	IonIcon,
-	IonItemDivider,
 	IonText,
 	IonGrid,
-	IonRow,
 	IonCol,
 	IonListHeader,
 	IonItemGroup,
 } from "@ionic/react";
-
-const themeLight = createTheme({
-	palette: {
-		background: {
-			default: "#ffffff",
-		},
-		text: {
-			primary: "#ffffff",
-		},
-	},
-});
-
-const themeDark = createTheme({
-	palette: {
-		background: {
-			default: "#ffffff",
-		},
-		text: {
-			primary: "#ffffff",
-		},
-	},
-});
 
 const plates = [
 	{
@@ -88,7 +58,6 @@ export default function SelectPlates(props) {
 
 	return (
 		<IonPage>
-			<ThemeProvider theme={themeLight}>
 				<IonHeader>
 					<IonToolbar text-center class="ion-text-center new-background-color">
 						<IonButtons slot="start">
@@ -202,7 +171,6 @@ export default function SelectPlates(props) {
 						))}
 					</IonList>
 				</IonContent>
-			</ThemeProvider>
 		</IonPage>
 	);
 }

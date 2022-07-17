@@ -5,31 +5,10 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { IonRouterLink } from "@ionic/react";
-
-const themeLight = createTheme({
-	palette: {
-		background: {
-			default: "#D3D3D3",
-		},
-	},
-});
-
-const themeDark = createTheme({
-	palette: {
-		background: {
-			default: "#222222",
-		},
-		text: {
-			primary: "#ffffff",
-		},
-	},
-});
 
 export default function SignupView(props) {
 	return (
-		<ThemeProvider theme={themeLight}>
 			<Container component="main" maxWidth="xs">
 				<CssBaseline />
 				<Box
@@ -122,6 +101,5 @@ export default function SignupView(props) {
 					</Box>
 				</Box>
 			</Container>
-		</ThemeProvider>
 	);
 }

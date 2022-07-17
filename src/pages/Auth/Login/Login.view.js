@@ -1,112 +1,115 @@
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-const themeLight = createTheme({
-	palette: {
-		background: {
-			default: "#D3D3D3",
-		},
-	},
-});
-
-const themeDark = createTheme({
-	palette: {
-		background: {
-			default: "#222222",
-		},
-		text: {
-			primary: "#ffffff",
-		},
-	},
-});
+import {
+	IonButton,
+	IonCheckbox,
+	IonCol,
+	IonGrid,
+	IonIcon,
+	IonItem,
+	IonLabel,
+	IonPage,
+	IonRow,
+	IonText,
+} from "@ionic/react";
+import './login.css'
+import {InputAdornment} from "@mui/material";
+import {lockClosedOutline, personOutline} from "ionicons/icons";
+import Toast from "../../../components/toast";
 
 export default function LoginView(props) {
 	return (
-		<ThemeProvider theme={themeLight}>
-			<Container component="main" maxWidth="xs">
-				<CssBaseline />
-				<Box
-					sx={{
-						marginTop: 8,
-						display: "flex",
-						flexDirection: "column",
-						alignItems: "center",
-					}}
-				>
-					<img
-						src={require("../../../assets/logo/logo_blue.svg").default}
-						alt="Blinkay Logo."
-						style={{ margin: 100, maxWidth: 250 }}
-					/>
-					<Box component="form" onSubmit={props.handleSubmit} sx={{ mt: 1 }}>
-						<TextField
-							margin="normal"
-							required
-							fullWidth
-							id="email"
-							label={<PersonOutlineIcon />}
-							name="email"
-							autoComplete="email"
-							autoFocus
-							variant="standard"
-						/>
-
-						<TextField
-							margin="normal"
-							required
-							fullWidth
-							name="password"
-							label={<LockOutlinedIcon />}
-							type="password"
-							id="password"
-							autoComplete="current-password"
-							variant="standard"
-						/>
-						<FormControlLabel
-							control={<Checkbox value="remember" color="primary" />}
-							label="Remember me"
-						/>
-						<Grid container alignItems="center" justifyContent="center">
-							<Button
-								type="submit"
-								variant="contained"
-								sx={{
-									mt: 3,
-									mb: 2,
-									borderRadius: 30,
-									padding: 2,
-									width: 200,
-									display: "block",
-								}}
-							>
-								Login
-							</Button>
-						</Grid>
-						<Grid container>
-							<Grid item xs>
-								<Link href="#" variant="body2">
-									Forgot your password?
+			<IonPage style={{backgroundColor: '#dad9d9', display: 'flex'}}>
+					<IonGrid>
+						<IonRow>
+							<IonCol size="12" offset='2'>
+									<img
+										src={require("../../../assets/logo/goc_logo_variant.svg").default}
+										alt="Connected GOC"
+										style={{ marginTop: 30 }}
+										height='250px'
+										width='250px'
+									/>
+							</IonCol>
+						</IonRow>
+						<form onSubmit={props.handleSubmit}>
+						<IonRow>
+							<IonCol size="10" offset="1">
+								<TextField
+									fullWidth
+									label="Email"
+									margin="normal"
+									name="email"
+									type="email"
+									variant="outlined"
+									size='small'
+									sx={{marginTop: '1%', marginBottom: '1%'}}
+									InputProps={{
+										startAdornment: (
+											<InputAdornment position='start'>
+												<IonIcon src={personOutline} />
+											</InputAdornment>
+										)
+									}}
+								/>
+							</IonCol>
+							<IonCol size="10" offset="1">
+								<TextField
+									fullWidth
+									label="Password"
+									margin="normal"
+									name="password"
+									type="password"
+									variant="outlined"
+									size='small'
+									sx={{marginTop: '1%', marginBottom: '1%'}}
+									InputProps={{
+										startAdornment: (
+											<InputAdornment position='start'>
+												<IonIcon src={lockClosedOutline} />
+											</InputAdornment>
+										)
+									}}
+								/>
+							</IonCol>
+						</IonRow>
+						<IonRow style={{display: 'flex', alignItems: 'center'}}>
+							<IonCol size="5" offset="1">
+								<IonItem className='remember-me'>
+									<IonLabel style={{fontSize: '13px', color: '#000'}}>Remember me</IonLabel>
+									<IonCheckbox classname='checkbox' defaultChecked={true} slot="start" style={{marginInlineEnd: '10px', borderColor: 'red'}}/>
+								</IonItem>
+							</IonCol>
+							<IonCol size="5" style={{display: 'flex', justifyContent: 'flex-end'}}>
+								<IonItem className='forget-password'>
+									<IonText style={{fontSize: '13px'}}>
+										<Link href="/forgetPassword" >
+											Forgot password?
+										</Link>
+									</IonText>
+								</IonItem>
+							</IonCol>
+						</IonRow>
+						<IonRow>
+							<IonCol size="10" offset="1">
+								<IonButton className="login-button" expand="block" size='medium' type='submit'>Login</IonButton>
+							</IonCol>
+						</IonRow>
+						</form>
+						<div style={{display:'flex', justifyContent: 'center'}}>
+							<IonText style={{fontSize: '13px', color: '#000'}}>
+								Don't have an account? &nbsp;
+								<Link href="/signup" >
+									Signup
 								</Link>
-							</Grid>
-							<Grid item>
-								<Link href="#" variant="body2">
-									{"Still not have an account? Sign Up"}
-								</Link>
-							</Grid>
-						</Grid>
-					</Box>
-				</Box>
-			</Container>
-		</ThemeProvider>
+							</IonText>
+						</div>
+					</IonGrid>
+        <Toast
+          message={props.message}
+          toastOpen={props.toastOpen}
+          setToastOpen={props.setToastOpen}
+        />
+			</IonPage>
 	);
 }

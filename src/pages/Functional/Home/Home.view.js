@@ -1,6 +1,5 @@
 import React from "react";
 import "../../../assets/styles/home.css";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
 	IonSearchbar,
 	IonMenu,
@@ -37,35 +36,14 @@ import {
 import { getCenterOfBounds } from "geolib";
 import Map from "../../../components/map";
 
-const themeLight = createTheme({
-	palette: {
-		background: {
-			default: "#ffffff",
-		},
-		text: {
-			primary: "#ffffff",
-		},
-	},
-});
 
-const themeDark = createTheme({
-	palette: {
-		background: {
-			default: "#222222",
-		},
-		text: {
-			primary: "#ffffff",
-		},
-	},
-});
-let citiesResponse;
-let zonesResponse;
 export default function Home(props) {
-	const [centerProp, setCenterProp] = React.useState(null);
+	let citiesResponse;
+	let zonesResponse;
 
+	const [centerProp, setCenterProp] = React.useState(null);
 	const [cities, setCities] = React.useState(null);
 	const [selectedCity, setSelectedCity] = React.useState({});
-
 	const [zones, setZones] = React.useState(null);
 	const [selectedZone, setSelectedZone] = React.useState({});
 
@@ -185,7 +163,6 @@ export default function Home(props) {
 
 	return (
 		<IonPage>
-			<ThemeProvider theme={themeLight}>
 				<IonHeader>
 					<IonToolbar text-center class="ion-text-center new-background-color">
 						<IonButtons slot="end">
@@ -353,7 +330,6 @@ export default function Home(props) {
 
 					<Map center={centerProp} city={selectedCity} zone={selectedZone} />
 				</IonContent>
-			</ThemeProvider>
 		</IonPage>
 	);
 }
