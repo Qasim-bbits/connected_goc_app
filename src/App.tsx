@@ -40,7 +40,7 @@ const App: React.FC = () => (
         <Route path="/selectParkingRate" component={SelectParkingRate} exact={true} />
         <Route path="/selectTariff" component={SelectTariffUtils} exact={true} />
 
-        <Redirect from="/" to="/home" exact />
+        <Redirect from="/" to="/selectTariff" exact />
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>

@@ -71,7 +71,7 @@ export default function Home(props) {
 
 	const getCities = async () => {
 		try {
-			const response = await fetch("http://130.211.236.52/api/getCities/").then(
+			const response = await fetch("http://35.192.138.41/api/getCities/").then(
 				(response) => response.json()
 			);
 
@@ -83,7 +83,7 @@ export default function Home(props) {
 
 	const getZones = async () => {
 		try {
-			const response = await fetch("http://130.211.236.52/api/getZones/").then(
+			const response = await fetch("http://35.192.138.41/api/getZones/").then(
 				(response) => response.json()
 			);
 
