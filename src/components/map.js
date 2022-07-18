@@ -46,9 +46,9 @@ export default function Map(props) {
 
 	const [markerPosition, setMarkerPosition] = React.useState(mapCenter);
 
-	const toggleConfrimBtn = () => {
+	const toggleConfrimBtn = (centerC) => {
 		if (props.zone.polygon != null) {
-			setShowConfirmBtn(isPointInPolygon(mapCenter, props.zone.polygon));
+			setShowConfirmBtn(isPointInPolygon(centerC, props.zone.polygon));
 			console.log("ddddd", showConfirmBtn);
 		}
 		// console.log("issss", isPointInPolygon(mapCenter, props.zone.polygon));
@@ -78,7 +78,7 @@ export default function Map(props) {
 		// 	console.log("ddddd", showConfirmBtn);
 		// }
 
-		toggleConfrimBtn();
+		toggleConfrimBtn(mapCenter);
 	}, [map]);
 
 	const onUnmount = React.useCallback(function callback(map) {
@@ -88,11 +88,12 @@ export default function Map(props) {
 	const renderMap = () => {
 		const handleCenterChanged = () => {
 			if (map) {
-				const lat = map.getCenter().lat();
-				const lng = map.getCenter().lng();
-				console.log("center", lat, ":", lng);
+				const Tlat = map.getCenter().lat();
+				const Tlng = map.getCenter().lng();
+				console.log("center", Tlat, ":", Tlng);
+				let tempCenter = { lat: Tlat, lng: Tlng };
 
-				toggleConfrimBtn();
+				toggleConfrimBtn(tempCenter);
 			}
 		};
 
