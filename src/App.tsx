@@ -18,6 +18,11 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 import './theme/variables.css';
 
+import { AppContextProvider } from "./context/State";
+import UserDetailsProvider from './context/GlobalStateProvider';
+
+
+
 /* Screens */
 import Signup from './pages/Auth/Signup/Signup.utils';
 import Login from './pages/Auth/Login/Login.utils';
@@ -25,7 +30,7 @@ import ForgotPassword from './pages/Auth/ForgotPassword/ForgotPassword.utils';
 import Home from './pages/Functional/Home/Home.utils';
 import SelectPlate from './pages/Functional/SelectPlate/SelectPlate.utils';
 import SelectParkingRate from './pages/Functional/SelectParkingRate/SelectParkingRate.utils';
-import SelectTariffUtils from "./pages/Functional/SelectTariff/SelectTariff.utils";
+import SelectTariff from "./pages/Functional/SelectTariff/SelectTariff.utils";
 
 setupIonicReact();
 
@@ -33,14 +38,18 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
+        {/* <AppContextProvider> */}
+        <UserDetailsProvider>
         <Route path="/signup" component={Signup} exact={true} />
         <Route path="/login" component={Login} exact={true} />
         <Route path="/home" component={Home} exact={true} />
         <Route path="/selectPlate" component={SelectPlate} exact={true} />
         <Route path="/selectParkingRate" component={SelectParkingRate} exact={true} />
-        <Route path="/selectTariff" component={SelectTariffUtils} exact={true} />
-        <Route path="/forgetPassword" component={ForgotPassword} exact={true} />
-        <Redirect from="/" to="/home" exact />
+        <Route path="/selectTariff" component={SelectTariff} exact={true} />
+        <Route path="/forgotPassword" component={ForgotPassword} exact={true} />
+        <Redirect from="/" to="/login" exact />
+        </UserDetailsProvider>
+        {/* </AppContextProvider> */}
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>

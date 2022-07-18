@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import "../assets/styles/home.css";
 import Box from "@mui/material/Box";
 import { GoogleMap, useJsApiLoader, Polygon } from "@react-google-maps/api";
 import { IonButton } from "@ionic/react";
 import { isPointInPolygon } from "geolib";
+import { globalStateContext } from "../context/GlobalStateProvider";
 
 const containerStyle = {
 	width: "100%",
@@ -24,6 +25,12 @@ const triangleCoords = [
 const libraries = ["drawing"];
 
 export default function Map(props) {
+	const { zone, city, user, currCoord } = useContext(globalStateContext);
+	const [zoneId, setZoneId] = zone;
+	const [cityId, setCityId] = city;
+	const [userId, setUserId] = user;
+	const [coord, setCoord] = currCoord;
+
 	const { isLoaded } = useJsApiLoader({
 		id: "google-map-script",
 		googleMapsApiKey: "AIzaSyCLD8cITdyUJTXZCeXJAiMiThGIn6LNYYY",
@@ -55,7 +62,17 @@ export default function Map(props) {
 		setMap(map);
 	}, []);
 
+	const setContext = () => {
+		setCityId(props.city._id);
+		setZoneId(props.zone._id);
+		setCoord(mapCenter);
+	};
+
 	React.useEffect(() => {
+		// console.log(zoneId, "zoneId");
+		// console.log(cityId, "cityId");
+		// console.log(userId, "userId");
+		// console.log(coord, "coord");
 		if (props.center != null) {
 			mapCenter = props.center;
 			console.log("prop center", props.center);
@@ -130,7 +147,7 @@ export default function Map(props) {
 								display: "block",
 								margin: "0 auto",
 							}}
-							onClick={{}}
+							onClick={() => setContext()}
 							size="default"
 							routerLink={"/selectPlate"}
 						>
