@@ -22,10 +22,10 @@ export default function SelectParkingRateUtils() {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					id: zoneId,
-					plate: plate,
-					// id: "62c616d7eb90fdc99f09c3f3",
-					// plate: "TEST",
+					// id: zoneId,
+					// plate: plate,
+					id: "62c616d7eb90fdc99f09c3f3",
+					plate: "TEST",
 				}),
 			});
 			result = await response.json();

@@ -50,15 +50,6 @@ export default function SelectParkingRate(props) {
 						</IonCardContent>
 					</IonCard>
 				))}
-
-				{/* <IonCard class="card-background-color">
-					<IonCardContent>
-						<IonItem class="card-background-color" button onClick={() => {}}>
-							<IonIcon icon={wifi} slot="start" color="#111" />
-							<h2>Visitor Parking Rate</h2>
-						</IonItem>
-					</IonCardContent>
-				</IonCard> */}
 			</IonContent>
 		</IonPage>
 	);
