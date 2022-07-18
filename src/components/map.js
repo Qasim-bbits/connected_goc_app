@@ -2,14 +2,7 @@ import React from "react";
 import "../assets/styles/home.css";
 import Box from "@mui/material/Box";
 import { GoogleMap, useJsApiLoader, Polygon } from "@react-google-maps/api";
-import {
-	IonButton,
-	IonFabButton,
-	IonFab,
-	IonGrid,
-	IonRow,
-	IonCol,
-} from "@ionic/react";
+import { IonButton } from "@ionic/react";
 import { isPointInPolygon } from "geolib";
 
 const containerStyle = {
