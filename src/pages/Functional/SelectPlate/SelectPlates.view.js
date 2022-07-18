@@ -42,6 +42,7 @@ export default function SelectPlates(props) {
 	const [inputPlateId, setInputPlateId] = React.useState(null);
 	const [inputPlateNum, setInputPlateNum] = React.useState(null);
 	const [plates, setPlates] = React.useState([]);
+
 	const { plateName } = useContext(globalStateContext);
 	const [plate, setPlate] = plateName;
 

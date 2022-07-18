@@ -32,7 +32,7 @@ const UserDetailsProvider = (props) => {
 				cityId,
 				"\nzoneId:",
 				zoneId,
-				"\nplateId:",
+				"\nplateName:",
 				plate,
 				"\ncoord:",
 				coord

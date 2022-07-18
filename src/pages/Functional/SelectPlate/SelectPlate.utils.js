@@ -6,10 +6,11 @@ let bool;
 let result = false;
 export default function SelectPlatesUtils() {
 	const [loading, setLoading] = React.useState(false);
-	const { user } = useContext(globalStateContext);
+	const { user, plateName } = useContext(globalStateContext);
 	const [userId, setUserId] = user;
+	const [plate, setPlate] = plateName;
 
-	const sendData = async (data) => {
+	const getPlates = async (data) => {
 		if (loading) {
 			return;
 		}
@@ -24,7 +25,7 @@ export default function SelectPlatesUtils() {
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						id: "62d020100b3d07ce4bf73c09",
+						id: userId,
 					}),
 				}
 			);
@@ -46,5 +47,6 @@ export default function SelectPlatesUtils() {
 			return result;
 		}
 	};
-	return <SelectPlates fetchPlates={sendData} />;
+
+	return <SelectPlates fetchPlates={getPlates} />;
 }

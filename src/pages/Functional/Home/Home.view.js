@@ -23,6 +23,8 @@ import Map from "../../../components/map";
 let citiesResponse;
 let zonesResponse;
 export default function Home(props) {
+	const [loading, setLoading] = React.useState(false);
+
 	const [centerProp, setCenterProp] = React.useState(null);
 	const [cities, setCities] = React.useState(null);
 	const [selectedCity, setSelectedCity] = React.useState({});
@@ -42,15 +44,38 @@ export default function Home(props) {
 	};
 
 	const getZones = async () => {
-		try {
-			const response = await fetch("http://35.192.138.41/api/getZones/").then(
-				(response) => response.json()
-			);
+		// try {
+		// 	const response = await fetch(
+		// 		"http://35.192.138.41/api/getZonesById/"
+		// 	).then((response) => response.json());
 
-			zonesResponse = await response;
-		} catch (e) {
-			alert("Zones Could Not Be Fetched!", e.message);
+		// 	zonesResponse = await response;
+		// } catch (e) {
+		// 	alert("Zones Could Not Be Fetched!", e.message);
+		// }
+
+		if (loading) {
+			return;
 		}
+		setLoading(true);
+
+		try {
+			const response = await fetch("http://35.192.138.41/api/getZonesById/", {
+				method: "POST",
+				headers: {
+					Accept: "application/json",
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					id: selectedCity._id,
+				}),
+			}).then((response) => response.json());
+			zonesResponse = await response;
+			console.log(zonesResponse, "zonesResponse");
+		} catch (e) {
+			alert("Zones Could not be Fetched!", e.message);
+		}
+		setLoading(false);
 	};
 
 	const testCities = [
