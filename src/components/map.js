@@ -38,9 +38,6 @@ export default function Map(props) {
 
 	const [map, setMap] = React.useState(null);
 	const [showConfirmBtn, setShowConfirmBtn] = React.useState(false);
-
-	// let showConfirmBtn = false;
-
 	let mapCenter =
 		props.center === null || props.center === undefined ? c : props.center;
 
@@ -51,7 +48,6 @@ export default function Map(props) {
 			setShowConfirmBtn(isPointInPolygon(centerC, props.zone.polygon));
 			console.log("ddddd", showConfirmBtn);
 		}
-		// console.log("issss", isPointInPolygon(mapCenter, props.zone.polygon));
 	};
 
 	const onLoad = React.useCallback(function callback(map) {
@@ -72,11 +68,6 @@ export default function Map(props) {
 			console.log("prop center", props.center);
 			console.log("mapCenter", mapCenter);
 		} else console.log("props center is null");
-
-		// if (props.zone.polygon != null) {
-		// 	setShowConfirmBtn(isPointInPolygon(mapCenter, props.zone.polygon));
-		// 	console.log("ddddd", showConfirmBtn);
-		// }
 
 		toggleConfrimBtn(mapCenter);
 	}, [map]);
