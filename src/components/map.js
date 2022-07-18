@@ -28,7 +28,6 @@ export default function Map(props) {
 	const { zone, city, user, currCoord } = useContext(globalStateContext);
 	const [zoneId, setZoneId] = zone;
 	const [cityId, setCityId] = city;
-	const [userId, setUserId] = user;
 	const [coord, setCoord] = currCoord;
 
 	const { isLoaded } = useJsApiLoader({
@@ -38,7 +37,7 @@ export default function Map(props) {
 	});
 
 	const [map, setMap] = React.useState(null);
-	const [showConfirmBtn, setShowConfirmBtn] = React.useState(true);
+	const [showConfirmBtn, setShowConfirmBtn] = React.useState(false);
 
 	// let showConfirmBtn = true;
 
@@ -69,10 +68,6 @@ export default function Map(props) {
 	};
 
 	React.useEffect(() => {
-		// console.log(zoneId, "zoneId");
-		// console.log(cityId, "cityId");
-		// console.log(userId, "userId");
-		// console.log(coord, "coord");
 		if (props.center != null) {
 			mapCenter = props.center;
 			console.log("prop center", props.center);
@@ -144,7 +139,7 @@ export default function Map(props) {
 								borderRadius: 30,
 								padding: 2,
 								width: 200,
-								display: "block",
+								display: showConfirmBtn ? "block" : "none",
 								margin: "0 auto",
 							}}
 							onClick={() => setContext()}

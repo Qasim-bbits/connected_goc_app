@@ -74,8 +74,8 @@ export default function SelectPlates(props) {
 				},
 				body: JSON.stringify({
 					plate: data,
-					// user_id: userId,
-					user_id: "62d020100b3d07ce4bf73c09",
+					user_id: userId,
+					// user_id: "62d020100b3d07ce4bf73c09",
 				}),
 			});
 			result = await response.json();
