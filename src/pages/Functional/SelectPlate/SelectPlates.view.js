@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
 import "../../../assets/styles/selectplates.css";
-import Plates from "../../../components/plates";
 import { carOutline, trashOutline, pencil } from "ionicons/icons";
 import {
 	IonBackButton,
@@ -25,8 +24,9 @@ import {
 	IonListHeader,
 	IonItemGroup,
 } from "@ionic/react";
+import { globalStateContext } from "../../../context/GlobalStateProvider";
 
-const plates = [
+const platesTest = [
 	{
 		id: 1,
 		number: 3322,
@@ -41,6 +41,9 @@ export default function SelectPlates(props) {
 	const [showModal, setShowModal] = React.useState(false);
 	const [inputPlateId, setInputPlateId] = React.useState(null);
 	const [inputPlateNum, setInputPlateNum] = React.useState(null);
+	const [plates, setPlates] = React.useState([]);
+	const { plateName } = useContext(globalStateContext);
+	const [plate, setPlate] = plateName;
 
 	const handleChangeId = (event) => {
 		setInputPlateId(event.target.value);
@@ -56,121 +59,127 @@ export default function SelectPlates(props) {
 		console.log("plateNum", inputPlateNum);
 	};
 
+	React.useEffect(() => {
+		let isMounted = true;
+		props.fetchPlates().then((data) => {
+			if (isMounted) setPlates(data);
+		});
+		console.log(plates, "plates");
+		return () => {
+			isMounted = false;
+		};
+	}, []);
+
 	return (
 		<IonPage>
-				<IonHeader>
-					<IonToolbar text-center class="ion-text-center new-background-color">
-						<IonButtons slot="start">
-							<IonBackButton defaultHref="home" text="" />
-						</IonButtons>
-						<IonTitle id="title" text-center>
-							Select Plate
-						</IonTitle>
-					</IonToolbar>
-				</IonHeader>
-				<IonContent>
-					<IonCol className="ion-text-center">
-						<IonModal
-							isOpen={showModal}
-							cssClass="my-custom-class"
-							initialBreakpoint={0.25}
-							breakpoints={[0.25, 0.5, 0.75]}
-							backdropBreakpoint={0.5}
-						>
-							<IonContent className="ion-padding">
-								<IonItem>
-									<IonLabel position="stacked">Enter Plate Id</IonLabel>
-									<IonInput
-										value={inputPlateId}
-										type="text"
-										placeholder="Plate Id"
-										onIonChange={handleChangeId}
-									/>
+			<IonHeader>
+				<IonToolbar text-center class="ion-text-center new-background-color">
+					<IonButtons slot="start">
+						<IonBackButton defaultHref="home" text="" />
+					</IonButtons>
+					<IonTitle id="title" text-center>
+						Select Plate
+					</IonTitle>
+				</IonToolbar>
+			</IonHeader>
+			<IonContent>
+				<IonCol className="ion-text-center">
+					<IonModal
+						isOpen={showModal}
+						cssClass="my-custom-class"
+						initialBreakpoint={0.25}
+						breakpoints={[0.25, 0.5, 0.75]}
+						backdropBreakpoint={0.5}
+					>
+						<IonContent className="ion-padding">
+							<IonItem>
+								<IonLabel position="stacked">Enter Plate Id</IonLabel>
+								<IonInput
+									value={inputPlateId}
+									type="text"
+									placeholder="Plate Id"
+									onIonChange={handleChangeId}
+								/>
 
-									<IonLabel position="stacked">Enter Plate Number</IonLabel>
-									<IonInput
-										value={inputPlateNum}
-										type="text"
-										placeholder="Plate Number"
-										onIonChange={handleChangeNum}
-									/>
-								</IonItem>
+								<IonLabel position="stacked">Enter Plate Number</IonLabel>
+								<IonInput
+									value={inputPlateNum}
+									type="text"
+									placeholder="Plate Number"
+									onIonChange={handleChangeNum}
+								/>
+							</IonItem>
 
-								<IonButton
-									color="secondary"
-									onClick={() => setShowModal(false)}
-								>
-									Close
-								</IonButton>
+							<IonButton color="secondary" onClick={() => setShowModal(false)}>
+								Close
+							</IonButton>
 
-								<IonButton
+							<IonButton
+								onClick={() => {
+									plates.push({ id: inputPlateId, number: inputPlateNum });
+								}}
+							>
+								Confirm
+							</IonButton>
+						</IonContent>
+					</IonModal>
+				</IonCol>
+
+				<IonListHeader lines="full">
+					<IonButton
+						color="secondary"
+						fill="solid"
+						onClick={() => setShowModal(true)}
+					>
+						Add plate
+					</IonButton>
+				</IonListHeader>
+
+				<IonList>
+					{plates.map((el) => (
+						<IonCard class="card-background-color" key={el._id}>
+							<IonCardContent>
+								<IonItem
+									class="card-background-color"
+									button
 									onClick={() => {
-										plates.push({ id: inputPlateId, number: inputPlateNum });
+										setPlate(el.plate);
 									}}
+									routerLink={"/selectParkingRate"}
+									lines="none"
+									detail={false}
 								>
-									Confirm
-								</IonButton>
-							</IonContent>
-						</IonModal>
-					</IonCol>
+									<IonItemGroup>
+										<IonItem
+											class="card-background-color"
+											button
+											onClick={() => {}}
+											lines="none"
+											detail={false}
+										>
+											<IonIcon icon={pencil} slot="start" color="#111" />
+										</IonItem>
 
-					<IonListHeader lines="full">
-						<IonButton
-							color="secondary"
-							fill="solid"
-							onClick={() => setShowModal(true)}
-						>
-							Add plate
-						</IonButton>
-					</IonListHeader>
+										<IonItem
+											class="card-background-color"
+											button
+											onClick={() => {}}
+											lines="none"
+											detail={false}
+										>
+											<IonIcon icon={trashOutline} slot="start" color="#111" />
+										</IonItem>
+									</IonItemGroup>
 
-					<IonList>
-						{plates.map((el) => (
-							<IonCard class="card-background-color" key={el.id}>
-								<IonCardContent>
-									<IonItem
-										class="card-background-color"
-										button
-										onClick={() => {}}
-										routerLink={"/selectParkingRate"}
-										lines="none"
-										detail={false}
-									>
-										<IonItemGroup>
-											<IonItem
-												class="card-background-color"
-												button
-												onClick={() => {}}
-												lines="none"
-												detail={false}
-											>
-												<IonIcon icon={pencil} slot="start" color="#111" />
-											</IonItem>
+									<IonText>{el.plate}</IonText>
 
-											<IonItem
-												class="card-background-color"
-												button
-												onClick={() => {}}
-												lines="none"
-												detail={false}
-											>
-												<IonIcon
-													icon={trashOutline}
-													slot="start"
-													color="#111"
-												/>
-											</IonItem>
-										</IonItemGroup>
-
-										<IonText>{el.number}</IonText>
-
-										<IonIcon icon={carOutline} slot="end" color="#111" />
-									</IonItem>
-								</IonCardContent>
-							</IonCard>
-						))}
-					</IonList>
-				</IonContent>
+									<IonIcon icon={carOutline} slot="end" color="#111" />
+								</IonItem>
+							</IonCardContent>
+						</IonCard>
+					))}
+				</IonList>
+			</IonContent>
 		</IonPage>
 	);
 }

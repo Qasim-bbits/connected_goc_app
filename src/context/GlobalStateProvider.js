@@ -8,7 +8,7 @@ const UserDetailsProvider = (props) => {
 	const [userId, setUserId] = useState();
 	const [cityId, setCityId] = useState();
 	const [zoneId, setZoneId] = useState();
-	const [plateId, setPlateId] = useState();
+	const [plate, setPlate] = useState();
 	const [coord, setCoord] = useState();
 
 	return (
@@ -18,7 +18,7 @@ const UserDetailsProvider = (props) => {
 				user: [userId, setUserId],
 				city: [cityId, setCityId],
 				zone: [zoneId, setZoneId],
-				plate: [plateId, setPlateId],
+				plateName: [plate, setPlate],
 				currCoord: [coord, setCoord],
 			}}
 		>
@@ -33,7 +33,7 @@ const UserDetailsProvider = (props) => {
 				"\nzoneId:",
 				zoneId,
 				"\nplateId:",
-				plateId,
+				plate,
 				"\ncoord:",
 				coord
 			)}
