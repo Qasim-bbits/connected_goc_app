@@ -11,7 +11,8 @@ import {
 	IonPage,
 	IonCard,
 	IonText,
-	IonItem, IonSkeletonText,
+	IonItem,
+	IonSkeletonText,
 } from "@ionic/react";
 import { Divider } from "@mui/material";
 import PaymentForm from "./Payment/PaymentForm";
