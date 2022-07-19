@@ -20,7 +20,7 @@ import Toast from "../../../components/toast";
 
 export default function LoginView(props) {
 	return (
-		<IonPage style={{ backgroundColor: "#dad9d9", display: "flex" }}>
+		<IonPage style={{ backgroundColor: "#ffffff", display: "flex" }}>
 			<IonGrid>
 				<IonRow>
 					<IonCol size="12" offset="2">
