@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
 import SelectTariff from "./SelectTariff.view";
-import Toast from "../../../components/toast";
 
 let bool;
 let result = false;
@@ -27,15 +26,15 @@ export default function SelectTariffUtils() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    id: zoneId,
-                    plate: plate,
-                    rate_type: rateType,
+                    id: '62d40cf1f7a70f7788b06a68',
+                    plate: 'TEST',
+                    rate_type: 2,
                 }),
             });
             result = await response.json();
             console.log(result);
 
-            if (!result.steps) {
+            if (!result.some((step) => step.rate)) {
                 bool = false;
             } else {
                 bool = true;

@@ -6,16 +6,25 @@ import {
   IonRow
 } from "@ionic/react";
 import Toast from "../../../../components/toast";
+import {useHistory} from "react-router";
 
 function PaymentForm(props) {
   const {
     amount,
+    user,
+    city,
+    zone,
+    currentCoordinates,
+    plate,
+    from,
+    to,
   } = props
   const [cardNum, setCardNum] = useState('')
   const [expDate, setExpDate] = useState("");
   const [cvv, setCvv] = useState(null);
   const [toastOpen, setToastOpen] = useState(false);
   const [message, setMessage] = useState('');
+  const history = useHistory();
 
   let handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,6 +36,13 @@ function PaymentForm(props) {
           expDate: expDate,
           cvv: cvv,
           amount: amount,
+          user: user,
+          city: city,
+          zone: zone,
+          currentCoordinates: currentCoordinates,
+          plate: plate,
+          from: from,
+          to: to,
         }),
         headers: { 'Content-Type': 'application/json' },
       });
@@ -34,6 +50,7 @@ function PaymentForm(props) {
       if (res.status === 200) {
         setMessage("Payment Successful");
         setToastOpen(true)
+        history.push('/purchaseReceipt')
       } else {
         setMessage("Payment Failed. Something went wrong");
         setToastOpen(true)

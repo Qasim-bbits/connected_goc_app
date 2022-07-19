@@ -12,40 +12,16 @@ import {
   IonPage,
   IonCard,
   IonText,
-  IonItem,
+  IonItem, IonSkeletonText,
 } from '@ionic/react';
 import {Divider} from "@mui/material";
 import PaymentForm from "./Payment/PaymentForm";
 import {globalStateContext} from "../../../context/GlobalStateProvider";
 
-const cycleData = [
-  {
-    time: 720,
-    rate: 500,
-    time_desc: "July 8th 2022, 05:00 am",
-    time_diff: "9h 48m ",
-    day: "Tomorrow"
-  },
-  {
-    time: 60,
-    rate: 600,
-    time_desc: "July 8th 2022, 06:00 am",
-    time_diff: "10h 48m ",
-    day: "Tomorrow"
-  },
-  {
-    time: 120,
-    rate: 700,
-    time_desc: "July 8th 2022, 07:00 am",
-    time_diff: "11h 48m ",
-    day: "Tomorrow"
-  }
-]
-
 export default function SelectTariff(props) {
 
   const [step, setStep] = useState(0)
-  const [stepData, setStepData] = useState(0)
+  const [stepData, setStepData] = useState(null)
 
   const { user, city, zone, plateName, currCoord } = useContext(globalStateContext);
   const [plate, setPlate] = plateName;
@@ -53,22 +29,18 @@ export default function SelectTariff(props) {
   const [cityId, setCityId] = city;
   const [zoneId, setZoneId] = zone;
   const [coord, setCoord] = currCoord;
+  let moment = require('moment-timezone');
 
   React.useEffect(() => {
     let isMounted = true;
     props.fetchSteps().then((data) => {
       if (isMounted) setStepData(data);
     });
-    console.log(step, "plates");
+    console.log(stepData, "step Data");
     return () => {
       isMounted = false;
     };
   }, []);
-
-  const handleOnChange = (value) => {
-    setStep(value);
-    console.log(value)
-  }
 
   return (
     <IonPage>
@@ -88,11 +60,12 @@ export default function SelectTariff(props) {
             </IonText>
           </IonItem>
         </IonContent>
-        : (<IonContent>
+        : ( stepData?.length ?
+            (<IonContent>
         <IonCard>
           <IonItem>
             <IonText>
-              {moment().format("MMM Do YYYY, hh:mm a")}
+              {moment().tz('Canada/Eastern').format("MMM Do YYYY, hh:mm a")}
             </IonText>
           </IonItem>
           <IonItem>
@@ -103,18 +76,15 @@ export default function SelectTariff(props) {
               slot='end'
               style={{background: '#161b40', color: 'aliceblue', padding: '0 23px', borderRadius: '17px'}}
             >
-              {stepData[step]?.day}
-              {/*{cycleData[step].day}*/}
+              {stepData?.[step]?.day}
             </IonText>
           </IonItem>
           <IonItem>
             <IonText style={{color: '#fff'}}>
-              {moment(stepData[step]?.time_desc, "MMMM Do YYYY, hh:mm a").format("MMM Do YYYY")}
-              {/*{moment(cycleData[step].time_desc, "MMMM Do YYYY, hh:mm a").format("MMM Do YYYY")}*/}
+              {moment(stepData?.[step]?.time_desc, "MMMM Do YYYY, hh:mm a").format("MMM Do YYYY")}
             </IonText>
             <IonText style={{color: '#fff', fontSize: '30px'}} slot='end'>
-              {moment(stepData[step]?.time_desc, "MMM Do YYYY, hh:mm a").format("hh:mm a")}
-              {/*{moment(cycleData[step].time_desc, "MMM Do YYYY, hh:mm a").format("hh:mm a")}*/}
+              {moment(stepData?.[step]?.time_desc, "MMM Do YYYY, hh:mm a").format("hh:mm a")}
             </IonText>
           </IonItem>
         </IonCard>
@@ -124,21 +94,19 @@ export default function SelectTariff(props) {
             Total (incl. 5% GST):
           </IonText>
           <IonText style={{color: 'primary.main'}}>
-            CA${(stepData[step]?.rate / 100).toFixed(2)}
+            CA${(stepData?.[step]?.rate / 100).toFixed(2)}
           </IonText>
         </div>
         <IonContent>
           <div className='rate-cycle-text'>
             <IonText align='center'>
-              {/*{props.rateCycle[props.steps].time_diff}*/}
               <h5>
-                {stepData[step]?.time_diff}
+                {stepData?.[step]?.time_diff}
               </h5>
             </IonText>
             <IonText align='center'>
-              {/*CA${(props.rateCycle[props.steps].rate/100).toFixed(2)}*/}
               <h5>
-                CA${(stepData[step]?.rate / 100).toFixed(2)}
+                CA${(stepData?.[step]?.rate / 100).toFixed(2)}
               </h5>
             </IonText>
           </div>
@@ -146,24 +114,27 @@ export default function SelectTariff(props) {
             <CircleSlider
               value={step}
               min={0}
-              max={stepData?.length - 1}
-              // max={props.rateCycle.length-1}
-              onChange={(e) => handleOnChange(e)}
+              max={stepData?.length-1}
+              onChange={(e) => setStep(e)}
               size={280}
             />
           </div>
           <div className='payment-button'>
             <PaymentForm
-              amount={cycleData[step]?.rate / 100}
+              amount={stepData?.[step]?.rate / 100}
               user={userId}
               city={cityId}
               zone={zoneId}
               currentCoordinates={coord}
               plate={plate}
+              to={stepData?.[step]?.time_desc}
+              from={stepData?.[step]?.current_time}
             />
           </div>
         </IonContent>
-      </IonContent>)}
+      </IonContent>) :
+        <IonSkeletonText animated style={{ width: '60%' }} />
+        )}
     </IonPage>
   );
 }
