@@ -10,6 +10,7 @@ const UserDetailsProvider = (props) => {
 	const [zoneId, setZoneId] = useState();
 	const [plate, setPlate] = useState();
 	const [coord, setCoord] = useState();
+	const [rateType, setRateType] = useState();
 
 	return (
 		// this is the provider providing state
@@ -20,6 +21,7 @@ const UserDetailsProvider = (props) => {
 				zone: [zoneId, setZoneId],
 				plateName: [plate, setPlate],
 				currCoord: [coord, setCoord],
+				rateTypes: [rateType, setRateType],
 			}}
 		>
 			{props.children}
@@ -35,7 +37,9 @@ const UserDetailsProvider = (props) => {
 				"\nplateName:",
 				plate,
 				"\ncoord:",
-				coord
+				coord,
+				"\nrateTypes:",
+				rateType
 			)}
 		</globalStateContext.Provider>
 	);

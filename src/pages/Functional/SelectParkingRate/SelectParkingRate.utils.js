@@ -24,8 +24,6 @@ export default function SelectParkingRateUtils() {
 				body: JSON.stringify({
 					id: zoneId,
 					plate: plate,
-					// id: "62c616d7eb90fdc99f09c3f3",
-					// plate: "TEST",
 				}),
 			});
 			result = await response.json();
