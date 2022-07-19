@@ -9,14 +9,27 @@ import {
   IonPage,
   IonCard,
   IonText,
-  IonItem, IonImg,
+  IonItem,
+  IonImg,
+  IonLabel,
+  IonThumbnail,
 } from '@ionic/react';
 import {Divider} from "@mui/material";
-import moment from "moment";
 import TimeFromCar from '../../../assets/icons/1.png';
 import TimeToCar from '../../../assets/icons/3.png';
+import Clock from '../../../assets/icons/2.png';
+import Location from '../../../assets/icons/5.png';
+import CarWithTick from '../../../assets/icons/6.png';
+import Rate from '../../../assets/icons/7.png';
+import Discount from '../../../assets/icons/8.png';
+import Paid from '../../../assets/icons/9.png';
+import {globalStateContext} from "../../../context/GlobalStateProvider";
 
 export default function PurchaseReceipt(props) {
+
+  const {stepsData} = useContext(globalStateContext);
+  const [steps, setSteps] = stepsData;
+
 
   return (
     <IonPage>
@@ -39,27 +52,57 @@ export default function PurchaseReceipt(props) {
               </IonText>
             </IonItem>
             <IonItem>
-              <IonImg src={TimeFromCar} slot='start' style={{width: '30%', height: '30%'}}/>
-              <IonImg src={TimeToCar} slot='end' style={{width: '70%', height: '70%'}}/>
-            </IonItem>
-            <IonItem>
-              <IonText style={{color: '#fff'}}>
-                {/*{moment(stepData?.[step]?.time_desc, "MMMM Do YYYY, hh:mm a").format("MMM Do YYYY")}*/}
-              </IonText>
-              <IonText style={{color: '#fff', fontSize: '30px'}} slot='end'>
-                {/*{moment(stepData?.[step]?.time_desc, "MMM Do YYYY, hh:mm a").format("hh:mm a")}*/}
-              </IonText>
+              <IonThumbnail slot="start" style={{width: '30%', height: '30%'}}>
+                <IonImg src={TimeFromCar} />
+                <IonLabel style={{marginLeft: '15%'}}>
+                  6:00 pm
+                </IonLabel>
+              </IonThumbnail>
+              <IonThumbnail>
+                <IonImg src={Clock}/>
+              </IonThumbnail>
+              <IonThumbnail slot="end" style={{width: '45%', height: '45%'}}>
+                <IonImg src={TimeToCar} />
+                <IonLabel style={{marginTop: '15%', marginLeft: '15%'}}>
+                  6:00 pm
+                </IonLabel>
+              </IonThumbnail>
             </IonItem>
           </IonCard>
           <Divider sx={{width: '80%'}}/>
-          <div className='tax-info'>
-            <IonText style={{color: 'primary.main'}}>
-              Total (incl. 5% GST):
-            </IonText>
-            <IonText style={{color: 'primary.main'}}>
-              {/*CA${(stepData?.[step]?.rate / 100).toFixed(2)}*/}
-            </IonText>
-          </div>
+          <IonItem>
+            <IonImg src={Location} slot='start' style={{width: '15%', height: '15%'}}/>
+            <IonLabel>
+              Town Centre, Canmore, Alberta
+            </IonLabel>
+          </IonItem>
+            <IonItem>
+              <IonImg src={CarWithTick} slot='start' style={{width: '15%', height: '15%'}}/>
+              <IonLabel>
+                Test 1
+              </IonLabel>
+            </IonItem>
+            <IonItem>
+              <IonImg src={Rate} slot='start' style={{width: '15%', height: '15%'}}/>
+              <IonLabel>
+                Town Center Resident Rate
+              </IonLabel>
+            </IonItem>
+            <IonItem>
+              <IonImg src={Discount} slot='start' style={{width: '15%', height: '15%'}}/>
+              <IonLabel>
+
+              </IonLabel>
+            </IonItem>
+            <IonItem>
+              <IonImg src={Paid} slot='start' style={{width: '15%', height: '15%'}}/>
+              <IonText>
+                Amount Paid
+              </IonText>
+              <IonText slot='end'>
+                $0.00
+              </IonText>
+            </IonItem>
         </IonContent>
     </IonPage>
   );
