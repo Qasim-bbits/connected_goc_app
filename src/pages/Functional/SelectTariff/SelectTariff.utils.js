@@ -6,10 +6,9 @@ let bool;
 let result = false;
 export default function SelectTariffUtils() {
     const [loading, setLoading] = React.useState(false);
-    const { zone, plateName, rateTypes } = useContext(globalStateContext);
-    const [zoneId, setZoneId] = zone;
+    const { plateName, rate } = useContext(globalStateContext);
     const [plate, setPlate] = plateName;
-    const [rateType, setRateType] = rateTypes;
+    const [rateData, setRateData] = rate;
     const [parkingUnavailable, setParkingUnavailable] = useState(false);
     const [message, setMessage] = useState("");
 
@@ -26,9 +25,9 @@ export default function SelectTariffUtils() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    id: '62d40cf1f7a70f7788b06a68',
-                    plate: 'TEST',
-                    rate_type: 2,
+                    id: rateData._id,
+                    plate: plate,
+                    rate_type: rateData.rate_type,
                 }),
             });
             result = await response.json();

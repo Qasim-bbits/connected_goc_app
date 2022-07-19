@@ -40,7 +40,7 @@ const UserDetailsProvider = (props) => {
 				plate,
 				"\ncoord:",
 				coord,
-				"\nrateTypes:",
+				"\nrateData:",
 				rateData,
 				"\nemail:",
 				email

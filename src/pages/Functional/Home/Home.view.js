@@ -15,10 +15,12 @@ import {
 	IonPage,
 	IonSelect,
 	IonSelectOption,
-	IonButton,
+	IonButton, IonIcon, IonLabel,
 } from "@ionic/react";
 import { getCenterOfBounds } from "geolib";
 import Map from "../../../components/map";
+import Header from "../../../Common/header";
+import {logOutOutline} from "ionicons/icons";
 
 let citiesResponse;
 let zonesResponse;
@@ -78,57 +80,6 @@ export default function Home(props) {
 		setLoading(false);
 	};
 
-	const testCities = [
-		{
-			_id: 1,
-			city_name: "Ottawa",
-			polygon: [
-				{ lat: 45.415421753842104, lng: -76.35184636553302 },
-				{ lat: 44.95758775225658, lng: -75.82429385901366 },
-				{ lat: 45.241046984450755, lng: -75.11170427931212 },
-				{ lat: 45.759814362346, lng: -75.49752626169197 },
-				{ lat: 45.415421753842104, lng: -76.35184636553302 },
-			],
-		},
-		{
-			_id: 1,
-			city_name: "Toronto",
-			polygon: [
-				{ lat: 45.415421753842104, lng: -76.35184636553302 },
-				{ lat: 44.95758775225658, lng: -75.82429385901366 },
-				{ lat: 45.241046984450755, lng: -75.11170427931212 },
-				{ lat: 45.759814362346, lng: -75.49752626169197 },
-				{ lat: 45.415421753842104, lng: -76.35184636553302 },
-			],
-		},
-	];
-
-	// to test zones
-	// const [zones, setZones] = React.useState([
-	// 	{
-	// 		id: 1,
-	// 		name: "zone1",
-	// 		polygon: [
-	// 			{ lat: 45.415421753842104, lng: -76.35184636553302 },
-	// 			{ lat: 44.95758775225658, lng: -75.82429385901366 },
-	// 			{ lat: 45.241046984450755, lng: -75.11170427931212 },
-	// 			{ lat: 45.759814362346, lng: -75.49752626169197 },
-	// 			{ lat: 45.415421753842104, lng: -76.35184636553302 },
-	// 		],
-	// 	},
-	// 	{
-	// 		id: 1,
-	// 		name: "zone2",
-	// 		polygon: [
-	// 			{ lat: 45.415421753842104, lng: -76.35184636553302 },
-	// 			{ lat: 44.95758775225658, lng: -75.82429385901366 },
-	// 			{ lat: 45.241046984450755, lng: -75.11170427931212 },
-	// 			{ lat: 45.759814362346, lng: -75.49752626169197 },
-	// 			{ lat: 45.415421753842104, lng: -76.35184636553302 },
-	// 		],
-	// 	},
-	// ]);
-
 	const [citySearchQuery, setCitySearchQuery] = React.useState("");
 	const [zoneSearchQuery, setZoneSearchQuery] = React.useState("");
 	const [cityFilteredSearch, setCityFilteredSearch] = React.useState([
@@ -169,15 +120,10 @@ export default function Home(props) {
 
 	return (
 		<IonPage>
-			<IonHeader>
-				<IonToolbar text-center class="ion-text-center new-background-color">
-					<IonButtons slot="end">
-						<IonMenuButton></IonMenuButton>
-					</IonButtons>
-					<IonTitle id="title">{selectedCity.city_name}</IonTitle>
-				</IonToolbar>
-			</IonHeader>
-
+			<Header
+				title=''
+				isHome
+			/>
 			<IonContent>
 				<IonToolbar>
 					<IonSearchbar
@@ -192,7 +138,7 @@ export default function Home(props) {
 						<IonList key={search._id}>
 							<IonItem
 								button
-								onclick={async () => {
+								onClick={async () => {
 									const citiesP = search.polygon.map(function (row) {
 										return { latitude: row.lat, longitude: row.lng };
 									});
@@ -216,27 +162,6 @@ export default function Home(props) {
 						</IonList>
 					))}
 
-					{/* TODO: Searchbar */}
-					{/* <Autocomplete
-								disablePortal
-								id="combo-box-demo"  
-								options={citiesResponse}
-								sx={{ width: 300 }}
-								renderInput={(zones) => (
-									<TextField {...zones.name} label="Cities" />
-								)}
-							/> */}
-
-					{/* <IonSearchbar
-							placeholder="Select Zone"
-							value={zoneSearchQuery}
-							onIonChange={(e) => setZoneSearchQuery(e.detail.value)}
-							onIonFocus={() => {
-								setZones(zonesResponse);
-							}}
-						/> */}
-
-					{/* <IonList> */}
 					<IonItem>
 						<IonSelect
 							interface="popover"
@@ -303,6 +228,12 @@ export default function Home(props) {
 							<IonItem>History</IonItem>
 						</IonList>
 					</IonContent>
+					<IonItem>
+						<IonIcon src={logOutOutline} slot='start'/>
+						<IonLabel>
+							Logout
+						</IonLabel>
+					</IonItem>
 					<IonRouterOutlet></IonRouterOutlet>
 				</IonMenu>
 

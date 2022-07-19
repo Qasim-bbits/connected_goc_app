@@ -15,6 +15,7 @@ import {
 	IonIcon,
 } from "@ionic/react";
 import {globalStateContext} from "../../../context/GlobalStateProvider";
+import Header from "../../../Common/header";
 
 export default function SelectParkingRate(props) {
 	const [rates, setRates] = React.useState([]);
@@ -36,16 +37,11 @@ export default function SelectParkingRate(props) {
 
 	return (
 		<IonPage>
-			<IonHeader>
-				<IonToolbar text-center class="ion-text-center new-background-color">
-					<IonButtons slot="start">
-						<IonBackButton defaultHref="selectPlate" text="" />
-					</IonButtons>
-					<IonTitle id="title" text-center>
-						Select Parking Rate
-					</IonTitle>
-				</IonToolbar>
-			</IonHeader>
+			<Header
+				title='Select Parking Rate'
+				isHome={false}
+				backLink='/selectPlate'
+			/>
 			<IonContent>
 				{rates.map((el) => (
 					<IonCard class="card-background-color">

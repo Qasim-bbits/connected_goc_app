@@ -24,23 +24,18 @@ import Rate from '../../../assets/icons/7.png';
 import Discount from '../../../assets/icons/8.png';
 import Paid from '../../../assets/icons/9.png';
 import {globalStateContext} from "../../../context/GlobalStateProvider";
+import Header from "../../../Common/header";
 
 export default function PurchaseReceipt(props) {
-
-  const {stepsData} = useContext(globalStateContext);
-  const [steps, setSteps] = stepsData;
 
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar text-center class='ion-text-center new-background-color'>
-          <IonButtons slot="start">
-            <IonBackButton defaultHref="home" text=""/>
-          </IonButtons>
-          <IonTitle id='title' text-center>Purchase Receipt</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <Header
+        title='Purchase Receipt'
+        isHome={false}
+        backLink='/home'
+      />
           <IonContent>
           <IonCard>
             <IonItem>

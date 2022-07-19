@@ -17,6 +17,7 @@ import {
 import { Divider } from "@mui/material";
 import PaymentForm from "./Payment/PaymentForm";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
+import Header from "../../../Common/header";
 let moment = require('moment-timezone');
 
 export default function SelectTariff(props) {
@@ -43,14 +44,11 @@ export default function SelectTariff(props) {
 
 	return (
 		<IonPage>
-			<IonHeader>
-				<IonToolbar text-center class='ion-text-center new-background-color'>
-					<IonButtons slot="start">
-						<IonBackButton defaultHref="home" text=""/>
-					</IonButtons>
-					<IonTitle id='title' text-center>Select Tariff</IonTitle>
-				</IonToolbar>
-			</IonHeader>
+			<Header
+				title='Pay for Parking'
+				isHome={false}
+				backLink='/selectParkingRate'
+			/>
 			{props.parkingUnavailable ?
 				<IonContent style={{display: 'flex'}}>
 					<IonItem>

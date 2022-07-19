@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import "../../../assets/styles/selectplates.css";
-import { carOutline, trashOutline, pencil } from "ionicons/icons";
+import {carOutline, trashOutline, pencil, createOutline} from "ionicons/icons";
 import {
 	IonBackButton,
 	IonHeader,
@@ -26,6 +26,7 @@ import {
 	IonItemGroup,
 } from "@ionic/react";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
+import Header from "../../../Common/header";
 
 let plateId;
 let bool;
@@ -169,16 +170,11 @@ export default function SelectPlates(props) {
 
 	return (
 		<IonPage>
-			<IonHeader>
-				<IonToolbar text-center class="ion-text-center new-background-color">
-					<IonButtons slot="start">
-						<IonBackButton defaultHref="home" text="" />
-					</IonButtons>
-					<IonTitle id="title" text-center>
-						Select Plate
-					</IonTitle>
-				</IonToolbar>
-			</IonHeader>
+			<Header
+				title='Select Plates'
+				isHome={false}
+				backLink='/home'
+			/>
 			<IonContent>
 				<IonCol className="ion-text-center">
 					<IonModal
@@ -274,7 +270,7 @@ export default function SelectPlates(props) {
 							<IonCardContent>
 								<IonGrid>
 									<IonRow>
-										<IonCol size="2">
+										<IonCol size="4">
 											<IonItem
 												class="card-background-color"
 												button
@@ -285,9 +281,8 @@ export default function SelectPlates(props) {
 												lines="none"
 												detail={false}
 											>
-												<IonIcon icon={pencil} slot="start" color="#111" />
+												<IonIcon icon={pencil} slot="start" color="#000" />
 											</IonItem>
-
 											<IonItem
 												class="card-background-color"
 												button
@@ -303,7 +298,7 @@ export default function SelectPlates(props) {
 												<IonIcon
 													icon={trashOutline}
 													slot="start"
-													color="#111"
+													color="#000"
 												/>
 											</IonItem>
 										</IonCol>
@@ -319,7 +314,7 @@ export default function SelectPlates(props) {
 												detail={false}
 											>
 												<IonText>{el.plate}</IonText>
-												<IonIcon icon={carOutline} slot="end" color="#111" />
+												<IonIcon icon={carOutline} slot="end" color="#000" />
 											</IonItem>
 										</IonCol>
 									</IonRow>
