@@ -44,16 +44,6 @@ export default function Home(props) {
 	};
 
 	const getZones = async () => {
-		// try {
-		// 	const response = await fetch(
-		// 		"http://35.192.138.41/api/getZonesById/"
-		// 	).then((response) => response.json());
-
-		// 	zonesResponse = await response;
-		// } catch (e) {
-		// 	alert("Zones Could Not Be Fetched!", e.message);
-		// }
-
 		if (loading) {
 			return;
 		}
@@ -103,32 +93,6 @@ export default function Home(props) {
 		},
 	];
 
-	// to test zones
-	// const [zones, setZones] = React.useState([
-	// 	{
-	// 		id: 1,
-	// 		name: "zone1",
-	// 		polygon: [
-	// 			{ lat: 45.415421753842104, lng: -76.35184636553302 },
-	// 			{ lat: 44.95758775225658, lng: -75.82429385901366 },
-	// 			{ lat: 45.241046984450755, lng: -75.11170427931212 },
-	// 			{ lat: 45.759814362346, lng: -75.49752626169197 },
-	// 			{ lat: 45.415421753842104, lng: -76.35184636553302 },
-	// 		],
-	// 	},
-	// 	{
-	// 		id: 1,
-	// 		name: "zone2",
-	// 		polygon: [
-	// 			{ lat: 45.415421753842104, lng: -76.35184636553302 },
-	// 			{ lat: 44.95758775225658, lng: -75.82429385901366 },
-	// 			{ lat: 45.241046984450755, lng: -75.11170427931212 },
-	// 			{ lat: 45.759814362346, lng: -75.49752626169197 },
-	// 			{ lat: 45.415421753842104, lng: -76.35184636553302 },
-	// 		],
-	// 	},
-	// ]);
-
 	const [citySearchQuery, setCitySearchQuery] = React.useState("");
 	const [zoneSearchQuery, setZoneSearchQuery] = React.useState("");
 	const [cityFilteredSearch, setCityFilteredSearch] = React.useState([
@@ -148,13 +112,13 @@ export default function Home(props) {
 	]);
 
 	React.useEffect(async () => {
-		console.log(cities, "cities");
-		await getCities();
-		console.log(citiesResponse, "citiesResponse");
+		// console.log(cities, "cities");
+		// await getCities();
+		// console.log(citiesResponse, "citiesResponse");
 
-		console.log(zones, "zones");
-		await getZones();
-		console.log(zonesResponse, "zonesResponse");
+		// console.log(zones, "zones");
+		// await getZones();
+		// console.log(zonesResponse, "zonesResponse");
 
 		let tempCitySearchResult = cities.filter((ele) =>
 			ele.city_name.includes(citySearchQuery)
@@ -172,50 +136,53 @@ export default function Home(props) {
 			<IonHeader>
 				<IonToolbar text-center class="ion-text-center new-background-color">
 					<IonButtons slot="end">
-						<IonMenuButton></IonMenuButton>
+						<IonMenuButton />
 					</IonButtons>
 					<IonTitle id="title">{selectedCity.city_name}</IonTitle>
 				</IonToolbar>
 			</IonHeader>
 
-			<IonContent>
-				<IonToolbar>
+			<IonContent class="new-background-color">
+				<IonToolbar class="new-background-color">
 					<IonSearchbar
 						placeholder="Select City"
 						value={citySearchQuery}
 						onIonChange={(e) => setCitySearchQuery(e.detail.value)}
-						onIonFocus={() => {
+						onIonFocus={async () => {
+							await getCities();
 							setCities(citiesResponse);
 						}}
 					/>
 					{cityFilteredSearch.map((search) => (
-						<IonList key={search._id}>
-							<IonItem
-								button
-								onclick={async () => {
-									const citiesP = search.polygon.map(function (row) {
-										return { latitude: row.lat, longitude: row.lng };
-									});
+						// <IonList key={search._id}>
+						<IonItem
+							button
+							class="new-background-color"
+							onclick={async () => {
+								const citiesP = search.polygon.map(function (row) {
+									return { latitude: row.lat, longitude: row.lng };
+								});
 
-									let centerPolygon = getCenterOfBounds(citiesP);
+								let centerPolygon = getCenterOfBounds(citiesP);
 
-									let centerPolygonLatLng = {
-										lat: centerPolygon.latitude,
-										lng: centerPolygon.longitude,
-									};
+								let centerPolygonLatLng = {
+									lat: centerPolygon.latitude,
+									lng: centerPolygon.longitude,
+								};
 
-									setCenterProp(centerPolygonLatLng);
+								setCenterProp(centerPolygonLatLng);
 
-									console.log("centerProp", centerProp);
-									setSelectedCity(search);
-								}}
-								id="cardBtn"
-							>
-								<p id="searchBarCity">{search.city_name}</p>
-							</IonItem>
-						</IonList>
+								console.log("centerProp", centerProp);
+								setSelectedCity(search);
+							}}
+							id="cardBtn"
+						>
+							<p class="new-background-color" id="searchBarCity">
+								{search.city_name}
+							</p>
+						</IonItem>
+						// </IonList>
 					))}
-
 					{/* TODO: Searchbar */}
 					{/* <Autocomplete
 								disablePortal
@@ -226,7 +193,6 @@ export default function Home(props) {
 									<TextField {...zones.name} label="Cities" />
 								)}
 							/> */}
-
 					{/* <IonSearchbar
 							placeholder="Select Zone"
 							value={zoneSearchQuery}
@@ -235,21 +201,18 @@ export default function Home(props) {
 								setZones(zonesResponse);
 							}}
 						/> */}
-
-					{/* <IonList> */}
-					<IonItem>
+					<IonItem class="new-background-color">
 						<IonSelect
 							interface="popover"
 							placeholder="Select Zone"
-							onIonFocus={() => {
+							onIonFocus={async () => {
+								await getZones();
 								setZones(zonesResponse);
 							}}
 							onIonChange={(e) => {
-								// setZoneSearchQuery(e.detail.value)
 								zones.map((zone) => {
 									if (zone._id === e.detail.value) {
 										setSelectedZone(zone);
-										// setCenterProp(zone.polygon[0]);
 										const zonesP = zone.polygon.map(function (row) {
 											return { latitude: row.lat, longitude: row.lng };
 										});
@@ -278,7 +241,6 @@ export default function Home(props) {
 							))}
 						</IonSelect>
 					</IonItem>
-					{/* </IonList> */}
 				</IonToolbar>
 				<IonMenu
 					side="end"

@@ -12,20 +12,14 @@ const containerStyle = {
 };
 
 const c = {
-	lat: 25.774,
-	lng: -80.19,
+	lat: 45.421479,
+	lng: -75.692766,
 };
 
-const triangleCoords = [
-	{ lat: 25.774, lng: -80.19 },
-	{ lat: 18.466, lng: -66.118 },
-	{ lat: 32.321, lng: -64.757 },
-	{ lat: 25.774, lng: -80.19 },
-];
 const libraries = ["drawing"];
 
 export default function Map(props) {
-	const { zone, city, user, currCoord } = useContext(globalStateContext);
+	const { zone, city, currCoord } = useContext(globalStateContext);
 	const [zoneId, setZoneId] = zone;
 	const [cityId, setCityId] = city;
 	const [coord, setCoord] = currCoord;
@@ -40,8 +34,6 @@ export default function Map(props) {
 	const [showConfirmBtn, setShowConfirmBtn] = React.useState(false);
 	let mapCenter =
 		props.center === null || props.center === undefined ? c : props.center;
-
-	const [markerPosition, setMarkerPosition] = React.useState(mapCenter);
 
 	const toggleConfrimBtn = (centerC) => {
 		if (props.zone.polygon != null) {
@@ -83,6 +75,9 @@ export default function Map(props) {
 				const Tlng = map.getCenter().lng();
 				console.log("center", Tlat, ":", Tlng);
 				let tempCenter = { lat: Tlat, lng: Tlng };
+				if (map.getZoom() != 10 && props.zone.polygon == null) map.setZoom(10);
+				else if (props.zone.polygon != null) map.setZoom(20);
+				console.log("curr zoom", map.getZoom());
 
 				toggleConfrimBtn(tempCenter);
 			}
@@ -93,10 +88,11 @@ export default function Map(props) {
 				<GoogleMap
 					mapContainerStyle={containerStyle}
 					center={mapCenter}
-					zoom={7}
+					zoom={10}
 					onLoad={onLoad}
 					onUnmount={onUnmount}
 					onCenterChanged={handleCenterChanged}
+					onZoomChanged={() => console.log("zoom Changed")}
 				>
 					<div
 						id="map_canvas"
@@ -147,7 +143,7 @@ export default function Map(props) {
 					<Polygon
 						path={props.city.polygon}
 						// key={1}
-						editable={true}
+						editable={false}
 						options={{
 							strokeColor: "#00008B",
 							strokeOpacity: 0.8,
@@ -158,13 +154,16 @@ export default function Map(props) {
 					/>
 					<Polygon
 						path={props.zone.polygon}
-						editable={true}
+						editable={false}
 						options={{
 							strokeColor: "#63E5FF",
 							strokeOpacity: 0.8,
 							strokeWeight: 2,
 							fillColor: "#63E5FF",
 							fillOpacity: 0.35,
+						}}
+						onLoad={() => {
+							if (map.getZoom() != 3) map.setZoom(3);
 						}}
 					/>
 				</GoogleMap>
