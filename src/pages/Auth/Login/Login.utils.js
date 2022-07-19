@@ -7,8 +7,9 @@ let bool;
 let result = false;
 
 export default function LoginUtils() {
-	const { user } = useContext(globalStateContext);
+	const { user, emailU } = useContext(globalStateContext);
 	const [userId, setUserId] = user;
+	const [email, setEmail] = emailU;
 
 	const [loading, setLoading] = React.useState(false);
 	const [toastOpen, setToastOpen] = useState(false);
@@ -59,13 +60,16 @@ export default function LoginUtils() {
 				bool = true;
 				// alert(result.result._id);
 				setUserId(result.result._id);
+				setEmail(result.result.email);
 			}
 		} catch (e) {
 			alert("Oops", e.message);
 		}
 		setLoading(false);
 		if (!bool) {
-			alert("Unsuccessful SignIn!");
+			alert(result.msg);
+		} else if (result.result.forget_password) {
+			history.push("/changePassword");
 		} else {
 			history.push("/home");
 		}

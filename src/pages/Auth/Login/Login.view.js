@@ -15,6 +15,7 @@ import {
 import "../../../assets/styles/login.css";
 import { InputAdornment } from "@mui/material";
 import { lockClosedOutline, personOutline } from "ionicons/icons";
+import { IonRouterLink } from "@ionic/react";
 import Toast from "../../../components/toast";
 
 export default function LoginView(props) {
@@ -93,7 +94,9 @@ export default function LoginView(props) {
 						>
 							<IonItem className="forget-password">
 								<IonText style={{ fontSize: "13px" }}>
-									<Link href="/forgetPassword">Forgot password?</Link>
+									<IonRouterLink routerLink={"forgotPassword"}>
+										Forgot password?
+									</IonRouterLink>
 								</IonText>
 							</IonItem>
 						</IonCol>
@@ -114,9 +117,18 @@ export default function LoginView(props) {
 				<div style={{ display: "flex", justifyContent: "center" }}>
 					<IonText style={{ fontSize: "13px", color: "#000" }}>
 						Don't have an account? &nbsp;
-						<Link href="/signup">Signup</Link>
+						<IonRouterLink routerLink={"signup"}> Signup</IonRouterLink>
 					</IonText>
 				</div>
+				{/* <div style={{ display: "flex", justifyContent: "center" }}>
+					<IonText style={{ fontSize: "13px", color: "#000" }}>
+						Change your&nbsp;
+						<IonRouterLink routerLink={"changePassword"}>
+							{" "}
+							password
+						</IonRouterLink>
+					</IonText>
+				</div> */}
 			</IonGrid>
 			<Toast
 				message={props.message}
