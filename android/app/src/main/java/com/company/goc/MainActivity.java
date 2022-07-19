@@ -1,4 +1,4 @@
-package com.company.photogallery;
+package com.company.goc;
 
 import com.getcapacitor.BridgeActivity;
 

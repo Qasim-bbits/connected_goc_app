@@ -24,6 +24,7 @@ import UserDetailsProvider from './context/GlobalStateProvider';
 import Signup from './pages/Auth/Signup/Signup.utils';
 import Login from './pages/Auth/Login/Login.utils';
 import ForgotPassword from './pages/Auth/ForgotPassword/ForgotPassword.utils';
+import ChangePassword from './pages/Auth/ChangePassword/ChangePassword.utils';
 import Home from './pages/Functional/Home/Home.utils';
 import SelectPlate from './pages/Functional/SelectPlate/SelectPlate.utils';
 import SelectParkingRate from './pages/Functional/SelectParkingRate/SelectParkingRate.utils';
@@ -45,7 +46,8 @@ const App: React.FC = () => (
           <Route path="/selectTariff" component={SelectTariff} exact={true} />
           <Route path="/forgotPassword" component={ForgotPassword} exact={true} />
           <Route path="/purchaseReceipt" component={PurchaseReceipt} exact={true} />
-          {/*<Redirect from="/" to="/home" />*/}
+          <Route path="/changePassword" component={ChangePassword} exact={true} />
+          <Redirect from="/" to="/home" exact />
         </UserDetailsProvider>
       </IonRouterOutlet>
     </IonReactRouter>
