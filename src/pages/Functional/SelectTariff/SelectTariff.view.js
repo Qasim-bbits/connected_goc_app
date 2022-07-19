@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import { CircleSlider } from "react-circle-slider";
 import moment from 'moment';
 import './SelectTariff.css';
@@ -16,6 +16,7 @@ import {
 } from '@ionic/react';
 import {Divider} from "@mui/material";
 import PaymentForm from "./Payment/PaymentForm";
+import {globalStateContext} from "../../../context/GlobalStateProvider";
 
 const cycleData = [
   {
@@ -44,6 +45,25 @@ const cycleData = [
 export default function SelectTariff(props) {
 
   const [step, setStep] = useState(0)
+  const [stepData, setStepData] = useState(0)
+
+  const { user, city, zone, plateName, currCoord } = useContext(globalStateContext);
+  const [plate, setPlate] = plateName;
+  const [userId, setUserId] = user;
+  const [cityId, setCityId] = city;
+  const [zoneId, setZoneId] = zone;
+  const [coord, setCoord] = currCoord;
+
+  React.useEffect(() => {
+    let isMounted = true;
+    props.fetchSteps().then((data) => {
+      if (isMounted) setStepData(data);
+    });
+    console.log(step, "plates");
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const handleOnChange = (value) => {
     setStep(value);
@@ -52,85 +72,98 @@ export default function SelectTariff(props) {
 
   return (
     <IonPage>
-      <IonHeader>
-          <IonToolbar text-center class='ion-text-center new-background-color'>
-            <IonButtons slot="start">
-              <IonBackButton defaultHref="home" text=""/>
-            </IonButtons>
-            <IonTitle id='title' text-center>Select Tariff</IonTitle>
-          </IonToolbar>
+        <IonHeader>
+        <IonToolbar text-center class='ion-text-center new-background-color'>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="home" text=""/>
+          </IonButtons>
+          <IonTitle id='title' text-center>Select Tariff</IonTitle>
+        </IonToolbar>
       </IonHeader>
-      <IonContent>
-        <IonCard>
-        <IonItem>
-          <IonText>
-            {moment().format("MMM Do YYYY, hh:mm a")}
-          </IonText>
-        </IonItem>
+      {props.parkingUnavailable ?
+        <IonContent style={{display: 'flex'}}>
           <IonItem>
-            <IonText variant='caption' align='left' style={{color: 'primary.main'}} >
-              Your parking session will end:
+            <IonText>
+              {props.message}
             </IonText>
-          <IonText
-            slot='end'
-            style={{background: '#161b40', color: 'aliceblue', padding: '0 23px', borderRadius: '17px'}}
-          >
-            {/*{props.rateCycle[props.steps].day}*/}
-            {cycleData[step].day}
-          </IonText>
+          </IonItem>
+        </IonContent>
+        : (<IonContent>
+        <IonCard>
+          <IonItem>
+            <IonText>
+              {moment().format("MMM Do YYYY, hh:mm a")}
+            </IonText>
           </IonItem>
           <IonItem>
-          <IonText style={{color: '#fff'}} >
-            {/*{moment(props.rateCycle[props.steps].time_desc, "MMMM Do YYYY, hh:mm a").format("MMM Do YYYY")}*/}
-            {moment(cycleData[step].time_desc, "MMMM Do YYYY, hh:mm a").format("MMM Do YYYY")}
-          </IonText>
-          <IonText style={{color: '#fff', fontSize:'30px'}} slot='end'>
-            {/*{moment(props.rateCycle[props.steps].time_desc, "MMM Do YYYY, hh:mm a").format("hh:mm a")}*/}
-            {moment(cycleData[step].time_desc, "MMM Do YYYY, hh:mm a").format("hh:mm a")}
-          </IonText>
-        </IonItem>
-      </IonCard>
+            <IonText variant='caption' align='left' style={{color: 'primary.main'}}>
+              Your parking session will end:
+            </IonText>
+            <IonText
+              slot='end'
+              style={{background: '#161b40', color: 'aliceblue', padding: '0 23px', borderRadius: '17px'}}
+            >
+              {stepData[step]?.day}
+              {/*{cycleData[step].day}*/}
+            </IonText>
+          </IonItem>
+          <IonItem>
+            <IonText style={{color: '#fff'}}>
+              {moment(stepData[step]?.time_desc, "MMMM Do YYYY, hh:mm a").format("MMM Do YYYY")}
+              {/*{moment(cycleData[step].time_desc, "MMMM Do YYYY, hh:mm a").format("MMM Do YYYY")}*/}
+            </IonText>
+            <IonText style={{color: '#fff', fontSize: '30px'}} slot='end'>
+              {moment(stepData[step]?.time_desc, "MMM Do YYYY, hh:mm a").format("hh:mm a")}
+              {/*{moment(cycleData[step].time_desc, "MMM Do YYYY, hh:mm a").format("hh:mm a")}*/}
+            </IonText>
+          </IonItem>
+        </IonCard>
         <Divider sx={{width: '80%'}}/>
         <div className='tax-info'>
-          <IonText style={{color: 'primary.main'}} >
+          <IonText style={{color: 'primary.main'}}>
             Total (incl. 5% GST):
           </IonText>
-          <IonText style={{color: 'primary.main'}} >
-            CA${(cycleData[step].rate/100).toFixed(2)}
+          <IonText style={{color: 'primary.main'}}>
+            CA${(stepData[step]?.rate / 100).toFixed(2)}
           </IonText>
         </div>
         <IonContent>
           <div className='rate-cycle-text'>
             <IonText align='center'>
               {/*{props.rateCycle[props.steps].time_diff}*/}
-             <h5>
-               {cycleData[step].time_diff}
-             </h5>
+              <h5>
+                {stepData[step]?.time_diff}
+              </h5>
             </IonText>
             <IonText align='center'>
               {/*CA${(props.rateCycle[props.steps].rate/100).toFixed(2)}*/}
               <h5>
-                CA${(cycleData[step].rate/100).toFixed(2)}
+                CA${(stepData[step]?.rate / 100).toFixed(2)}
               </h5>
             </IonText>
           </div>
           <div className='rate-cycle'>
-          <CircleSlider
-            value={step}
-            min={0}
-            max={cycleData.length-1}
-            // max={props.rateCycle.length-1}
-            onChange={(e) => handleOnChange(e)}
-            size={280}
-          />
+            <CircleSlider
+              value={step}
+              min={0}
+              max={stepData?.length - 1}
+              // max={props.rateCycle.length-1}
+              onChange={(e) => handleOnChange(e)}
+              size={280}
+            />
           </div>
           <div className='payment-button'>
-            {/*{isApplePayAvailable ?? <ApplePay/>}*/}
-            {/*{isGooglePayAvailable ?? <GooglePay/>}*/}
-            <PaymentForm amount={cycleData[step].rate/100}/>
+            <PaymentForm
+              amount={cycleData[step]?.rate / 100}
+              user={userId}
+              city={cityId}
+              zone={zoneId}
+              currentCoordinates={coord}
+              plate={plate}
+            />
           </div>
         </IonContent>
-      </IonContent>
+      </IonContent>)}
     </IonPage>
   );
 }

@@ -14,19 +14,26 @@ import {
 	IonCardContent,
 	IonIcon,
 } from "@ionic/react";
+import {globalStateContext} from "../../../context/GlobalStateProvider";
 
 export default function SelectParkingRate(props) {
 	const [rates, setRates] = React.useState([]);
+	const { rateTypes } = useContext(globalStateContext);
+	const [rateType, setRateType] = rateTypes;
+
 	React.useEffect(() => {
 		let isMounted = true;
 		props.fetchRates().then((data) => {
-			if (isMounted) setRates(data);
+			if (isMounted) {
+				setRates(data)
+			};
 		});
 		console.log(rates, "rates");
 		return () => {
 			isMounted = false;
 		};
 	}, []);
+
 	return (
 		<IonPage>
 			<IonHeader>
@@ -43,7 +50,12 @@ export default function SelectParkingRate(props) {
 				{rates.map((el) => (
 					<IonCard class="card-background-color">
 						<IonCardContent>
-							<IonItem class="card-background-color" button onClick={() => {}}>
+							<IonItem
+								class="card-background-color"
+								button
+								onClick={() => {setRateType(el.rate_type)}}
+								routerLink={"/selectTariff"}
+							>
 								<IonIcon icon={wifi} slot="start" color="#111" />
 								<h2>{el.rate_name}</h2>
 							</IonItem>
