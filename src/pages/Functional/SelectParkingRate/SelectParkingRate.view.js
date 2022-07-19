@@ -18,8 +18,8 @@ import {globalStateContext} from "../../../context/GlobalStateProvider";
 
 export default function SelectParkingRate(props) {
 	const [rates, setRates] = React.useState([]);
-	const { rateTypes } = useContext(globalStateContext);
-	const [rateType, setRateType] = rateTypes;
+	const { rate } = useContext(globalStateContext);
+	const [rateData, setRateData] = rate;
 
 	React.useEffect(() => {
 		let isMounted = true;
@@ -53,7 +53,7 @@ export default function SelectParkingRate(props) {
 							<IonItem
 								class="card-background-color"
 								button
-								onClick={() => {setRateType(el.rate_type)}}
+								onClick={() => {setRateData(el)}}
 								routerLink={"/selectTariff"}
 							>
 								<IonIcon icon={wifi} slot="start" color="#111" />

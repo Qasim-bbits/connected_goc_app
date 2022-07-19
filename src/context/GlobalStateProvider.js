@@ -10,7 +10,7 @@ const UserDetailsProvider = (props) => {
 	const [zoneId, setZoneId] = useState();
 	const [plate, setPlate] = useState();
 	const [coord, setCoord] = useState();
-	const [rateType, setRateType] = useState();
+	const [rateData, setRateData] = useState();
 	const [email, setEmail] = useState();
 
 	return (
@@ -22,7 +22,7 @@ const UserDetailsProvider = (props) => {
 				zone: [zoneId, setZoneId],
 				plateName: [plate, setPlate],
 				currCoord: [coord, setCoord],
-				rateTypes: [rateType, setRateType],
+				rate: [rateData, setRateData],
 				emailU: [email, setEmail],
 			}}
 		>
@@ -41,7 +41,7 @@ const UserDetailsProvider = (props) => {
 				"\ncoord:",
 				coord,
 				"\nrateTypes:",
-				rateType,
+				rateData,
 				"\nemail:",
 				email
 			)}
