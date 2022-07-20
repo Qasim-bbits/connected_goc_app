@@ -94,7 +94,7 @@ export default function SelectTariff(props) {
 									CA${(stepData?.[step]?.rate / 100).toFixed(2)}
 								</IonText>
 							</div>
-							<IonContent>
+							<IonContent style={{height: '70vh'}}>
 								<div className='rate-cycle-text'>
 									<IonText align='center'>
 										<h5>
