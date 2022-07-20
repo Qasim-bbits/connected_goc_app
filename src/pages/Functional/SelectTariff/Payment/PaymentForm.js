@@ -3,7 +3,8 @@ import {
   IonCol,
   IonInput,
   IonButton,
-  IonRow
+  IonRow,
+  IonSpinner,
 } from "@ionic/react";
 import Toast from "../../../../components/toast";
 import {useHistory} from "react-router";
@@ -19,31 +20,39 @@ function PaymentForm(props) {
     plate,
     from,
     to,
-    stepData,
+    serviceFee,
   } = props
   const [cardNum, setCardNum] = useState('')
-  const [expDate, setExpDate] = useState("");
+  const [expMonth, setExpMonth] = useState("");
+  const [expYear, setExpYear] = useState("");
   const [cvv, setCvv] = useState(null);
   const [toastOpen, setToastOpen] = useState(false);
+  const [isFormVisible, setIsFormVisible] = useState(false);
   const [message, setMessage] = useState('');
-  const {steps} = useContext(globalStateContext);
-  const [stepsData, setStepsData] = steps;
+  const {payment, rate} = useContext(globalStateContext);
+  const [paymentData, setPaymentData] = payment;
+  const [rateData, setRateData] = rate;
+  const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
 
   let handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true)
     try {
       let res = await fetch("http://localhost:3001/mobileParking", {
         method: "POST",
         body: JSON.stringify({
           cardNum: cardNum,
-          expDate: expDate,
+          expMonth: expMonth,
+          expYear: expYear,
           cvv: cvv,
-          amount: amount,
+          amount: amount.toString(),
+          service_fee: serviceFee,
           user: user,
           city: city,
           zone: zone,
-          currentCoordinates: currentCoordinates,
+          rate: rateData._id,
+          coord: currentCoordinates,
           plate: plate,
           from: from,
           to: to,
@@ -51,7 +60,9 @@ function PaymentForm(props) {
         headers: { 'Content-Type': 'application/json' },
       });
       let resJson = await res.json();
-      setStepsData(resJson)
+      console.log(resJson)
+      setPaymentData(resJson)
+      setIsLoading(false)
       if (res.status === 200) {
         setMessage("Payment Successful");
         setToastOpen(true)
@@ -82,58 +93,81 @@ function PaymentForm(props) {
   }
   return (
     <>
-    <form onSubmit={handleSubmit}>
-        <IonRow>
-          <IonCol>
-          <IonInput
-            inputMode='tel'
-            value={cardNum}
-            onIonChange={(e) => handleCardNum(e.target.value)}
-            placeholder='Card Number'
-            pattern="[\d| ]{16,22}"
-            maxlength={19}
-            style={{backgroundColor: '#fff', borderRadius: '10px', marginBottom: '5px', color: 'black'}}
-          />
-          </IonCol>
-        </IonRow>
-        <IonRow>
-          <IonCol>
-            <IonInput
-              type="text"
-              value={expDate}
-              onIonChange={(e) => setExpDate(e.target.value)}
-              placeholder='Expiry Date'
-              style={{backgroundColor: '#fff', borderRadius: '10px', marginBottom: '5px', color: 'black'}}
-            />
-          </IonCol>
-          <IonCol>
-            <IonInput
-              inputMode='number'
-              value={cvv}
-              id='cvv'
-              maxlength='3'
-              onIonChange={(e) => setCvv(e.target.value)}
-              placeholder='CVV'
-              style={{backgroundColor: '#fff', borderRadius: '10px', marginBottom: '5px', color: 'black'}}
-            />
-          </IonCol>
-        </IonRow>
-        <IonRow>
-          <IonCol>
-          <IonButton
-            type="submit"
-            style={{width: '100%'}}
-          >
-            Pay ${amount}
-          </IonButton>
-          </IonCol>
-        </IonRow>
-    </form>
-      <Toast
+      { isFormVisible ?
+        (<>
+          <form onSubmit={handleSubmit}>
+            <IonRow>
+              <IonCol style={{padding: '0 10px 0 10px'}}>
+                <IonInput
+                  inputMode='tel'
+                  value={cardNum}
+                  onIonChange={(e) => handleCardNum(e.target.value)}
+                  placeholder='Card Number'
+                  pattern="[\d| ]{16,22}"
+                  maxlength={19}
+                  style={{backgroundColor: '#fff', borderRadius: '10px', marginBottom: '5px', color: 'black'}}
+                />
+              </IonCol>
+            </IonRow>
+            <IonRow style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
+              <IonCol size={3}>
+                <IonInput
+                  type="text"
+                  value={expMonth}
+                  onIonChange={(e) => setExpMonth(e.target.value)}
+                  placeholder='MM'
+                  maxlength={2}
+                  minlength={2}
+                  style={{backgroundColor: '#fff', borderRadius: '10px', marginBottom: '5px', color: 'black'}}
+                />
+              </IonCol>
+              /
+              <IonCol size={3}>
+                <IonInput
+                  type="text"
+                  value={expYear}
+                  onIonChange={(e) => setExpYear(e.target.value)}
+                  placeholder='YY'
+                  maxlength={2}
+                  minlength={2}
+                  style={{backgroundColor: '#fff', borderRadius: '10px', marginBottom: '5px', color: 'black'}}
+                />
+              </IonCol>
+              <IonCol size={5}>
+                <IonInput
+                  inputMode='number'
+                  value={cvv}
+                  id='cvv'
+                  maxlength='3'
+                  onIonChange={(e) => setCvv(e.target.value)}
+                  placeholder='CVV'
+                  style={{backgroundColor: '#fff', borderRadius: '10px', marginBottom: '5px', color: 'black'}}
+                />
+              </IonCol>
+            </IonRow>
+            <IonRow>
+              <IonCol>
+                <IonButton
+                  type="submit"
+                  style={{width: '100%', marginTop: '10%'}}
+                >
+                  {isLoading ? (<IonSpinner name="crescent" />) : `Pay $${amount}`}
+                </IonButton>
+              </IonCol>
+            </IonRow>
+          </form>
+        <Toast
         message={message}
         toastOpen={toastOpen}
         setToastOpen={setToastOpen}
-      />
+        />
+        </>) :
+        (<IonButton
+        onClick={() => setIsFormVisible(true)}
+        style={{width: '80%', marginTop: '10%'}}
+        >
+        Pay ${amount}
+        </IonButton>) }
       </>
   );
 }

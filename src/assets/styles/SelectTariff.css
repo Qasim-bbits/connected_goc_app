@@ -1,6 +1,6 @@
 .rate-cycle-text {
     position: absolute;
-    transform: translate(42vw,16vh);
+    transform: translate(42vw,13vh);
 }
 .rate-cycle {
     display: flex;

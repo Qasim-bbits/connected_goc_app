@@ -13,7 +13,7 @@ function Toast(props) {
         isOpen={toastOpen}
         onDidDismiss={() => setToastOpen(false)}
         message={message}
-        duration={500}
+        duration={5000}
       />
     </>
   );
