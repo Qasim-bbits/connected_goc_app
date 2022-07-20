@@ -19,6 +19,7 @@ import { IonRouterLink } from "@ionic/react";
 import Toast from "../../../components/toast";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
 import { useHistory } from "react-router";
+import './Login.css'
 import {
 	storeLocal,
 	retrieveLocal,
@@ -33,10 +34,8 @@ export default function LoginView(props) {
 	const [remember, setRemember] = rememberMe;
 	const history = useHistory();
 
-	// React.useEffect(() => {}, []);
-
 	return (
-		<IonPage style={{ backgroundColor: "#ffffff", display: "flex" }}>
+		<IonPage style={{ display: "flex" }}>
 			<IonGrid>
 				<IonRow>
 					<IonCol size="12" offset="2">
@@ -58,9 +57,9 @@ export default function LoginView(props) {
 								margin="normal"
 								name="email"
 								type="email"
-								variant="outlined"
+								variant="standard"
 								size="small"
-								sx={{ marginTop: "1%", marginBottom: "1%" }}
+								sx={{ marginTop: "1%", marginBottom: "1%", backgroundColor: '#fff', padding: '5px' }}
 								InputProps={{
 									startAdornment: (
 										<InputAdornment position="start">
@@ -77,9 +76,9 @@ export default function LoginView(props) {
 								margin="normal"
 								name="password"
 								type="password"
-								variant="outlined"
+								variant="standard"
 								size="small"
-								sx={{ marginTop: "1%", marginBottom: "1%" }}
+								sx={{ marginTop: "1%", marginBottom: "1%", backgroundColor: '#fff',padding: '5px' }}
 								InputProps={{
 									startAdornment: (
 										<InputAdornment position="start">
@@ -92,8 +91,8 @@ export default function LoginView(props) {
 					</IonRow>
 					<IonRow style={{ display: "flex", alignItems: "center" }}>
 						<IonCol size="5" offset="1">
-							<IonItem className="remember-me">
-								<IonLabel style={{ fontSize: "13px", color: "#000" }}>
+							<IonItem className='remember-me'>
+								<IonLabel style={{ fontSize: "13px" }}>
 									Remember me
 								</IonLabel>
 								<IonCheckbox
@@ -132,7 +131,7 @@ export default function LoginView(props) {
 					</IonRow>
 				</form>
 				<div style={{ display: "flex", justifyContent: "center" }}>
-					<IonText style={{ fontSize: "13px", color: "#000" }}>
+					<IonText style={{ fontSize: "13px"}}>
 						Don't have an account? &nbsp;
 						<IonRouterLink routerLink={"signup"}> Signup</IonRouterLink>
 					</IonText>

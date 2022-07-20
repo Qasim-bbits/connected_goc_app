@@ -8,7 +8,8 @@ import { globalStateContext } from "../context/GlobalStateProvider";
 
 const containerStyle = {
 	width: "100%",
-	height: "80%",
+	height: "85%",
+	transform: 'translateY(-1%)'
 };
 
 const c = {
@@ -125,7 +126,7 @@ export default function Map(props) {
 							type="submit"
 							style={{
 								marginTop: 7,
-								marginBottom: 5,
+								marginBottom: 10,
 								borderRadius: 30,
 								padding: 2,
 								width: 200,
@@ -142,7 +143,6 @@ export default function Map(props) {
 
 					<Polygon
 						path={props.city.polygon}
-						// key={1}
 						editable={false}
 						options={{
 							strokeColor: "#00008B",
