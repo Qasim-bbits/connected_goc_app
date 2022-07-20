@@ -21,5 +21,16 @@ div {
         /* vertical-align: middle; */
 
 }
+ion-modal#modal {
+    --width: 80%;
+    /* --min-width: 100px; */
+    --height: 30%;
+    /* --min-height: 500px; */
+    /* --border-radius: 6px; */
+    /* --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4); */
+}
+.modalBottom{
+    margin-bottom:0px;
+}
 
 
