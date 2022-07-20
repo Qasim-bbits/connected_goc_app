@@ -256,7 +256,7 @@ export default function SelectPlates(props) {
 
 				<IonListHeader lines="full">
 					<IonButton
-						color="secondary"
+						color="primary"
 						fill="solid"
 						onClick={() => setShowModalAdd(true)}
 					>

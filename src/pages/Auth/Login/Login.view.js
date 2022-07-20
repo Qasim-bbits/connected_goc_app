@@ -5,7 +5,7 @@ import {
 	IonCheckbox,
 	IonCol,
 	IonGrid,
-	IonIcon,
+	IonIcon, IonInput,
 	IonItem,
 	IonLabel,
 	IonPage,
@@ -19,6 +19,13 @@ import { IonRouterLink } from "@ionic/react";
 import Toast from "../../../components/toast";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
 import { useHistory } from "react-router";
+import './Login.css'
+import {
+	storeLocal,
+	retrieveLocal,
+	deleteLocal,
+} from "../../../localStorage/saveLocal";
+// let localEmail = retrieveLocal("email");
 
 export default function LoginView(props) {
 	const { user, emailU, rememberMe } = useContext(globalStateContext);
@@ -26,8 +33,9 @@ export default function LoginView(props) {
 	const [email, setEmail] = emailU;
 	const [remember, setRemember] = rememberMe;
 	const history = useHistory();
+
 	return (
-		<IonPage style={{ backgroundColor: "#ffffff", display: "flex" }}>
+		<IonPage style={{ display: "flex" }}>
 			<IonGrid>
 				<IonRow>
 					<IonCol size="12" offset="2">
@@ -43,48 +51,34 @@ export default function LoginView(props) {
 				<form onSubmit={props.handleSubmit}>
 					<IonRow>
 						<IonCol size="10" offset="1">
-							<TextField
-								fullWidth
-								label="Email"
-								margin="normal"
-								name="email"
-								type="email"
-								variant="outlined"
-								size="small"
-								sx={{ marginTop: "1%", marginBottom: "1%" }}
-								InputProps={{
-									startAdornment: (
-										<InputAdornment position="start">
-											<IonIcon src={personOutline} />
-										</InputAdornment>
-									),
-								}}
-							/>
+							<IonItem>
+								<IonIcon src={personOutline}/>
+								<IonInput
+									margin="normal"
+									name="email"
+									type="email"
+									placeholder='Email'
+									style={{ marginTop: "1%", marginBottom: "1%", padding: '5px' }}
+								/>
+							</IonItem>
 						</IonCol>
 						<IonCol size="10" offset="1">
-							<TextField
-								fullWidth
-								label="Password"
-								margin="normal"
-								name="password"
-								type="password"
-								variant="outlined"
-								size="small"
-								sx={{ marginTop: "1%", marginBottom: "1%" }}
-								InputProps={{
-									startAdornment: (
-										<InputAdornment position="start">
-											<IonIcon src={lockClosedOutline} />
-										</InputAdornment>
-									),
-								}}
-							/>
+							<IonItem>
+								<IonIcon src={lockClosedOutline}/>
+								<IonInput
+									margin="normal"
+									name="password"
+									type="password"
+									placeholder='Password'
+									style={{ marginTop: "1%", marginBottom: "1%",padding: '5px' }}
+								/>
+							</IonItem>
 						</IonCol>
 					</IonRow>
 					<IonRow style={{ display: "flex", alignItems: "center" }}>
 						<IonCol size="5" offset="1">
-							<IonItem className="remember-me">
-								<IonLabel style={{ fontSize: "13px", color: "#000" }}>
+							<IonItem className='remember-me'>
+								<IonLabel style={{ fontSize: "13px" }}>
 									Remember me
 								</IonLabel>
 								<IonCheckbox
@@ -123,7 +117,7 @@ export default function LoginView(props) {
 					</IonRow>
 				</form>
 				<div style={{ display: "flex", justifyContent: "center" }}>
-					<IonText style={{ fontSize: "13px", color: "#000" }}>
+					<IonText style={{ fontSize: "13px"}}>
 						Don't have an account? &nbsp;
 						<IonRouterLink routerLink={"signup"}> Signup</IonRouterLink>
 					</IonText>
