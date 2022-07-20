@@ -5,7 +5,7 @@ import {
 	IonCheckbox,
 	IonCol,
 	IonGrid,
-	IonIcon,
+	IonIcon, IonInput,
 	IonItem,
 	IonLabel,
 	IonPage,
@@ -51,42 +51,28 @@ export default function LoginView(props) {
 				<form onSubmit={props.handleSubmit}>
 					<IonRow>
 						<IonCol size="10" offset="1">
-							<TextField
-								fullWidth
-								label="Email"
-								margin="normal"
-								name="email"
-								type="email"
-								variant="standard"
-								size="small"
-								sx={{ marginTop: "1%", marginBottom: "1%", backgroundColor: '#fff', padding: '5px' }}
-								InputProps={{
-									startAdornment: (
-										<InputAdornment position="start">
-											<IonIcon src={personOutline} />
-										</InputAdornment>
-									),
-								}}
-							/>
+							<IonItem>
+								<IonIcon src={personOutline}/>
+								<IonInput
+									margin="normal"
+									name="email"
+									type="email"
+									placeholder='Email'
+									style={{ marginTop: "1%", marginBottom: "1%", padding: '5px' }}
+								/>
+							</IonItem>
 						</IonCol>
 						<IonCol size="10" offset="1">
-							<TextField
-								fullWidth
-								label="Password"
-								margin="normal"
-								name="password"
-								type="password"
-								variant="standard"
-								size="small"
-								sx={{ marginTop: "1%", marginBottom: "1%", backgroundColor: '#fff',padding: '5px' }}
-								InputProps={{
-									startAdornment: (
-										<InputAdornment position="start">
-											<IonIcon src={lockClosedOutline} />
-										</InputAdornment>
-									),
-								}}
-							/>
+							<IonItem>
+								<IonIcon src={lockClosedOutline}/>
+								<IonInput
+									margin="normal"
+									name="password"
+									type="password"
+									placeholder='Password'
+									style={{ marginTop: "1%", marginBottom: "1%",padding: '5px' }}
+								/>
+							</IonItem>
 						</IonCol>
 					</IonRow>
 					<IonRow style={{ display: "flex", alignItems: "center" }}>
