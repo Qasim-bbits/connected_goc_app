@@ -25,9 +25,7 @@ import { globalStateContext } from "../../../context/GlobalStateProvider";
 import { storeLocal, deleteLocal } from "../../../localStorage/saveLocal";
 
 export default function Home(props) {
-	const { user, emailU, rememberMe } = useContext(globalStateContext);
-	const [userId, setUserId] = user;
-	const [email, setEmail] = emailU;
+	const { rememberMe } = useContext(globalStateContext);
 	const [remember, setRemember] = rememberMe;
 	const history = useHistory();
 
