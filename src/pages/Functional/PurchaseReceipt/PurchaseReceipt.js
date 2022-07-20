@@ -24,23 +24,19 @@ import Rate from '../../../assets/icons/7.png';
 import Discount from '../../../assets/icons/8.png';
 import Paid from '../../../assets/icons/9.png';
 import {globalStateContext} from "../../../context/GlobalStateProvider";
+import Header from "../../../Common/header";
 
 export default function PurchaseReceipt(props) {
-
-  const {stepsData} = useContext(globalStateContext);
-  const [steps, setSteps] = stepsData;
-
+  const { steps } = useContext(globalStateContext);
+  const [stepsData, setStepsData] = steps;
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar text-center class='ion-text-center new-background-color'>
-          <IonButtons slot="start">
-            <IonBackButton defaultHref="home" text=""/>
-          </IonButtons>
-          <IonTitle id='title' text-center>Purchase Receipt</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <Header
+        title='Purchase Receipt'
+        isHome={false}
+        backLink='/home'
+      />
           <IonContent>
           <IonCard>
             <IonItem>
@@ -54,8 +50,8 @@ export default function PurchaseReceipt(props) {
             <IonItem>
               <IonThumbnail slot="start" style={{width: '30%', height: '30%'}}>
                 <IonImg src={TimeFromCar} />
-                <IonLabel style={{marginLeft: '15%'}}>
-                  6:00 pm
+                <IonLabel style={{marginLeft: '15%', fontSize: '9px', width: '100%'}}>
+                  {stepsData?.from}
                 </IonLabel>
               </IonThumbnail>
               <IonThumbnail>
@@ -63,8 +59,8 @@ export default function PurchaseReceipt(props) {
               </IonThumbnail>
               <IonThumbnail slot="end" style={{width: '45%', height: '45%'}}>
                 <IonImg src={TimeToCar} />
-                <IonLabel style={{marginTop: '15%', marginLeft: '15%'}}>
-                  6:00 pm
+                <IonLabel style={{marginTop: '15%', marginLeft: '9%', fontSize: '9px', width: '100%'}}>
+                  {stepsData?.to}
                 </IonLabel>
               </IonThumbnail>
             </IonItem>
@@ -79,7 +75,7 @@ export default function PurchaseReceipt(props) {
             <IonItem>
               <IonImg src={CarWithTick} slot='start' style={{width: '15%', height: '15%'}}/>
               <IonLabel>
-                Test 1
+                {stepsData.plate}
               </IonLabel>
             </IonItem>
             <IonItem>
@@ -100,7 +96,7 @@ export default function PurchaseReceipt(props) {
                 Amount Paid
               </IonText>
               <IonText slot='end'>
-                $0.00
+                ${stepsData.amount}.00
               </IonText>
             </IonItem>
         </IonContent>
