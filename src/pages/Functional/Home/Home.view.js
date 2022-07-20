@@ -25,9 +25,7 @@ import { globalStateContext } from "../../../context/GlobalStateProvider";
 import { storeLocal, deleteLocal } from "../../../localStorage/saveLocal";
 
 export default function Home(props) {
-	const { user, emailU, rememberMe } = useContext(globalStateContext);
-	const [userId, setUserId] = user;
-	const [email, setEmail] = emailU;
+	const { rememberMe } = useContext(globalStateContext);
 	const [remember, setRemember] = rememberMe;
 	const history = useHistory();
 
@@ -147,7 +145,8 @@ export default function Home(props) {
 					<IonItem
 						button
 						onClick={async () => {
-							await deleteLocal("remember");
+							// await deleteLocal("remember");
+							await storeLocal("remember", "false");
 							console.log("SSSSSSS");
 							history.push("/login");
 						}}
@@ -214,7 +213,12 @@ export default function Home(props) {
 						/>
 					</IonRow>
 				</IonGrid>
-				<Map center={centerProp} city={selectedCity} zone={selectedZone} />
+				<Map
+					center={centerProp}
+					city={selectedCity}
+					zone={selectedZone}
+					zoom={10}
+				/>
 			</IonContent>
 			<Toast message={message} toastOpen={toastOpen} />
 		</IonPage>

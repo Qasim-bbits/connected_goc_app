@@ -7,10 +7,9 @@ import { retrieveLocal } from "../../../localStorage/saveLocal";
 let bool;
 let result = false;
 export default function LoginUtils() {
-	const { user, emailU, rememberMe } = useContext(globalStateContext);
+	const { user, emailU } = useContext(globalStateContext);
 	const [userId, setUserId] = user;
 	const [email, setEmail] = emailU;
-	const [remember, setRemember] = rememberMe;
 
 	const [loading, setLoading] = React.useState(false);
 	const [toastOpen, setToastOpen] = useState(false);
@@ -18,7 +17,7 @@ export default function LoginUtils() {
 	const history = useHistory();
 
 	React.useEffect(async () => {
-		if (remember || (await retrieveLocal("remember"))) {
+		if ((await retrieveLocal("remember")) == "true") {
 			history.push("/home");
 		}
 	}, []);
@@ -55,7 +54,6 @@ export default function LoginUtils() {
 				bool = false;
 			} else {
 				bool = true;
-				// alert(result.result._id);
 				setUserId(result.result._id);
 				setEmail(result.result.email);
 			}
