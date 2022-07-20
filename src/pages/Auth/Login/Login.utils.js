@@ -18,7 +18,7 @@ export default function LoginUtils() {
 	const history = useHistory();
 
 	React.useEffect(async () => {
-		if (remember || (await retrieveLocal("remember"))) {
+		if (remember && (await retrieveLocal("remember")) == "true") {
 			history.push("/home");
 		}
 	}, []);

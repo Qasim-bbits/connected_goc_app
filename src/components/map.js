@@ -42,11 +42,15 @@ export default function Map(props) {
 		}
 	};
 
-	const onLoad = React.useCallback(function callback(map) {
-		const bounds = new window.google.maps.LatLngBounds(mapCenter);
-		map.fitBounds(bounds);
+	const onLoad = (map) => {
 		setMap(map);
-	}, []);
+	};
+
+	// const onLoad = React.useCallback(function callback(map) {
+	// 	const bounds = new window.google.maps.LatLngBounds(mapCenter);
+	// 	map.fitBounds(bounds);
+	// 	setMap(map);
+	// }, []);
 
 	const setContext = () => {
 		setCityId(props.city._id);
@@ -88,9 +92,9 @@ export default function Map(props) {
 				<GoogleMap
 					mapContainerStyle={containerStyle}
 					center={mapCenter}
-					zoom={10}
+					zoom={props.zoom}
 					onLoad={onLoad}
-					// onUnmount={onUnmount}
+					onUnmount={onUnmount}
 					onCenterChanged={handleCenterChanged}
 					onZoomChanged={() => console.log("zoom Changed")}
 				>

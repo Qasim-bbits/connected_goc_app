@@ -147,7 +147,8 @@ export default function Home(props) {
 					<IonItem
 						button
 						onClick={async () => {
-							await deleteLocal("remember");
+							// await deleteLocal("remember");
+							await storeLocal("remember", "false");
 							console.log("SSSSSSS");
 							history.push("/login");
 						}}
@@ -214,7 +215,12 @@ export default function Home(props) {
 						/>
 					</IonRow>
 				</IonGrid>
-				<Map center={centerProp} city={selectedCity} zone={selectedZone} />
+				<Map
+					center={centerProp}
+					city={selectedCity}
+					zone={selectedZone}
+					zoom={10}
+				/>
 			</IonContent>
 			<Toast message={message} toastOpen={toastOpen} />
 		</IonPage>
