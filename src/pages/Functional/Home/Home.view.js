@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import "../../../assets/styles/home.css";
 import {
 	IonMenu,
@@ -20,10 +20,23 @@ import Header from "../../../Common/header";
 import {logOutOutline} from "ionicons/icons";
 import {Autocomplete, TextField} from "@mui/material";
 import Toast from "../../../components/toast";
+import { globalStateContext } from "../../../context/GlobalStateProvider";
+// import { Storage } from "@capacitor/storage";
+import {
+	storeLocal,
+	retrieveLocal,
+	deleteLocal,
+} from "../../../localStorage/saveLocal";
 
 export default function Home(props) {
-	const [loading, setLoading] = React.useState(false);
+	const { user, emailU, rememberMe, passwordU } =
+		useContext(globalStateContext);
+	const [userId, setUserId] = user;
+	const [email, setEmail] = emailU;
+	const [remember, setRemember] = rememberMe;
+	const [password, setPassword] = passwordU;
 
+	const [loading, setLoading] = React.useState(false);
 	const [centerProp, setCenterProp] = React.useState(null);
 	const [cities, setCities] = React.useState(null);
 	const [selectedCity, setSelectedCity] = React.useState({});
@@ -107,11 +120,18 @@ export default function Home(props) {
 
 	return (
 		<IonPage>
-			<Header
-				title=''
-				isHome
-			/>
-			<IonContent>
+			<IonHeader>
+				<IonToolbar text-center class="ion-text-center new-background-color">
+					<IonButtons slot="end">
+						<IonMenuButton />
+					</IonButtons>
+					<IonTitle id="title">{selectedCity.city_name}</IonTitle>
+				</IonToolbar>
+			</IonHeader>
+
+			<IonContent class="new-background-color">
+				<IonToolbar class="new-background-color">
+
 				<IonMenu
 					side="end"
 					menuId="first"

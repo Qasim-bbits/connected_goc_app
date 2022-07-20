@@ -2,20 +2,46 @@ import React, { useState, useContext } from "react";
 import LoginView from "./Login.view";
 import { useHistory } from "react-router";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
+import {
+	storeLocal,
+	retrieveLocal,
+	deleteLocal,
+} from "../../../localStorage/saveLocal";
 
 let bool;
 let result = false;
-
+// let localEmail;
+// let localPassword;
 export default function LoginUtils() {
-	const { user, emailU } = useContext(globalStateContext);
+	const { user, emailU, passwordU, rememberMe } =
+		useContext(globalStateContext);
 	const [userId, setUserId] = user;
 	const [email, setEmail] = emailU;
+	const [password, setPassword] = passwordU;
+	const [remember, setRemember] = rememberMe;
 
 	const [loading, setLoading] = React.useState(false);
 	const [toastOpen, setToastOpen] = useState(false);
 	const [message, setMessage] = useState("");
 	const history = useHistory();
 
+	React.useEffect(async () => {
+		if (remember || (await retrieveLocal("remember"))) {
+			// storeLocal("remember", "true");
+			history.push("/home");
+		}
+
+		// storeLocal("email", "qasim@bbits.solutions");
+		// storeLocal("password", "12345");
+
+		// localEmail = await retrieveLocal("email");
+		// console.log("localEmail type:", typeof localEmail);
+		// console.log("localEmail", localEmail);
+
+		// localPassword = await retrieveLocal("password");
+		// console.log("localPassword type:", typeof localPassword);
+		// console.log("localPassword", localPassword);
+	}, []);
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
@@ -23,15 +49,6 @@ export default function LoginUtils() {
 			email: data.get("email"),
 			password: data.get("password"),
 		});
-		// if (
-		// 	data.get("email") === "dev@bbits.solutions" &&
-		// 	data.get("password") === "12345"
-		// ) {
-		// 	history.push("/home");
-		// } else {
-		// 	setMessage("Incorrect Password");
-		// 	setToastOpen(true);
-		// }
 		sendData(data);
 	};
 
@@ -61,6 +78,7 @@ export default function LoginUtils() {
 				// alert(result.result._id);
 				setUserId(result.result._id);
 				setEmail(result.result.email);
+				setPassword(data.get("password"));
 			}
 		} catch (e) {
 			alert("Oops", e.message);

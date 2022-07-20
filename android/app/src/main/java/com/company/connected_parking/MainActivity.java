@@ -1,4 +1,4 @@
-package com.company.goc;
+package com.company.connected_parking;
 
 import com.getcapacitor.BridgeActivity;
 

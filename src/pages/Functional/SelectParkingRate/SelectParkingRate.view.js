@@ -26,8 +26,8 @@ export default function SelectParkingRate(props) {
 		let isMounted = true;
 		props.fetchRates().then((data) => {
 			if (isMounted) {
-				setRates(data)
-			};
+				setRates(data);
+			}
 		});
 		console.log(rates, "rates");
 		return () => {
@@ -52,7 +52,11 @@ export default function SelectParkingRate(props) {
 								onClick={() => {setRateData(el)}}
 								routerLink={"/selectTariff"}
 							>
-								<IonIcon icon={wifi} slot="start" color="#111" />
+								<img
+									src={require("../../../assets/logo/rate.png")}
+									width="40"
+									height="40"
+								/>
 								<h2>{el.rate_name}</h2>
 							</IonItem>
 						</IonCardContent>
