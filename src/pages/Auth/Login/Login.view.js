@@ -1,5 +1,5 @@
+import React, { useState, useContext } from "react";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
 import {
 	IonButton,
 	IonCheckbox,
@@ -17,8 +17,24 @@ import { InputAdornment } from "@mui/material";
 import { lockClosedOutline, personOutline } from "ionicons/icons";
 import { IonRouterLink } from "@ionic/react";
 import Toast from "../../../components/toast";
+import { globalStateContext } from "../../../context/GlobalStateProvider";
+import { useHistory } from "react-router";
+import {
+	storeLocal,
+	retrieveLocal,
+	deleteLocal,
+} from "../../../localStorage/saveLocal";
+// let localEmail = retrieveLocal("email");
 
 export default function LoginView(props) {
+	const { user, emailU, rememberMe } = useContext(globalStateContext);
+	const [userId, setUserId] = user;
+	const [email, setEmail] = emailU;
+	const [remember, setRemember] = rememberMe;
+	const history = useHistory();
+
+	// React.useEffect(() => {}, []);
+
 	return (
 		<IonPage style={{ backgroundColor: "#ffffff", display: "flex" }}>
 			<IonGrid>
@@ -82,7 +98,8 @@ export default function LoginView(props) {
 								</IonLabel>
 								<IonCheckbox
 									classname="checkbox"
-									defaultChecked={true}
+									checked={remember}
+									onIonChange={(e) => setRemember(e.detail.checked)}
 									slot="start"
 									style={{ marginInlineEnd: "10px", borderColor: "red" }}
 								/>
@@ -120,15 +137,6 @@ export default function LoginView(props) {
 						<IonRouterLink routerLink={"signup"}> Signup</IonRouterLink>
 					</IonText>
 				</div>
-				{/* <div style={{ display: "flex", justifyContent: "center" }}>
-					<IonText style={{ fontSize: "13px", color: "#000" }}>
-						Change your&nbsp;
-						<IonRouterLink routerLink={"changePassword"}>
-							{" "}
-							password
-						</IonRouterLink>
-					</IonText>
-				</div> */}
 			</IonGrid>
 			<Toast
 				message={props.message}

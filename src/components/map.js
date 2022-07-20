@@ -8,7 +8,7 @@ import { globalStateContext } from "../context/GlobalStateProvider";
 
 const containerStyle = {
 	width: "100%",
-	height: "90%",
+	height: "80%",
 };
 
 const c = {

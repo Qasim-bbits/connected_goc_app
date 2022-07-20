@@ -1,16 +1,14 @@
 import React, { useState, useContext } from "react";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
 import SelectTariff from "./SelectTariff.view";
-import Toast from "../../../components/toast";
 
 let bool;
 let result = false;
 export default function SelectTariffUtils() {
     const [loading, setLoading] = React.useState(false);
-    const { zone, plateName, rateTypes } = useContext(globalStateContext);
-    const [zoneId, setZoneId] = zone;
+    const { plateName, rate } = useContext(globalStateContext);
     const [plate, setPlate] = plateName;
-    const [rateType, setRateType] = rateTypes;
+    const [rateData, setRateData] = rate;
     const [parkingUnavailable, setParkingUnavailable] = useState(false);
     const [message, setMessage] = useState("");
 
@@ -27,15 +25,15 @@ export default function SelectTariffUtils() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    id: zoneId,
+                    id: rateData._id,
                     plate: plate,
-                    rate_type: rateType,
+                    rate_type: rateData.rate_type,
                 }),
             });
             result = await response.json();
             console.log(result);
 
-            if (!result.steps) {
+            if (!result.some((step) => step.rate)) {
                 bool = false;
             } else {
                 bool = true;

@@ -1,3 +1,4 @@
+import React, {useState} from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -8,6 +9,21 @@ import Container from "@mui/material/Container";
 import { IonRouterLink } from "@ionic/react";
 
 export default function ChangePasswordView(props) {
+
+	const [wrongPassword, setWrongPassword] = useState(false)
+	const [matchPassword, setMatchPassword] = useState('')
+
+	const handlePasswordChange = event => {
+		setMatchPassword(event);
+	};
+	const handleConfirmPassword = event => {
+		if (event !== matchPassword) {
+			setWrongPassword(true);
+		}else {
+			setWrongPassword(false);
+		}
+	};
+
 	return (
 		<Container component="main" maxWidth="xs">
 			<CssBaseline />
@@ -32,22 +48,27 @@ export default function ChangePasswordView(props) {
 						margin="normal"
 						required
 						fullWidth
+						type="password"
 						id="password1"
 						label="Type your new password"
 						name="password1"
 						autoComplete="password"
 						autoFocus
 						variant="standard"
+						onChange={(e)=>handlePasswordChange(e.target.value)}
 					/>
 					<TextField
 						margin="normal"
 						required
+						type="password"
 						fullWidth
 						id="password2"
-						label="Type your new password again"
+						label={wrongPassword ? 'Error' : "Type your new password again"}
 						name="password2"
 						autoComplete="password"
 						variant="standard"
+						helperText={wrongPassword && "Passwords do not match"}
+						onChange={(e) => handleConfirmPassword(e.target.value)}
 					/>
 
 					<Grid container alignItems="center" justifyContent="center">

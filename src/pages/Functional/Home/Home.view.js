@@ -1,45 +1,86 @@
-import React from "react";
+import React, { useContext } from "react";
 import "../../../assets/styles/home.css";
 import {
-	IonSearchbar,
 	IonMenu,
 	IonHeader,
 	IonToolbar,
-	IonTitle,
 	IonContent,
 	IonList,
 	IonItem,
 	IonRouterOutlet,
-	IonMenuButton,
-	IonButtons,
 	IonPage,
-	IonSelect,
-	IonSelectOption,
-	IonButton,
+	IonIcon,
+	IonLabel,
+	IonRow,
+	IonGrid,
 } from "@ionic/react";
 import { getCenterOfBounds } from "geolib";
 import Map from "../../../components/map";
+import Header from "../../../Common/header";
+import {logOutOutline} from "ionicons/icons";
+import {Autocomplete, TextField} from "@mui/material";
+import Toast from "../../../components/toast";
+import { globalStateContext } from "../../../context/GlobalStateProvider";
+import {
+	storeLocal,
+	retrieveLocal,
+	deleteLocal,
+} from "../../../localStorage/saveLocal";
 
-let citiesResponse;
-let zonesResponse;
 export default function Home(props) {
-	const [loading, setLoading] = React.useState(false);
+	const { user, emailU, rememberMe, passwordU } =
+		useContext(globalStateContext);
+	const [userId, setUserId] = user;
+	const [email, setEmail] = emailU;
+	const [remember, setRemember] = rememberMe;
+	const [password, setPassword] = passwordU;
 
+	const [loading, setLoading] = React.useState(false);
 	const [centerProp, setCenterProp] = React.useState(null);
 	const [cities, setCities] = React.useState(null);
 	const [selectedCity, setSelectedCity] = React.useState({});
 	const [zones, setZones] = React.useState(null);
 	const [selectedZone, setSelectedZone] = React.useState({});
+	const [message, setMessage] = React.useState('');
+	const [toastOpen, setToastOpen] = React.useState(false);
+
+	const onSelectedCity = async (e) => {
+		setSelectedCity(e);
+		console.log(e);
+		const citiesP = e.polygon.map(function (row) {
+			return { latitude: row.lat, longitude: row.lng };
+		});
+		let centerPolygon = getCenterOfBounds(citiesP);
+		let centerPolygonLatLng = {
+			lat: centerPolygon.latitude,
+			lng: centerPolygon.longitude,
+		};
+		setCenterProp(centerPolygonLatLng);
+	};
+
+	const onSelectedZone = async (zone) => {
+		setSelectedZone(zone);
+		const zonesP = zone.polygon.map(function (row) {
+			return { latitude: row.lat, longitude: row.lng };
+		});
+		let centerPolygon = getCenterOfBounds(zonesP);
+		let centerPolygonLatLng = {
+			lat: centerPolygon.latitude,
+			lng: centerPolygon.longitude,
+		};
+		setCenterProp(centerPolygonLatLng);
+	}
 
 	const getCities = async () => {
 		try {
-			const response = await fetch("http://35.192.138.41/api/getCities/").then(
+			const response = await fetch("http://35.192.138.41/api/getCities").then(
 				(response) => response.json()
 			);
-
-			citiesResponse = await response;
+			setCities(response);
+			console.log(response);
 		} catch (e) {
-			alert("Cities Could Not Be Fetched!", e.message);
+			setMessage("Cities could not be fetched");
+			setToastOpen(true);
 		}
 	};
 
@@ -48,7 +89,6 @@ export default function Home(props) {
 			return;
 		}
 		setLoading(true);
-
 		try {
 			const response = await fetch("http://35.192.138.41/api/getZonesById/", {
 				method: "POST",
@@ -60,188 +100,34 @@ export default function Home(props) {
 					id: selectedCity._id,
 				}),
 			}).then((response) => response.json());
-			zonesResponse = await response;
-			console.log(zonesResponse, "zonesResponse");
+			setZones(response);
+			console.log(zones, "zonesResponse");
 		} catch (e) {
-			alert("Zones Could not be Fetched!", e.message);
+			setMessage("Cities could not be fetched");
+			setToastOpen(true);
 		}
 		setLoading(false);
 	};
 
-	const testCities = [
-		{
-			_id: 1,
-			city_name: "Ottawa",
-			polygon: [
-				{ lat: 45.415421753842104, lng: -76.35184636553302 },
-				{ lat: 44.95758775225658, lng: -75.82429385901366 },
-				{ lat: 45.241046984450755, lng: -75.11170427931212 },
-				{ lat: 45.759814362346, lng: -75.49752626169197 },
-				{ lat: 45.415421753842104, lng: -76.35184636553302 },
-			],
-		},
-		{
-			_id: 1,
-			city_name: "Toronto",
-			polygon: [
-				{ lat: 45.415421753842104, lng: -76.35184636553302 },
-				{ lat: 44.95758775225658, lng: -75.82429385901366 },
-				{ lat: 45.241046984450755, lng: -75.11170427931212 },
-				{ lat: 45.759814362346, lng: -75.49752626169197 },
-				{ lat: 45.415421753842104, lng: -76.35184636553302 },
-			],
-		},
-	];
-
-	const [citySearchQuery, setCitySearchQuery] = React.useState("");
-	const [zoneSearchQuery, setZoneSearchQuery] = React.useState("");
-	const [cityFilteredSearch, setCityFilteredSearch] = React.useState([
-		{
-			_id: "",
-			city_name: "",
-			polygon: [],
-		},
-	]);
-
-	const [zoneFilteredSearch, setZoneFilteredSearch] = React.useState([
-		{
-			_id: "",
-			zone_name: "",
-			polygon: [],
-		},
-	]);
+	React.useEffect(() => {
+		getZones();
+	}, [selectedCity])
 
 	React.useEffect(async () => {
-		// console.log(cities, "cities");
-		// await getCities();
-		// console.log(citiesResponse, "citiesResponse");
-
-		// console.log(zones, "zones");
-		// await getZones();
-		// console.log(zonesResponse, "zonesResponse");
-
-		let tempCitySearchResult = cities.filter((ele) =>
-			ele.city_name.includes(citySearchQuery)
-		);
-		setCityFilteredSearch([...tempCitySearchResult]);
-
-		let tempZoneSearchResult = zones.filter((ele) =>
-			ele.zone_name.includes(zoneSearchQuery)
-		);
-		setZoneFilteredSearch([...tempZoneSearchResult]);
-	}, [citySearchQuery, cities, zoneSearchQuery, zones]);
+		getCities();
+		if (remember) {
+			storeLocal("remember", "true");
+		}
+	}, []);
 
 	return (
 		<IonPage>
-			<IonHeader>
-				<IonToolbar text-center class="ion-text-center new-background-color">
-					<IonButtons slot="end">
-						<IonMenuButton />
-					</IonButtons>
-					<IonTitle id="title">{selectedCity.city_name}</IonTitle>
-				</IonToolbar>
-			</IonHeader>
+			<Header
+				isHome
+				title=''
+			/>
 
 			<IonContent class="new-background-color">
-				<IonToolbar class="new-background-color">
-					<IonSearchbar
-						placeholder="Select City"
-						value={citySearchQuery}
-						onIonChange={(e) => setCitySearchQuery(e.detail.value)}
-						onIonFocus={async () => {
-							await getCities();
-							setCities(citiesResponse);
-						}}
-					/>
-					{cityFilteredSearch.map((search) => (
-						// <IonList key={search._id}>
-						<IonItem
-							button
-							class="new-background-color"
-							onclick={async () => {
-								const citiesP = search.polygon.map(function (row) {
-									return { latitude: row.lat, longitude: row.lng };
-								});
-
-								let centerPolygon = getCenterOfBounds(citiesP);
-
-								let centerPolygonLatLng = {
-									lat: centerPolygon.latitude,
-									lng: centerPolygon.longitude,
-								};
-
-								setCenterProp(centerPolygonLatLng);
-
-								console.log("centerProp", centerProp);
-								setSelectedCity(search);
-							}}
-							id="cardBtn"
-						>
-							<p class="new-background-color" id="searchBarCity">
-								{search.city_name}
-							</p>
-						</IonItem>
-						// </IonList>
-					))}
-					{/* TODO: Searchbar */}
-					{/* <Autocomplete
-								disablePortal
-								id="combo-box-demo"  
-								options={citiesResponse}
-								sx={{ width: 300 }}
-								renderInput={(zones) => (
-									<TextField {...zones.name} label="Cities" />
-								)}
-							/> */}
-					{/* <IonSearchbar
-							placeholder="Select Zone"
-							value={zoneSearchQuery}
-							onIonChange={(e) => setZoneSearchQuery(e.detail.value)}
-							onIonFocus={() => {
-								setZones(zonesResponse);
-							}}
-						/> */}
-					<IonItem class="new-background-color">
-						<IonSelect
-							interface="popover"
-							placeholder="Select Zone"
-							onIonFocus={async () => {
-								await getZones();
-								setZones(zonesResponse);
-							}}
-							onIonChange={(e) => {
-								zones.map((zone) => {
-									if (zone._id === e.detail.value) {
-										setSelectedZone(zone);
-										const zonesP = zone.polygon.map(function (row) {
-											return { latitude: row.lat, longitude: row.lng };
-										});
-
-										let centerPolygon = getCenterOfBounds(zonesP);
-
-										let centerPolygonLatLng = {
-											lat: centerPolygon.latitude,
-											lng: centerPolygon.longitude,
-										};
-
-										setCenterProp(centerPolygonLatLng);
-									}
-								});
-								console.log(e.detail.value);
-							}}
-							onIonCancel={() => {}}
-							onIonDismiss={(e) => {
-								console.log("dismissed");
-							}}
-						>
-							{zoneFilteredSearch.map((search) => (
-								<IonSelectOption value={search._id}>
-									{search.zone_name}
-								</IonSelectOption>
-							))}
-						</IonSelect>
-					</IonItem>
-				</IonToolbar>
 				<IonMenu
 					side="end"
 					menuId="first"
@@ -265,30 +151,70 @@ export default function Home(props) {
 							<IonItem>History</IonItem>
 						</IonList>
 					</IonContent>
-					<IonRouterOutlet></IonRouterOutlet>
+					<IonItem>
+						<IonIcon src={logOutOutline} slot='start'/>
+						<IonLabel>
+							Logout
+						</IonLabel>
+					</IonItem>
 				</IonMenu>
-
 				<IonRouterOutlet id="menuContent"></IonRouterOutlet>
-
-				{/* TODO: Searchbar */}
-				{/* {zoneFilteredSearch.map((search) => (
-						<IonList key={search._id}>
-							<IonItem
-								button
-								onclick={async () => {
-									// setCenterProp(search.polygon[0]);
-									// console.log("centerProp", centerProp);
-									// setSelectedCity(search.zone_name);
-								}}
-								id="searchBarZone"
-							>
-								<p id="searchBarZone">{search.zone_name}</p>
-							</IonItem>
-						</IonList>
-					))} */}
-
+				<IonGrid style={{display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#fff'}}>
+					<IonRow>
+						<Autocomplete
+							freeSolo
+							id="free-solo-2-demo"
+							disableClearable
+							options={cities}
+							getOptionLabel={(option) => option.city_name}
+							onChange={(event, newValue) => onSelectedCity(newValue)}
+							renderInput={(params) => (
+								<TextField
+									{...params}
+									sx={{ width: 300, backgroundColor: "#fff" }}
+									label="Search City"
+									variant="outlined"
+									fullWidth
+									size="small"
+									InputProps={{
+										...params.InputProps,
+										type: "search",
+									}}
+								/>
+							)}
+						/>
+					</IonRow>
+					<IonRow>
+						<Autocomplete
+							freeSolo
+							id="free-solo-2-demo"
+							disableClearable
+							options={zones}
+							getOptionLabel={(option) => option.zone_name}
+							onChange={(event, newValue) => onSelectedZone(newValue)}
+							renderInput={(params) => (
+								<TextField
+									{...params}
+									sx={{ width: 300, backgroundColor: "#fff" }}
+									label="Search Zone"
+									variant="outlined"
+									fullWidth
+									size="small"
+									InputProps={{
+										...params.InputProps,
+										type: "search",
+									}}
+								/>
+							)}
+						/>
+					</IonRow>
+				</IonGrid>
 				<Map center={centerProp} city={selectedCity} zone={selectedZone} />
 			</IonContent>
+			<Toast
+				message={message}
+				toastOpen={toastOpen}
+			/>
 		</IonPage>
 	);
 }

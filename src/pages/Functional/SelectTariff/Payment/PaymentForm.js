@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   IonCol,
   IonInput,
@@ -6,16 +6,29 @@ import {
   IonRow
 } from "@ionic/react";
 import Toast from "../../../../components/toast";
+import {useHistory} from "react-router";
+import {globalStateContext} from "../../../../context/GlobalStateProvider";
 
 function PaymentForm(props) {
   const {
     amount,
+    user,
+    city,
+    zone,
+    currentCoordinates,
+    plate,
+    from,
+    to,
+    stepData,
   } = props
   const [cardNum, setCardNum] = useState('')
   const [expDate, setExpDate] = useState("");
   const [cvv, setCvv] = useState(null);
   const [toastOpen, setToastOpen] = useState(false);
   const [message, setMessage] = useState('');
+  const {steps} = useContext(globalStateContext);
+  const [stepsData, setStepsData] = steps;
+  const history = useHistory();
 
   let handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,13 +40,22 @@ function PaymentForm(props) {
           expDate: expDate,
           cvv: cvv,
           amount: amount,
+          user: user,
+          city: city,
+          zone: zone,
+          currentCoordinates: currentCoordinates,
+          plate: plate,
+          from: from,
+          to: to,
         }),
         headers: { 'Content-Type': 'application/json' },
       });
       let resJson = await res.json();
+      setStepsData(resJson)
       if (res.status === 200) {
         setMessage("Payment Successful");
         setToastOpen(true)
+        history.push('/purchaseReceipt')
       } else {
         setMessage("Payment Failed. Something went wrong");
         setToastOpen(true)
@@ -69,6 +91,7 @@ function PaymentForm(props) {
             onIonChange={(e) => handleCardNum(e.target.value)}
             placeholder='Card Number'
             pattern="[\d| ]{16,22}"
+            maxlength={19}
             style={{backgroundColor: '#fff', borderRadius: '10px', marginBottom: '5px', color: 'black'}}
           />
           </IonCol>

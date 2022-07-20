@@ -10,8 +10,11 @@ const UserDetailsProvider = (props) => {
 	const [zoneId, setZoneId] = useState();
 	const [plate, setPlate] = useState();
 	const [coord, setCoord] = useState();
-	const [rateType, setRateType] = useState();
+	const [rateData, setRateData] = useState();
+	const [stepsData, setStepsData] = useState();
 	const [email, setEmail] = useState();
+	const [remember, setRemember] = useState(false);
+	const [password, setPassword] = useState();
 
 	return (
 		// this is the provider providing state
@@ -22,8 +25,11 @@ const UserDetailsProvider = (props) => {
 				zone: [zoneId, setZoneId],
 				plateName: [plate, setPlate],
 				currCoord: [coord, setCoord],
-				rateTypes: [rateType, setRateType],
+				rate: [rateData, setRateData],
+				steps: [stepsData, setStepsData],
 				emailU: [email, setEmail],
+				rememberMe: [remember, setRemember],
+				passwordU: [password, setPassword],
 			}}
 		>
 			{props.children}
@@ -40,10 +46,16 @@ const UserDetailsProvider = (props) => {
 				plate,
 				"\ncoord:",
 				coord,
-				"\nrateTypes:",
-				rateType,
+				"\nrateData:",
+				rateData,
 				"\nemail:",
-				email
+				email,
+				stepsData,
+				"\nstepsData:",
+				"\nrememberMe:",
+				remember,
+				"\npassword:",
+				password
 			)}
 		</globalStateContext.Provider>
 	);

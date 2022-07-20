@@ -29,6 +29,7 @@ import Home from './pages/Functional/Home/Home.utils';
 import SelectPlate from './pages/Functional/SelectPlate/SelectPlate.utils';
 import SelectParkingRate from './pages/Functional/SelectParkingRate/SelectParkingRate.utils';
 import SelectTariff from "./pages/Functional/SelectTariff/SelectTariff.utils";
+import PurchaseReceipt from "./pages/Functional/PurchaseReceipt/PurchaseReceipt";
 
 setupIonicReact();
 
@@ -44,8 +45,9 @@ const App: React.FC = () => (
           <Route path="/selectParkingRate" component={SelectParkingRate} exact={true} />
           <Route path="/selectTariff" component={SelectTariff} exact={true} />
           <Route path="/forgotPassword" component={ForgotPassword} exact={true} />
+          <Route path="/purchaseReceipt" component={PurchaseReceipt} exact={true} />
           <Route path="/changePassword" component={ChangePassword} exact={true} />
-          <Redirect from="/" to="/login" exact />
+          {/*<Redirect from="/" to="/home" exact={true} />*/}
         </UserDetailsProvider>
       </IonRouterOutlet>
     </IonReactRouter>
