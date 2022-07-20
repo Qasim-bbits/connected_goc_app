@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, {useContext} from "react";
 import {
 	IonButton,
 	IonCheckbox,
@@ -13,9 +13,6 @@ import {
 	IonText,
 } from "@ionic/react";
 import "../../../assets/styles/login.css";
-import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
 import { lockClosedOutline, personOutline } from "ionicons/icons";
 import { IonRouterLink } from "@ionic/react";
 import Toast from "../../../components/toast";
@@ -119,74 +116,12 @@ export default function LoginView(props) {
 								size="medium"
 								type="submit"
 							>
+								<input type="submit" className="submit-enter" />
 								Login
 							</IonButton>
 						</IonCol>
 					</IonRow>
 				</form>
-
-				{/* <Box component="form" onSubmit={props.handleSubmit} sx={{ mt: 6 }}>
-					<TextField
-						margin="normal"
-						required
-						fullWidth
-						id="email"
-						label="Type your email address"
-						name="email"
-						autoComplete="email"
-						variant="standard"
-					/>
-
-					<TextField
-						margin="normal"
-						required
-						fullWidth
-						id="password"
-						label="Type your password"
-						name="password"
-						autoComplete="password"
-						variant="standard"
-					/>
-
-					<Grid container alignItems="center" justifyContent="center">
-						<Button
-							type="submit"
-							variant="contained"
-							sx={{
-								mt: 7,
-								mb: 5,
-								borderRadius: 30,
-								padding: 2,
-								width: 200,
-								display: "block",
-							}}
-							onClick={() => {}}
-						>
-							Login
-						</Button>
-					</Grid>
-					<Grid container>
-						<IonItem className="remember-me">
-							<IonLabel style={{ fontSize: "13px" }}>Remember me</IonLabel>
-							<IonCheckbox
-								classname="checkbox"
-								checked={remember}
-								onIonChange={(e) => setRemember(e.detail.checked)}
-								slot="start"
-								style={{ marginInlineEnd: "10px", borderColor: "red" }}
-							/>
-						</IonItem>
-					</Grid>
-					<Grid container>
-						<IonItem className="forget-password">
-							<IonText style={{ fontSize: "13px" }}>
-								<IonRouterLink routerLink={"forgotPassword"}>
-									Forgot password?
-								</IonRouterLink>
-							</IonText>
-						</IonItem>
-					</Grid>
-				</Box> */}
 				<div style={{ display: "flex", justifyContent: "center" }}>
 					<IonText style={{ fontSize: "13px" }}>
 						Don't have an account? &nbsp;
