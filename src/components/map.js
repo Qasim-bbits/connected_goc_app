@@ -90,7 +90,7 @@ export default function Map(props) {
 					center={mapCenter}
 					zoom={10}
 					onLoad={onLoad}
-					onUnmount={onUnmount}
+					// onUnmount={onUnmount}
 					onCenterChanged={handleCenterChanged}
 					onZoomChanged={() => console.log("zoom Changed")}
 				>
