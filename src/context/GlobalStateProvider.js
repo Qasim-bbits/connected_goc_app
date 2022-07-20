@@ -11,6 +11,7 @@ const UserDetailsProvider = (props) => {
 	const [plate, setPlate] = useState();
 	const [coord, setCoord] = useState();
 	const [rateData, setRateData] = useState();
+	const [stepsData, setStepsData] = useState();
 	const [email, setEmail] = useState();
 
 	return (
@@ -23,6 +24,7 @@ const UserDetailsProvider = (props) => {
 				plateName: [plate, setPlate],
 				currCoord: [coord, setCoord],
 				rate: [rateData, setRateData],
+				steps: [stepsData, setStepsData],
 				emailU: [email, setEmail],
 			}}
 		>
@@ -43,7 +45,9 @@ const UserDetailsProvider = (props) => {
 				"\nrateData:",
 				rateData,
 				"\nemail:",
-				email
+				email,
+				stepsData,
+				"\nstepsData:",
 			)}
 		</globalStateContext.Provider>
 	);

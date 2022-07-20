@@ -126,6 +126,7 @@ export default function SelectTariff(props) {
 										plate={plate}
 										to={stepData?.[step]?.time_desc}
 										from={stepData?.[step]?.current_time}
+										stepData={setStepData?.[step]}
 									/>
 								</div>
 							</IonContent>
