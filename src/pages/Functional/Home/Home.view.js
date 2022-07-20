@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import "../../../assets/styles/home.css";
 import {
 	IonSearchbar,
@@ -19,12 +19,25 @@ import {
 } from "@ionic/react";
 import { getCenterOfBounds } from "geolib";
 import Map from "../../../components/map";
+import { globalStateContext } from "../../../context/GlobalStateProvider";
+// import { Storage } from "@capacitor/storage";
+import {
+	storeLocal,
+	retrieveLocal,
+	deleteLocal,
+} from "../../../localStorage/saveLocal";
 
 let citiesResponse;
 let zonesResponse;
 export default function Home(props) {
-	const [loading, setLoading] = React.useState(false);
+	const { user, emailU, rememberMe, passwordU } =
+		useContext(globalStateContext);
+	const [userId, setUserId] = user;
+	const [email, setEmail] = emailU;
+	const [remember, setRemember] = rememberMe;
+	const [password, setPassword] = passwordU;
 
+	const [loading, setLoading] = React.useState(false);
 	const [centerProp, setCenterProp] = React.useState(null);
 	const [cities, setCities] = React.useState(null);
 	const [selectedCity, setSelectedCity] = React.useState({});
@@ -120,6 +133,12 @@ export default function Home(props) {
 		// await getZones();
 		// console.log(zonesResponse, "zonesResponse");
 
+		if (remember) {
+			// storeLocal("userId", userId);
+			// storeLocal("email", email);
+			// storeLocal("password", password);
+			storeLocal("remember", "true");
+		}
 		let tempCitySearchResult = cities.filter((ele) =>
 			ele.city_name.includes(citySearchQuery)
 		);

@@ -12,6 +12,8 @@ const UserDetailsProvider = (props) => {
 	const [coord, setCoord] = useState();
 	const [rateType, setRateType] = useState();
 	const [email, setEmail] = useState();
+	const [remember, setRemember] = useState(false);
+	const [password, setPassword] = useState();
 
 	return (
 		// this is the provider providing state
@@ -24,6 +26,8 @@ const UserDetailsProvider = (props) => {
 				currCoord: [coord, setCoord],
 				rateTypes: [rateType, setRateType],
 				emailU: [email, setEmail],
+				rememberMe: [remember, setRemember],
+				passwordU: [password, setPassword],
 			}}
 		>
 			{props.children}
@@ -43,7 +47,11 @@ const UserDetailsProvider = (props) => {
 				"\nrateTypes:",
 				rateType,
 				"\nemail:",
-				email
+				email,
+				"\nrememberMe:",
+				remember,
+				"\npassword:",
+				password
 			)}
 		</globalStateContext.Provider>
 	);
