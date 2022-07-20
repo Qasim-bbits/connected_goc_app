@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.company.goc',
-  appName: 'goc',
+  appId: 'com.company.connected_parking',
+  appName: 'Connected Parking',
   webDir: 'build',
   bundledWebRuntime: false
 };

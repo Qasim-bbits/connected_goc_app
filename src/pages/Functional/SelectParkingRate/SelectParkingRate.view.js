@@ -14,7 +14,7 @@ import {
 	IonCardContent,
 	IonIcon,
 } from "@ionic/react";
-import {globalStateContext} from "../../../context/GlobalStateProvider";
+import { globalStateContext } from "../../../context/GlobalStateProvider";
 
 export default function SelectParkingRate(props) {
 	const [rates, setRates] = React.useState([]);
@@ -25,8 +25,8 @@ export default function SelectParkingRate(props) {
 		let isMounted = true;
 		props.fetchRates().then((data) => {
 			if (isMounted) {
-				setRates(data)
-			};
+				setRates(data);
+			}
 		});
 		console.log(rates, "rates");
 		return () => {
@@ -53,10 +53,16 @@ export default function SelectParkingRate(props) {
 							<IonItem
 								class="card-background-color"
 								button
-								onClick={() => {setRateType(el.rate_type)}}
+								onClick={() => {
+									setRateType(el.rate_type);
+								}}
 								routerLink={"/selectTariff"}
 							>
-								<IonIcon icon={wifi} slot="start" color="#111" />
+								<img
+									src={require("../../../assets/logo/rate.png")}
+									width="40"
+									height="40"
+								/>
 								<h2>{el.rate_name}</h2>
 							</IonItem>
 						</IonCardContent>
