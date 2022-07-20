@@ -17,23 +17,19 @@ import {
 import { getCenterOfBounds } from "geolib";
 import Map from "../../../components/map";
 import Header from "../../../Common/header";
-import {logOutOutline} from "ionicons/icons";
-import {Autocomplete, TextField} from "@mui/material";
+import { logOutOutline } from "ionicons/icons";
+import { Autocomplete, TextField } from "@mui/material";
 import Toast from "../../../components/toast";
+import { useHistory } from "react-router";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
-import {
-	storeLocal,
-	retrieveLocal,
-	deleteLocal,
-} from "../../../localStorage/saveLocal";
+import { storeLocal, deleteLocal } from "../../../localStorage/saveLocal";
 
 export default function Home(props) {
-	const { user, emailU, rememberMe, passwordU } =
-		useContext(globalStateContext);
+	const { user, emailU, rememberMe } = useContext(globalStateContext);
 	const [userId, setUserId] = user;
 	const [email, setEmail] = emailU;
 	const [remember, setRemember] = rememberMe;
-	const [password, setPassword] = passwordU;
+	const history = useHistory();
 
 	const [loading, setLoading] = React.useState(false);
 	const [centerProp, setCenterProp] = React.useState(null);
@@ -41,7 +37,7 @@ export default function Home(props) {
 	const [selectedCity, setSelectedCity] = React.useState({});
 	const [zones, setZones] = React.useState(null);
 	const [selectedZone, setSelectedZone] = React.useState({});
-	const [message, setMessage] = React.useState('');
+	const [message, setMessage] = React.useState("");
 	const [toastOpen, setToastOpen] = React.useState(false);
 
 	const onSelectedCity = async (e) => {
@@ -69,7 +65,7 @@ export default function Home(props) {
 			lng: centerPolygon.longitude,
 		};
 		setCenterProp(centerPolygonLatLng);
-	}
+	};
 
 	const getCities = async () => {
 		try {
@@ -103,7 +99,7 @@ export default function Home(props) {
 			setZones(response);
 			console.log(zones, "zonesResponse");
 		} catch (e) {
-			setMessage("Cities could not be fetched");
+			setMessage("Zones could not be fetched");
 			setToastOpen(true);
 		}
 		setLoading(false);
@@ -111,7 +107,7 @@ export default function Home(props) {
 
 	React.useEffect(() => {
 		getZones();
-	}, [selectedCity])
+	}, [selectedCity]);
 
 	React.useEffect(async () => {
 		getCities();
@@ -122,12 +118,9 @@ export default function Home(props) {
 
 	return (
 		<IonPage>
-			<Header
-				isHome
-				title=''
-			/>
+			<Header isHome title="" />
 
-			<IonContent class="new-background-color">
+			<IonContent>
 				<IonMenu
 					side="end"
 					menuId="first"
@@ -151,15 +144,27 @@ export default function Home(props) {
 							<IonItem>History</IonItem>
 						</IonList>
 					</IonContent>
-					<IonItem>
-						<IonIcon src={logOutOutline} slot='start'/>
-						<IonLabel>
-							Logout
-						</IonLabel>
+					<IonItem
+						button
+						onClick={async () => {
+							await deleteLocal("remember");
+							console.log("SSSSSSS");
+							history.push("/login");
+						}}
+					>
+						<IonIcon src={logOutOutline} slot="start" />
+						<IonLabel>Logout</IonLabel>
 					</IonItem>
 				</IonMenu>
 				<IonRouterOutlet id="menuContent"></IonRouterOutlet>
-				<IonGrid style={{display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#fff'}}>
+				<IonGrid
+					style={{
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center",
+						backgroundColor: "#fff",
+					}}
+				>
 					<IonRow>
 						<Autocomplete
 							freeSolo
@@ -211,10 +216,7 @@ export default function Home(props) {
 				</IonGrid>
 				<Map center={centerProp} city={selectedCity} zone={selectedZone} />
 			</IonContent>
-			<Toast
-				message={message}
-				toastOpen={toastOpen}
-			/>
+			<Toast message={message} toastOpen={toastOpen} />
 		</IonPage>
 	);
 }

@@ -10,8 +10,6 @@ const storeLocal = async (...args) => {
 };
 const retrieveLocal = async (keyProp) => {
 	const { value } = await Storage.get({ key: keyProp });
-
-	// console.log(`local ${value}`);
 	return value;
 };
 

@@ -14,7 +14,6 @@ const UserDetailsProvider = (props) => {
 	const [stepsData, setStepsData] = useState();
 	const [email, setEmail] = useState();
 	const [remember, setRemember] = useState(false);
-	const [password, setPassword] = useState();
 
 	return (
 		// this is the provider providing state
@@ -29,7 +28,6 @@ const UserDetailsProvider = (props) => {
 				steps: [stepsData, setStepsData],
 				emailU: [email, setEmail],
 				rememberMe: [remember, setRemember],
-				passwordU: [password, setPassword],
 			}}
 		>
 			{props.children}
@@ -50,12 +48,10 @@ const UserDetailsProvider = (props) => {
 				rateData,
 				"\nemail:",
 				email,
-				stepsData,
 				"\nstepsData:",
+				stepsData,
 				"\nrememberMe:",
-				remember,
-				"\npassword:",
-				password
+				remember
 			)}
 		</globalStateContext.Provider>
 	);
