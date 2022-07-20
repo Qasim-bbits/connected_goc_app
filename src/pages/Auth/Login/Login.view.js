@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import TextField from "@mui/material/TextField";
 import {
 	IonButton,
@@ -19,12 +19,6 @@ import { IonRouterLink } from "@ionic/react";
 import Toast from "../../../components/toast";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
 import { useHistory } from "react-router";
-import {
-	storeLocal,
-	retrieveLocal,
-	deleteLocal,
-} from "../../../localStorage/saveLocal";
-// let localEmail = retrieveLocal("email");
 
 export default function LoginView(props) {
 	const { user, emailU, rememberMe } = useContext(globalStateContext);
@@ -32,9 +26,6 @@ export default function LoginView(props) {
 	const [email, setEmail] = emailU;
 	const [remember, setRemember] = rememberMe;
 	const history = useHistory();
-
-	// React.useEffect(() => {}, []);
-
 	return (
 		<IonPage style={{ backgroundColor: "#ffffff", display: "flex" }}>
 			<IonGrid>

@@ -47,7 +47,7 @@ const App: React.FC = () => (
           <Route path="/forgotPassword" component={ForgotPassword} exact={true} />
           <Route path="/purchaseReceipt" component={PurchaseReceipt} exact={true} />
           <Route path="/changePassword" component={ChangePassword} exact={true} />
-          {/*<Redirect from="/" to="/home" exact={true} />*/}
+          <Redirect from="/" to="/login" exact={true} />
         </UserDetailsProvider>
       </IonRouterOutlet>
     </IonReactRouter>
