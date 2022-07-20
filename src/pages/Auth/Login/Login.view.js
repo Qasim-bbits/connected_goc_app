@@ -5,7 +5,8 @@ import {
 	IonCheckbox,
 	IonCol,
 	IonGrid,
-	IonIcon, IonInput,
+	IonIcon,
+	IonInput,
 	IonItem,
 	IonLabel,
 	IonPage,
@@ -13,13 +14,15 @@ import {
 	IonText,
 } from "@ionic/react";
 import "../../../assets/styles/login.css";
-import { InputAdornment } from "@mui/material";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import { lockClosedOutline, personOutline } from "ionicons/icons";
 import { IonRouterLink } from "@ionic/react";
 import Toast from "../../../components/toast";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
 import { useHistory } from "react-router";
-import './Login.css'
+import "./Login.css";
 import {
 	storeLocal,
 	retrieveLocal,
@@ -52,35 +55,41 @@ export default function LoginView(props) {
 					<IonRow>
 						<IonCol size="10" offset="1">
 							<IonItem>
-								<IonIcon src={personOutline}/>
+								<IonIcon src={personOutline} />
 								<IonInput
 									margin="normal"
 									name="email"
 									type="email"
-									placeholder='Email'
-									style={{ marginTop: "1%", marginBottom: "1%", padding: '5px' }}
+									placeholder="Email"
+									style={{
+										marginTop: "1%",
+										marginBottom: "1%",
+										padding: "5px",
+									}}
 								/>
 							</IonItem>
 						</IonCol>
 						<IonCol size="10" offset="1">
 							<IonItem>
-								<IonIcon src={lockClosedOutline}/>
+								<IonIcon src={lockClosedOutline} />
 								<IonInput
 									margin="normal"
 									name="password"
 									type="password"
-									placeholder='Password'
-									style={{ marginTop: "1%", marginBottom: "1%",padding: '5px' }}
+									placeholder="Password"
+									style={{
+										marginTop: "1%",
+										marginBottom: "1%",
+										padding: "5px",
+									}}
 								/>
 							</IonItem>
 						</IonCol>
 					</IonRow>
 					<IonRow style={{ display: "flex", alignItems: "center" }}>
 						<IonCol size="5" offset="1">
-							<IonItem className='remember-me'>
-								<IonLabel style={{ fontSize: "13px" }}>
-									Remember me
-								</IonLabel>
+							<IonItem className="remember-me">
+								<IonLabel style={{ fontSize: "13px" }}>Remember me</IonLabel>
 								<IonCheckbox
 									classname="checkbox"
 									checked={remember}
@@ -116,8 +125,71 @@ export default function LoginView(props) {
 						</IonCol>
 					</IonRow>
 				</form>
+
+				{/* <Box component="form" onSubmit={props.handleSubmit} sx={{ mt: 6 }}>
+					<TextField
+						margin="normal"
+						required
+						fullWidth
+						id="email"
+						label="Type your email address"
+						name="email"
+						autoComplete="email"
+						variant="standard"
+					/>
+
+					<TextField
+						margin="normal"
+						required
+						fullWidth
+						id="password"
+						label="Type your password"
+						name="password"
+						autoComplete="password"
+						variant="standard"
+					/>
+
+					<Grid container alignItems="center" justifyContent="center">
+						<Button
+							type="submit"
+							variant="contained"
+							sx={{
+								mt: 7,
+								mb: 5,
+								borderRadius: 30,
+								padding: 2,
+								width: 200,
+								display: "block",
+							}}
+							onClick={() => {}}
+						>
+							Login
+						</Button>
+					</Grid>
+					<Grid container>
+						<IonItem className="remember-me">
+							<IonLabel style={{ fontSize: "13px" }}>Remember me</IonLabel>
+							<IonCheckbox
+								classname="checkbox"
+								checked={remember}
+								onIonChange={(e) => setRemember(e.detail.checked)}
+								slot="start"
+								style={{ marginInlineEnd: "10px", borderColor: "red" }}
+							/>
+						</IonItem>
+					</Grid>
+					<Grid container>
+						<IonItem className="forget-password">
+							<IonText style={{ fontSize: "13px" }}>
+								<IonRouterLink routerLink={"forgotPassword"}>
+									Forgot password?
+								</IonRouterLink>
+							</IonText>
+						</IonItem>
+					</Grid>
+				</Box> */}
 				<div style={{ display: "flex", justifyContent: "center" }}>
-					<IonText style={{ fontSize: "13px"}}>
+					<IonText style={{ fontSize: "13px" }}>
 						Don't have an account? &nbsp;
 						<IonRouterLink routerLink={"signup"}> Signup</IonRouterLink>
 					</IonText>
