@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import "../../../assets/styles/home.css";
 import {
 	IonMenu,
@@ -21,7 +21,6 @@ import {logOutOutline} from "ionicons/icons";
 import {Autocomplete, TextField} from "@mui/material";
 import Toast from "../../../components/toast";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
-// import { Storage } from "@capacitor/storage";
 import {
 	storeLocal,
 	retrieveLocal,
@@ -116,22 +115,19 @@ export default function Home(props) {
 
 	React.useEffect(async () => {
 		getCities();
+		if (remember) {
+			storeLocal("remember", "true");
+		}
 	}, []);
 
 	return (
 		<IonPage>
-			<IonHeader>
-				<IonToolbar text-center class="ion-text-center new-background-color">
-					<IonButtons slot="end">
-						<IonMenuButton />
-					</IonButtons>
-					<IonTitle id="title">{selectedCity.city_name}</IonTitle>
-				</IonToolbar>
-			</IonHeader>
+			<Header
+				isHome
+				title=''
+			/>
 
 			<IonContent class="new-background-color">
-				<IonToolbar class="new-background-color">
-
 				<IonMenu
 					side="end"
 					menuId="first"
