@@ -11,7 +11,7 @@ const UserDetailsProvider = (props) => {
 	const [plate, setPlate] = useState();
 	const [coord, setCoord] = useState();
 	const [rateData, setRateData] = useState();
-	const [stepsData, setStepsData] = useState();
+	const [paymentData, setPaymentData] = useState();
 	const [email, setEmail] = useState();
 	const [remember, setRemember] = useState(false);
 
@@ -25,7 +25,7 @@ const UserDetailsProvider = (props) => {
 				plateName: [plate, setPlate],
 				currCoord: [coord, setCoord],
 				rate: [rateData, setRateData],
-				steps: [stepsData, setStepsData],
+				payment: [paymentData, setPaymentData],
 				emailU: [email, setEmail],
 				rememberMe: [remember, setRemember],
 			}}
@@ -48,8 +48,8 @@ const UserDetailsProvider = (props) => {
 				rateData,
 				"\nemail:",
 				email,
-				"\nstepsData:",
-				stepsData,
+				"\npaymentData:",
+				paymentData,
 				"\nrememberMe:",
 				remember
 			)}

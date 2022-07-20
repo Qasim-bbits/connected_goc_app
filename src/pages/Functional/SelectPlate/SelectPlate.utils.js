@@ -31,7 +31,6 @@ export default function SelectPlatesUtils() {
 					},
 					body: JSON.stringify({
 						id: userId,
-						// id: "62d020100b3d07ce4bf73c09",
 					}),
 				}
 			);

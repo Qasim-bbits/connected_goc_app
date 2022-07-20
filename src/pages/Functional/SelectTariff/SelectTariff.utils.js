@@ -39,12 +39,12 @@ export default function SelectTariffUtils() {
                 bool = true;
             }
         } catch (e) {
-            alert("Oops", e.message);
+
         }
         setLoading(false);
         if (!bool) {
             if(result.msg){
-                setMessage('Parking is not allowed from 2am to 6am')
+                setMessage(result.msg)
                 setParkingUnavailable(true)
             } else {
                 alert("Steps Could Not be Fetched!");

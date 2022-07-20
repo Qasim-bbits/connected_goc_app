@@ -11,8 +11,6 @@ import {
 	IonPage,
 	IonIcon,
 	IonLabel,
-	IonRow,
-	IonGrid,
 } from "@ionic/react";
 import { getCenterOfBounds } from "geolib";
 import Map from "../../../components/map";
@@ -38,20 +36,6 @@ export default function Home(props) {
 	const [message, setMessage] = React.useState("");
 	const [toastOpen, setToastOpen] = React.useState(false);
 
-	const onSelectedCity = async (e) => {
-		setSelectedCity(e);
-		console.log(e);
-		const citiesP = e.polygon.map(function (row) {
-			return { latitude: row.lat, longitude: row.lng };
-		});
-		let centerPolygon = getCenterOfBounds(citiesP);
-		let centerPolygonLatLng = {
-			lat: centerPolygon.latitude,
-			lng: centerPolygon.longitude,
-		};
-		setCenterProp(centerPolygonLatLng);
-	};
-
 	const onSelectedZone = async (zone) => {
 		setSelectedZone(zone);
 		const zonesP = zone.polygon.map(function (row) {
@@ -70,15 +54,26 @@ export default function Home(props) {
 			const response = await fetch("http://35.192.138.41/api/getCities").then(
 				(response) => response.json()
 			);
-			setCities(response);
-			console.log(response);
+			setCities(response)
+			setSelectedCity(response[0]);
+			console.log(response[0]);
+			const citiesP = response[0].polygon.map(function (row) {
+				return { latitude: row.lat, longitude: row.lng };
+			});
+			let centerPolygon = getCenterOfBounds(citiesP);
+			let centerPolygonLatLng = {
+				lat: centerPolygon.latitude,
+				lng: centerPolygon.longitude,
+			};
+			setCenterProp(centerPolygonLatLng);
+			await getZones(response[0]._id);
 		} catch (e) {
 			setMessage("Cities could not be fetched");
 			setToastOpen(true);
 		}
 	};
 
-	const getZones = async () => {
+	const getZones = async (cityId) => {
 		if (loading) {
 			return;
 		}
@@ -91,7 +86,7 @@ export default function Home(props) {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					id: selectedCity._id,
+					id: cityId,
 				}),
 			}).then((response) => response.json());
 			setZones(response);
@@ -103,10 +98,6 @@ export default function Home(props) {
 		setLoading(false);
 	};
 
-	React.useEffect(() => {
-		getZones();
-	}, [selectedCity]);
-
 	React.useEffect(async () => {
 		getCities();
 		if (remember) {
@@ -117,7 +108,6 @@ export default function Home(props) {
 	return (
 		<IonPage>
 			<Header isHome title="" />
-
 			<IonContent>
 				<IonMenu
 					side="end"
@@ -139,7 +129,7 @@ export default function Home(props) {
 						<IonList>
 							<IonItem>Pay for Parking</IonItem>
 							<IonItem>Pay for Infraction</IonItem>
-							<IonItem>History</IonItem>
+							<IonItem routerLink={'/history'}>History</IonItem>
 						</IonList>
 					</IonContent>
 					<IonItem
@@ -156,52 +146,20 @@ export default function Home(props) {
 					</IonItem>
 				</IonMenu>
 				<IonRouterOutlet id="menuContent"></IonRouterOutlet>
-				<IonGrid
-					style={{
-						display: "flex",
-						flexDirection: "column",
-						alignItems: "center",
-						backgroundColor: "#fff",
-					}}
-				>
-					<IonRow>
-						<Autocomplete
-							freeSolo
-							id="free-solo-2-demo"
-							disableClearable
-							options={cities}
-							getOptionLabel={(option) => option.city_name}
-							onChange={(event, newValue) => onSelectedCity(newValue)}
-							renderInput={(params) => (
-								<TextField
-									{...params}
-									sx={{ width: 300, backgroundColor: "#fff" }}
-									label="Search City"
-									variant="outlined"
-									fullWidth
-									size="small"
-									InputProps={{
-										...params.InputProps,
-										type: "search",
-									}}
-								/>
-							)}
-						/>
-					</IonRow>
-					<IonRow>
 						<Autocomplete
 							freeSolo
 							id="free-solo-2-demo"
 							disableClearable
 							options={zones}
+							style={{transform: 'translateY(-5%)'}}
 							getOptionLabel={(option) => option.zone_name}
 							onChange={(event, newValue) => onSelectedZone(newValue)}
 							renderInput={(params) => (
 								<TextField
 									{...params}
-									sx={{ width: 300, backgroundColor: "#fff" }}
+									sx={{ width: '100vw', backgroundColor: '#fff', height: '7.8vh' }}
 									label="Search Zone"
-									variant="outlined"
+									variant="filled"
 									fullWidth
 									size="small"
 									InputProps={{
@@ -211,8 +169,6 @@ export default function Home(props) {
 								/>
 							)}
 						/>
-					</IonRow>
-				</IonGrid>
 				<Map
 					center={centerProp}
 					city={selectedCity}

@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import TextField from "@mui/material/TextField";
 import {
 	IonButton,
 	IonCheckbox,
@@ -22,7 +21,7 @@ import { IonRouterLink } from "@ionic/react";
 import Toast from "../../../components/toast";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
 import { useHistory } from "react-router";
-import "./Login.css";
+
 import {
 	storeLocal,
 	retrieveLocal,
