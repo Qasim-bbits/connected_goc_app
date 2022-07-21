@@ -13,11 +13,22 @@ export default function SelectPlatesUtils() {
 	const [userId, setUserId] = user;
 
 	const [plates, setPlates] = React.useState([]);
+	const [inputPlate, setInputPlate] = React.useState({});
+	const [button, setButton] = React.useState("Add");
+	const [edit, setEdit] = React.useState({});
+
+	const [showModal, setShowModal] = React.useState(false);
 
 	React.useEffect(() => {
 		getPlates();
 		console.log(plates, "plates");
 	}, []);
+
+
+	const handleChange = (e) => {
+		setInputPlate({ ...inputPlate, [e.target.name]: e.target.value });
+	};
+
 	const getPlates = async (data) => {
 		if (loadingSkeleton) {
 			return;
@@ -38,49 +49,53 @@ export default function SelectPlatesUtils() {
 				}
 			);
 			result = await response.json();
+			setPlates(result);
 			console.log(result);
-			if (result.plate == "") {
-				bool = false;
-			} else {
-				bool = true;
-			}
 		} catch (e) {
 			setMessage(e.message);
 			setToastOpen(true)
 		}
 		setLoadingSkeleton(false);
-		if (!bool) {
-			setMessage("Plates Could Not be Fetched!");
-			setToastOpen(true)
-			return null;
-		} else {
-			setPlates(result);
-		}
 	};
-	const addPlates = async (data) => {
-		setAddLoading(true)
+
+	const addPlates = async (e) => {
+		console.log("input plate", inputPlate);
 		try {
-			const response = await fetch("http://35.192.138.41/api/addPlate/", {
-				method: "POST",
-				headers: {
-					Accept: "application/json",
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					plate: data,
-					user_id: userId,
-				}),
-			});
-			result = await response.json();
-			console.log(result);
-			if (result.plate) {
-				bool = false;
+			if (button === "Update") {
+				const response = await fetch("http://35.192.138.41/api/editPlate/", {
+					method: "POST",
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						plate: inputPlate["plate"],
+						id: edit._id,
+					}),
+				});
+				result = await response.json();
+			} else {
+				const response = await fetch("http://35.192.138.41/api/addPlate/", {
+					method: "POST",
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						plate: inputPlate["plate"],
+						user_id: userId,
+					}),
+				});
+				result = await response.json();
+				console.log(result);
 				setAddLoading(false)
 				setMessage('Plates added successfully')
 				setToastOpen(true)
-			} else {
-				bool = true;
 			}
+			getPlates();
+			setButton("Add");
+			inputPlate["plate"] = "";
+			setShowModal(false);
 		} catch (e) {
 			setMessage(e.message);
 			setToastOpen(true)
@@ -124,7 +139,7 @@ export default function SelectPlatesUtils() {
 			setToastOpen(true)
 			return null;
 		} else {
-			return result;
+			getPlates();
 		}
 	};
 
@@ -158,23 +173,34 @@ export default function SelectPlatesUtils() {
 			return null;
 		} else {
 			return result;
-		}
+		}}
+
+	const onEditPlate = (e) => {
+		console.log(e);
+		inputPlate["plate"] = e.plate;
+		setEdit(e);
+		setButton("Update");
 	};
 
 	return (
 		<SelectPlates
-			getPlates={getPlates}
 			plates={plates}
 			addLoading={addLoading}
 			setAddLoading={setAddLoading}
 			loading={loadingSkeleton}
 			setLoading={setLoadingSkeleton}
 			editPlates={editPlates}
-			delPlates={delPlates}
-			addPlates={addPlates}
 			message={message}
 			toastOpen={toastOpen}
 			setToastOpen={setToastOpen}
+			delPlates={(e) => delPlates(e)}
+			addPlates={(e) => addPlates(e)}
+			handleChange={(e) => handleChange(e)}
+			inputPlate={inputPlate}
+			onEditPlate={(e) => onEditPlate(e)}
+			button={button}
+			setShowModal={setShowModal}
+			showModal={showModal}
 		/>
 	);
 }

@@ -4,7 +4,6 @@ import {
 	carOutline,
 	trashOutline,
 	pencil,
-	createOutline,
 } from "ionicons/icons";
 import {
 	IonContent,
@@ -29,32 +28,9 @@ import Header from "../../../Common/header";
 import {Divider} from "@mui/material";
 import Toast from "../../../components/toast";
 
-let plateId, plateData;
-let bool;
-let result = false;
-
 export default function SelectPlates(props) {
-	const [showModalAdd, setShowModalAdd] = React.useState(false);
-	const [showModalEdit, setShowModalEdit] = React.useState(false);
-	const [inputPlateAdd, setInputPlateAdd] = React.useState(null);
-	const [inputPlateEdit, setInputPlateEdit] = React.useState(null);
-	// const [plates, setPlates] = React.useState([]);
 	const { plateName, user } = useContext(globalStateContext);
 	const [plate, setPlate] = plateName;
-	const [userId, setUserId] = user;
-
-	const handleAddPlate = (event) => {
-		setInputPlateAdd(event.target.value);
-
-		console.log("value is:", event.target.value);
-		console.log("PlateAdd:", inputPlateAdd);
-	};
-	const handleEditPlate = (event) => {
-		setInputPlateEdit(event.target.value);
-
-		console.log("value is:", event.target.value);
-		console.log("PlateEdit:", inputPlateEdit);
-	};
 
 	return (
 		<IonPage>
@@ -66,95 +42,37 @@ export default function SelectPlates(props) {
 				:(<IonContent>
 				<IonCol className="ion-text-center">
 					<IonModal
-						isOpen={showModalAdd}
+						isOpen={props.showModal}
 						cssClass="my-custom-class"
 						initialBreakpoint={-0.5}
-						// initialBreakpoint={0.25}
-						// breakpoints={[0.25, 0.5, 0.75]}
-						// backdropBreakpoint={0.5}
-						onDidDismiss={() => setShowModalAdd(false)}
+						onDidDismiss={() => props.setShowModal(false)}
 						id="modal"
 						class="modalBottom"
 					>
 						<IonContent className="ion-padding modalBottom">
+							{/* <form onSubmit={props.handleChange}> */}
 							<IonItem>
 								<IonLabel position="stacked">Enter Plate</IonLabel>
 								<IonInput
-									value={inputPlateAdd}
+									value={props.inputPlate["plate"]}
 									type="text"
 									placeholder="Plate"
-									onIonChange={handleAddPlate}
+									onIonChange={props.handleChange}
+									name="plate"
 								/>
 							</IonItem>
 
 							<IonButton
 								color="secondary"
 								onClick={() => {
-									setShowModalAdd(false);
-									// props.getPlates().then((data) => {
-									// 	setPlates(data);
-									// });
-									props.getPlates();
-									setInputPlateAdd(null);
+									props.setShowModal(false);
 								}}
 							>
 								Close
 							</IonButton>
 
-							<IonButton
-								onClick={() => {
-									props.addPlates(inputPlateAdd);
-									props.getPlates();
-									setShowModalAdd(false);
-									setInputPlateAdd(null);
-								}}
-							>
-								Confirm
-							</IonButton>
-						</IonContent>
-					</IonModal>
-
-					<IonModal
-						isOpen={showModalEdit}
-						cssClass="my-custom-class"
-						initialBreakpoint={-0.5}
-						// breakpoints={[0.25, 0.5, 0.75]}
-						// backdropBreakpoint={0.5}
-						onDidDismiss={() => setShowModalEdit(false)}
-						id="modal"
-					>
-						<IonContent className="ion-padding">
-							<IonItem>
-								<IonLabel position="stacked">Edit Plate</IonLabel>
-								<IonInput
-									value={inputPlateEdit}
-									type="text"
-									placeholder={plateData}
-									onIonChange={handleEditPlate}
-								/>
-							</IonItem>
-
-							<IonButton
-								color="secondary"
-								onClick={() => {
-									setShowModalEdit(false);
-									setInputPlateEdit(null);
-									props.getPlates();
-								}}
-							>
-								Close
-							</IonButton>
-
-							<IonButton
-								onClick={() => {
-									props.editPlates(inputPlateEdit, plateId);
-									props.getPlates();
-									setShowModalEdit(false);
-									setInputPlateEdit(null);
-								}}
-							>
-								Confirm
-							</IonButton>
+							<IonButton onClick={props.addPlates}>{props.button}</IonButton>
+							{/* </form> */}
 						</IonContent>
 					</IonModal>
 				</IonCol>
@@ -163,7 +81,7 @@ export default function SelectPlates(props) {
 					<IonButton
 						color="primary"
 						fill="solid"
-						onClick={() => setShowModalAdd(true)}
+						onClick={() => props.setShowModal(true)}
 					>
 						{props.addLoading ? <IonSpinner name="crescent" /> : `Add plate`}
 					</IonButton>
@@ -175,24 +93,26 @@ export default function SelectPlates(props) {
 							<IonCardContent>
 								<IonGrid>
 									<IonRow>
-										<IonCol size="3" style={{
-											borderRightStyle: 'solid',
-											marginLeft: '-10%',
-											borderWidth: '1px',
-											borderColor: '#727272'
-										}}>
+										<IonCol
+											size="3"
+											style={{
+												borderRightStyle: "solid",
+												marginLeft: "-10%",
+												borderWidth: "2px",
+												borderColor: "#727272",
+											}}
+										>
 											<IonItem
 												class="card-background-color"
 												button
 												onClick={() => {
-													plateId = el._id;
-													plateData = el.plate;
-													setShowModalEdit(true);
+													props.onEditPlate(el);
+													props.setShowModal(true);
 												}}
 												lines="none"
 												detail={false}
 											>
-												<IonIcon icon={pencil} slot="end" color="#000"/>
+												<IonIcon icon={pencil} slot="end" color="#000" />
 											</IonItem>
 											<Divider
 												variant='middle'
@@ -203,16 +123,11 @@ export default function SelectPlates(props) {
 												button
 												onClick={async () => {
 													await props.delPlates(el._id);
-													props.getPlates();
 												}}
 												lines="none"
 												detail={false}
 											>
-												<IonIcon
-													icon={trashOutline}
-													slot="end"
-													color="#000"
-												/>
+												<IonIcon icon={trashOutline} slot="end" color="#000" />
 											</IonItem>
 										</IonCol>
 										<IonCol className="ion-align-self-center">

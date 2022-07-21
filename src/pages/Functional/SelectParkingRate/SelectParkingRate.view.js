@@ -7,8 +7,10 @@ import {
 	IonCard,
 	IonCardContent,
 	IonSkeletonText,
+	IonIcon,
+	IonText,
 } from "@ionic/react";
-import {globalStateContext} from "../../../context/GlobalStateProvider";
+import { globalStateContext } from "../../../context/GlobalStateProvider";
 import Header from "../../../Common/header";
 import Toast from "../../../components/toast";
 
@@ -33,15 +35,22 @@ export default function SelectParkingRate(props) {
 	return (
 		<IonPage>
 			<Header
-				title='Select Parking Rate'
+				title="Select Parking Rate"
 				isHome={false}
-				backLink='/selectPlate'
+				backLink="/selectPlate"
 			/>
 			{props.loading ?
 				<>
 					<IonSkeletonText animated style={{display: 'flex', width: '90%', height: '80%', margin: '10% auto'}}/>
 				</>
-				:(<IonContent>
+				:
+				props.parkingPurchased ? (
+					<IonContent style={{ display: "flex" }}>
+						<IonItem>
+							<IonText>{props.message}</IonText>
+						</IonItem>
+					</IonContent>
+				) : (<IonContent>
 				{rates.map((el) => (
 					<IonCard class="card-background-color">
 						<IonCardContent>

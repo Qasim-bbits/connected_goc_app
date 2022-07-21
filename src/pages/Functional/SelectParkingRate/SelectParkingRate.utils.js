@@ -11,6 +11,9 @@ export default function SelectParkingRateUtils() {
 	const { zone, plateName } = useContext(globalStateContext);
 	const [zoneId, setZoneId] = zone;
 	const [plate, setPlate] = plateName;
+	const [parkingMessage, setParkingMessage] = React.useState("");
+	const [parkingPurchased, setParkingPurchased] = useState(false);
+
 	const getRates = async (data) => {
 		if (loading) {
 			return;
@@ -30,7 +33,7 @@ export default function SelectParkingRateUtils() {
 			});
 			result = await response.json();
 			console.log(result);
-			if (result.plate == "") {
+			if (result.success == false) {
 				bool = false;
 			} else {
 				bool = true;
@@ -41,8 +44,12 @@ export default function SelectParkingRateUtils() {
 		}
 		setLoading(false);
 		if (!bool) {
-			setMessage("Rates Could Not be Fetched!");
-			setToastOpen(true)
+			if (result.msg) {
+				setParkingMessage(result.msg);
+				setParkingPurchased(true);
+			} else {
+				alert("Rates Could Not be Fetched!");
+			}
 			return null;
 		} else {
 			return result;
@@ -55,5 +62,7 @@ export default function SelectParkingRateUtils() {
 		message={message}
 		toastOpen={toastOpen}
 		setToastOpen={setToastOpen}
+		parkingPurchased={parkingPurchased}
 	/>;
+
 }
