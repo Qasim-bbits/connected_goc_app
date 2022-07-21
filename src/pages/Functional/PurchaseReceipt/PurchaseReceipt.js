@@ -107,7 +107,7 @@ export default function PurchaseReceipt(props) {
           <IonItem>
             <IonImg src={Location} slot='start' style={{width: '15%', height: '15%'}}/>
             <IonLabel>
-              Town Centre, Canmore, Alberta
+              Town Centre, Otawa, Canada
             </IonLabel>
           </IonItem>
             <IonItem>
