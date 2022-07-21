@@ -26,11 +26,11 @@ import {
 } from "@ionic/react";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
 import Header from "../../../Common/header";
-import {Divider} from "@mui/material";
+import { Divider } from "@mui/material";
 
-let plateId, plateData;
-let bool;
-let result = false;
+// let plateId, plateData;
+// let bool;
+// let result = false;
 
 export default function SelectPlates(props) {
 	const { plateName, user } = useContext(globalStateContext);
@@ -102,7 +102,15 @@ export default function SelectPlates(props) {
 							<IonCardContent>
 								<IonGrid>
 									<IonRow>
-										<IonCol size="3" style={{borderRightStyle: 'solid', marginLeft: '-10%', borderWidth: '2px', borderColor: '#727272'}}>
+										<IonCol
+											size="3"
+											style={{
+												borderRightStyle: "solid",
+												marginLeft: "-10%",
+												borderWidth: "2px",
+												borderColor: "#727272",
+											}}
+										>
 											<IonItem
 												class="card-background-color"
 												button
@@ -113,11 +121,15 @@ export default function SelectPlates(props) {
 												lines="none"
 												detail={false}
 											>
-												<IonIcon icon={pencil} slot="end" color="#000"/>
+												<IonIcon icon={pencil} slot="end" color="#000" />
 											</IonItem>
 											<Divider
-												variant='middle'
-												sx={{width: '80%', backgroundColor: '#727272', borderBottomWidth: '1px'}}
+												variant="middle"
+												sx={{
+													width: "80%",
+													backgroundColor: "#727272",
+													borderBottomWidth: "1px",
+												}}
 											/>
 											<IonItem
 												class="card-background-color"
@@ -128,11 +140,7 @@ export default function SelectPlates(props) {
 												lines="none"
 												detail={false}
 											>
-												<IonIcon
-													icon={trashOutline}
-													slot="end"
-													color="#000"
-												/>
+												<IonIcon icon={trashOutline} slot="end" color="#000" />
 											</IonItem>
 										</IonCol>
 										<IonCol className="ion-align-self-center">
