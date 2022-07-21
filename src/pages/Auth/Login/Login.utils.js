@@ -56,6 +56,8 @@ export default function LoginUtils() {
 				bool = true;
 				setUserId(result.result._id);
 				setEmail(result.result.email);
+				setMessage('Signed in successfully')
+				setToastOpen(true)
 			}
 		} catch (e) {
 			alert("Oops", e.message);
@@ -74,7 +76,7 @@ export default function LoginUtils() {
 			handleSubmit={(e) => handleSubmit(e)}
 			message={message}
 			setToastOpen={setToastOpen}
-			toastOpen
+			toastOpen={toastOpen}
 		/>
 	);
 }

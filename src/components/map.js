@@ -2,13 +2,13 @@ import React, { useContext } from "react";
 import "../assets/styles/home.css";
 import Box from "@mui/material/Box";
 import { GoogleMap, useJsApiLoader, Polygon } from "@react-google-maps/api";
-import { IonButton } from "@ionic/react";
+import {IonButton, IonSpinner} from "@ionic/react";
 import { isPointInPolygon } from "geolib";
 import { globalStateContext } from "../context/GlobalStateProvider";
 
 const containerStyle = {
 	width: "100%",
-	height: "85%",
+	height: "91%",
 	transform: 'translateY(-1%)'
 };
 
@@ -46,12 +46,6 @@ export default function Map(props) {
 	const onLoad = (map) => {
 		setMap(map);
 	};
-
-	// const onLoad = React.useCallback(function callback(map) {
-	// 	const bounds = new window.google.maps.LatLngBounds(mapCenter);
-	// 	map.fitBounds(bounds);
-	// 	setMap(map);
-	// }, []);
 
 	const setContext = () => {
 		setCityId(props.city._id);
@@ -120,17 +114,17 @@ export default function Map(props) {
 					</div>
 
 					<Box
-						style={{
-							marginTop: 450,
-							alignItems: "center",
-							textAlign: "center",
+						sx={{
+							display: 'flex',
+							height: '100%',
+							flexDirection: 'column',
+							justifyContent: 'flex-end',
+							paddingBottom: '20%',
 						}}
 					>
 						<IonButton
 							type="submit"
 							style={{
-								marginTop: 7,
-								marginBottom: 10,
 								borderRadius: 30,
 								padding: 2,
 								width: 200,
@@ -175,5 +169,8 @@ export default function Map(props) {
 		);
 	};
 
-	return isLoaded ? renderMap() : <></>;
+	return isLoaded ? renderMap() :
+		<div style={{display: 'flex', margin: 'auto'}}>
+			<IonSpinner name="crescent" />
+		</div>;
 }

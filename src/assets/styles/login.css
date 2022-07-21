@@ -10,3 +10,8 @@
     --inner-padding-end: none;
     --inner-border-width: 0;
 }
+.submit-enter {
+    position: absolute;
+    visibility: hidden;
+    left: -1000px;
+}

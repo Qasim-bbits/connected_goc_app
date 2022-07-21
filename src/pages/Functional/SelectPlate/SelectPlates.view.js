@@ -7,14 +7,9 @@ import {
 	createOutline,
 } from "ionicons/icons";
 import {
-	IonBackButton,
-	IonHeader,
-	IonToolbar,
-	IonTitle,
 	IonContent,
 	IonList,
 	IonItem,
-	IonButtons,
 	IonPage,
 	IonButton,
 	IonModal,
@@ -28,24 +23,14 @@ import {
 	IonRow,
 	IonCol,
 	IonListHeader,
-	IonItemGroup,
 } from "@ionic/react";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
 import Header from "../../../Common/header";
+import {Divider} from "@mui/material";
 
 let plateId, plateData;
 let bool;
 let result = false;
-const platesTest = [
-	{
-		id: 1,
-		number: 3322,
-	},
-	{
-		id: 2,
-		number: 4522,
-	},
-];
 
 export default function SelectPlates(props) {
 	const { plateName, user } = useContext(globalStateContext);
@@ -117,7 +102,7 @@ export default function SelectPlates(props) {
 							<IonCardContent>
 								<IonGrid>
 									<IonRow>
-										<IonCol size="4">
+										<IonCol size="3" style={{borderRightStyle: 'solid', marginLeft: '-10%', borderWidth: '2px', borderColor: '#727272'}}>
 											<IonItem
 												class="card-background-color"
 												button
@@ -128,8 +113,12 @@ export default function SelectPlates(props) {
 												lines="none"
 												detail={false}
 											>
-												<IonIcon icon={pencil} slot="start" color="#000" />
+												<IonIcon icon={pencil} slot="end" color="#000"/>
 											</IonItem>
+											<Divider
+												variant='middle'
+												sx={{width: '80%', backgroundColor: '#727272', borderBottomWidth: '1px'}}
+											/>
 											<IonItem
 												class="card-background-color"
 												button
@@ -141,7 +130,7 @@ export default function SelectPlates(props) {
 											>
 												<IonIcon
 													icon={trashOutline}
-													slot="start"
+													slot="end"
 													color="#000"
 												/>
 											</IonItem>

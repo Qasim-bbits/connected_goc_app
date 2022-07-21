@@ -87,14 +87,22 @@ export default function SelectTariff(props) {
 							</IonCard>
 							<Divider sx={{width: '80%'}}/>
 							<div className='tax-info'>
-								<IonText style={{color: 'primary.main'}}>
+								<IonText>
 									Total (incl. 5% GST):
 								</IonText>
-								<IonText style={{color: 'primary.main'}}>
+								<IonText>
 									CA${(stepData?.[step]?.rate / 100).toFixed(2)}
 								</IonText>
 							</div>
-							<IonContent style={{height: '70vh'}}>
+							<div className='tax-info'>
+								<IonText>
+									Service Fee
+								</IonText>
+								<IonText>
+									CA${(stepData?.[step].service_fee/100).toFixed(2)}
+								</IonText>
+							</div>
+							<IonContent style={{height: '80vh'}}>
 								<div className='rate-cycle-text'>
 									<IonText align='center'>
 										<h5>
@@ -103,7 +111,7 @@ export default function SelectTariff(props) {
 									</IonText>
 									<IonText align='center'>
 										<h5>
-											CA${(stepData?.[step]?.rate / 100).toFixed(2)}
+											CA${(stepData?.[step]?.total / 100).toFixed(2)}
 										</h5>
 									</IonText>
 								</div>
@@ -118,12 +126,13 @@ export default function SelectTariff(props) {
 								</div>
 								<div className='payment-button'>
 									<PaymentForm
-										amount={stepData?.[step]?.rate / 100}
+										amount={stepData?.[step]?.total / 100}
 										user={userId}
 										city={cityId}
 										zone={zoneId}
 										currentCoordinates={coord}
 										plate={plate}
+										serviceFee={stepData?.[step]?.service_fee}
 										to={stepData?.[step]?.time_desc}
 										from={stepData?.[step]?.current_time}
 										stepData={setStepData?.[step]}
