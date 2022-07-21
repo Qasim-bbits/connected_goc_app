@@ -170,7 +170,7 @@ export default function Map(props) {
 	};
 
 	return isLoaded ? renderMap() :
-		<div style={{display: 'flex', margin: 'auto'}}>
+		<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
 			<IonSpinner name="crescent" />
 		</div>;
 }

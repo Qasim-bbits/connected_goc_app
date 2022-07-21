@@ -1,11 +1,14 @@
-import React, { useState, useContext } from "react";
+import React, {useContext, useState} from "react";
 import SelectPlates from "./SelectPlates.view";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
 
 let bool;
 let result = false;
 export default function SelectPlatesUtils() {
-	const [loading, setLoading] = React.useState(false);
+	const [loadingSkeleton, setLoadingSkeleton] = React.useState(false);
+	const [addLoading, setAddLoading] = React.useState(false)
+	const [toastOpen, setToastOpen] = useState(false);
+	const [message, setMessage] = useState("");
 	const { user } = useContext(globalStateContext);
 	const [userId, setUserId] = user;
 
@@ -16,10 +19,10 @@ export default function SelectPlatesUtils() {
 		console.log(plates, "plates");
 	}, []);
 	const getPlates = async (data) => {
-		if (loading) {
+		if (loadingSkeleton) {
 			return;
 		}
-		setLoading(true);
+		setLoadingSkeleton(true);
 		try {
 			const response = await fetch(
 				"http://35.192.138.41/api/getPlatesByUser/",
@@ -42,18 +45,20 @@ export default function SelectPlatesUtils() {
 				bool = true;
 			}
 		} catch (e) {
-			alert("Oops", e.message);
+			setMessage(e.message);
+			setToastOpen(true)
 		}
-		setLoading(false);
+		setLoadingSkeleton(false);
 		if (!bool) {
-			alert("Plates Could Not be Fetched!");
+			setMessage("Plates Could Not be Fetched!");
+			setToastOpen(true)
 			return null;
 		} else {
-			// return result;
 			setPlates(result);
 		}
 	};
 	const addPlates = async (data) => {
+		setAddLoading(true)
 		try {
 			const response = await fetch("http://35.192.138.41/api/addPlate/", {
 				method: "POST",
@@ -68,16 +73,21 @@ export default function SelectPlatesUtils() {
 			});
 			result = await response.json();
 			console.log(result);
-			if (result.plate == "") {
+			if (result.plate) {
 				bool = false;
+				setAddLoading(false)
+				setMessage('Plates added successfully')
+				setToastOpen(true)
 			} else {
 				bool = true;
 			}
 		} catch (e) {
-			alert("Oops", e.message);
+			setMessage(e.message);
+			setToastOpen(true)
 		}
 		if (!bool) {
-			alert("Plates Could Not Be Added!");
+			setMessage("Plate Could Not Be Added!");
+			setToastOpen(true)
 			return null;
 		} else {
 			return result;
@@ -98,16 +108,20 @@ export default function SelectPlatesUtils() {
 			});
 			result = await response.json();
 			console.log(result);
-			if (result.deletedCount == 0) {
+			if (result.deletedCount === 0) {
 				bool = false;
+				setMessage("Plate deleted successfully")
+				setToastOpen(true)
 			} else {
 				bool = true;
 			}
 		} catch (e) {
-			alert("Oops", e.message);
+			setMessage(e.message);
+			setToastOpen(true)
 		}
 		if (!bool) {
-			alert("Plates Could Not Be Deleted!");
+			setMessage("Plates Could Not Be Deleted!");
+			setToastOpen(true)
 			return null;
 		} else {
 			return result;
@@ -129,16 +143,18 @@ export default function SelectPlatesUtils() {
 			});
 			result = await response.json();
 			console.log(result);
-			if (result.plate == "") {
+			if (result.plate) {
 				bool = false;
 			} else {
 				bool = true;
 			}
 		} catch (e) {
-			alert("Oops", e.message);
+			setMessage(e.message);
+			setToastOpen(true)
 		}
 		if (!bool) {
-			alert("Plates Could Not Be Edited!");
+			setMessage("Plates Could Not Be Edited!");
+			setToastOpen(true)
 			return null;
 		} else {
 			return result;
@@ -149,9 +165,16 @@ export default function SelectPlatesUtils() {
 		<SelectPlates
 			getPlates={getPlates}
 			plates={plates}
+			addLoading={addLoading}
+			setAddLoading={setAddLoading}
+			loading={loadingSkeleton}
+			setLoading={setLoadingSkeleton}
 			editPlates={editPlates}
 			delPlates={delPlates}
 			addPlates={addPlates}
+			message={message}
+			toastOpen={toastOpen}
+			setToastOpen={setToastOpen}
 		/>
 	);
 }

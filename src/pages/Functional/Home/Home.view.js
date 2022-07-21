@@ -20,7 +20,7 @@ import { Autocomplete, TextField } from "@mui/material";
 import Toast from "../../../components/toast";
 import { useHistory } from "react-router";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
-import { storeLocal, deleteLocal } from "../../../localStorage/saveLocal";
+import {storeLocal, deleteLocal, retrieveLocal} from "../../../localStorage/saveLocal";
 
 export default function Home(props) {
 	const { rememberMe } = useContext(globalStateContext);
@@ -48,6 +48,14 @@ export default function Home(props) {
 		};
 		setCenterProp(centerPolygonLatLng);
 	};
+
+	React.useEffect(async () => {
+		if (await retrieveLocal("userId")) {
+			history.push("/home");
+		} else {
+			history.push("/login");
+		}
+	}, []);
 
 	const getCities = async () => {
 		try {
@@ -150,14 +158,15 @@ export default function Home(props) {
 							freeSolo
 							id="free-solo-2-demo"
 							disableClearable
+							blurOnSelect={true}
 							options={zones}
-							style={{transform: 'translateY(-5%)'}}
+							style={{transform: 'translateY(-8%)', height: '50px'}}
 							getOptionLabel={(option) => option.zone_name}
 							onChange={(event, newValue) => onSelectedZone(newValue)}
 							renderInput={(params) => (
 								<TextField
 									{...params}
-									sx={{ width: '100vw', backgroundColor: '#fff', height: '7.8vh' }}
+									sx={{ width: '100vw', backgroundColor: '#fff'}}
 									label="Search Zone"
 									variant="filled"
 									fullWidth

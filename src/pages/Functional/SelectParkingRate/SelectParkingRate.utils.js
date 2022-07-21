@@ -6,6 +6,8 @@ let bool;
 let result = false;
 export default function SelectParkingRateUtils() {
 	const [loading, setLoading] = React.useState(false);
+	const [toastOpen, setToastOpen] = useState(false);
+	const [message, setMessage] = useState("");
 	const { zone, plateName } = useContext(globalStateContext);
 	const [zoneId, setZoneId] = zone;
 	const [plate, setPlate] = plateName;
@@ -34,15 +36,24 @@ export default function SelectParkingRateUtils() {
 				bool = true;
 			}
 		} catch (e) {
-			alert("Oops", e.message);
+			setMessage(e.message);
+			setToastOpen(true)
 		}
 		setLoading(false);
 		if (!bool) {
-			alert("Rates Could Not be Fetched!");
+			setMessage("Rates Could Not be Fetched!");
+			setToastOpen(true)
 			return null;
 		} else {
 			return result;
 		}
 	};
-	return <SelectParkingRate fetchRates={getRates} />;
+	return <SelectParkingRate
+		fetchRates={getRates}
+		loading={loading}
+		setLoading={setLoading}
+		message={message}
+		toastOpen={toastOpen}
+		setToastOpen={setToastOpen}
+	/>;
 }

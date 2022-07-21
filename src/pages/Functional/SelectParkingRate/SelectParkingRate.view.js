@@ -1,21 +1,16 @@
 import React, { useContext } from "react";
 import "../../../assets/styles/selectparkingrate.css";
-import { wifi } from "ionicons/icons";
 import {
-	IonBackButton,
-	IonHeader,
-	IonToolbar,
-	IonTitle,
 	IonContent,
 	IonItem,
-	IonButtons,
 	IonPage,
 	IonCard,
 	IonCardContent,
-	IonIcon,
+	IonSkeletonText,
 } from "@ionic/react";
 import {globalStateContext} from "../../../context/GlobalStateProvider";
 import Header from "../../../Common/header";
+import Toast from "../../../components/toast";
 
 export default function SelectParkingRate(props) {
 	const [rates, setRates] = React.useState([]);
@@ -42,14 +37,20 @@ export default function SelectParkingRate(props) {
 				isHome={false}
 				backLink='/selectPlate'
 			/>
-			<IonContent>
+			{props.loading ?
+				<>
+					<IonSkeletonText animated style={{display: 'flex', width: '90%', height: '80%', margin: '10% auto'}}/>
+				</>
+				:(<IonContent>
 				{rates.map((el) => (
 					<IonCard class="card-background-color">
 						<IonCardContent>
 							<IonItem
 								class="card-background-color"
 								button
-								onClick={() => {setRateData(el)}}
+								onClick={() => {
+									setRateData(el)
+								}}
 								routerLink={"/selectTariff"}
 							>
 								<img
@@ -62,7 +63,12 @@ export default function SelectParkingRate(props) {
 						</IonCardContent>
 					</IonCard>
 				))}
-			</IonContent>
+					<Toast
+						message={props.message}
+						toastOpen={props.toastOpen}
+						setToastOpen={props.setToastOpen}
+						/>
+			</IonContent>)}
 		</IonPage>
 	);
 }

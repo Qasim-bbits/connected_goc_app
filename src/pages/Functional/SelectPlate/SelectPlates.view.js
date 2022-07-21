@@ -22,11 +22,12 @@ import {
 	IonGrid,
 	IonRow,
 	IonCol,
-	IonListHeader,
+	IonListHeader, IonSkeletonText, IonSpinner,
 } from "@ionic/react";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
 import Header from "../../../Common/header";
 import {Divider} from "@mui/material";
+import Toast from "../../../components/toast";
 
 let plateId, plateData;
 let bool;
@@ -55,113 +56,14 @@ export default function SelectPlates(props) {
 		console.log("PlateEdit:", inputPlateEdit);
 	};
 
-	// const addPlates = async (data) => {
-	// 	try {
-	// 		const response = await fetch("http://35.192.138.41/api/addPlate/", {
-	// 			method: "POST",
-	// 			headers: {
-	// 				Accept: "application/json",
-	// 				"Content-Type": "application/json",
-	// 			},
-	// 			body: JSON.stringify({
-	// 				plate: data,
-	// 				user_id: userId,
-	// 			}),
-	// 		});
-	// 		result = await response.json();
-	// 		console.log(result);
-	// 		if (result.plate == "") {
-	// 			bool = false;
-	// 		} else {
-	// 			bool = true;
-	// 		}
-	// 	} catch (e) {
-	// 		alert("Oops", e.message);
-	// 	}
-	// 	if (!bool) {
-	// 		alert("Plates Could Not Be Added!");
-	// 		return null;
-	// 	} else {
-	// 		return result;
-	// 	}
-	// };
-
-	// const delPlates = async (data) => {
-	// 	try {
-	// 		const response = await fetch("http://35.192.138.41/api/delPlate/", {
-	// 			method: "POST",
-	// 			headers: {
-	// 				Accept: "application/json",
-	// 				"Content-Type": "application/json",
-	// 			},
-	// 			body: JSON.stringify({
-	// 				id: data,
-	// 			}),
-	// 		});
-	// 		result = await response.json();
-	// 		console.log(result);
-	// 		if (result.deletedCount == 0) {
-	// 			bool = false;
-	// 		} else {
-	// 			bool = true;
-	// 		}
-	// 	} catch (e) {
-	// 		alert("Oops", e.message);
-	// 	}
-	// 	if (!bool) {
-	// 		alert("Plates Could Not Be Deleted!");
-	// 		return null;
-	// 	} else {
-	// 		return result;
-	// 	}
-	// };
-
-	// const editPlates = async (data) => {
-	// 	try {
-	// 		const response = await fetch("http://35.192.138.41/api/editPlate/", {
-	// 			method: "POST",
-	// 			headers: {
-	// 				Accept: "application/json",
-	// 				"Content-Type": "application/json",
-	// 			},
-	// 			body: JSON.stringify({
-	// 				plate: inputPlateEdit,
-	// 				id: data,
-	// 			}),
-	// 		});
-	// 		result = await response.json();
-	// 		console.log(result);
-	// 		if (result.plate == "") {
-	// 			bool = false;
-	// 		} else {
-	// 			bool = true;
-	// 		}
-	// 	} catch (e) {
-	// 		alert("Oops", e.message);
-	// 	}
-	// 	if (!bool) {
-	// 		alert("Plates Could Not Be Edited!");
-	// 		return null;
-	// 	} else {
-	// 		return result;
-	// 	}
-	// };
-
-	// React.useEffect(() => {
-	// 	let isMounted = true;
-	// 	props.getPlates().then((data) => {
-	// 		if (isMounted) setPlates(data);
-	// 	});
-	// 	console.log(plates, "plates");
-	// 	return () => {
-	// 		isMounted = false;
-	// 	};
-	// }, []);
-
 	return (
 		<IonPage>
 			<Header title="Select Plate" isHome={false} backLink="/home" />
-			<IonContent>
+			{props.loading ?
+				<>
+					<IonSkeletonText animated style={{display: 'flex', width: '90%', height: '80%', margin: '10% auto'}}/>
+				</>
+				:(<IonContent>
 				<IonCol className="ion-text-center">
 					<IonModal
 						isOpen={showModalAdd}
@@ -263,7 +165,7 @@ export default function SelectPlates(props) {
 						fill="solid"
 						onClick={() => setShowModalAdd(true)}
 					>
-						Add plate
+						{props.addLoading ? <IonSpinner name="crescent" /> : `Add plate`}
 					</IonButton>
 				</IonListHeader>
 
@@ -273,7 +175,12 @@ export default function SelectPlates(props) {
 							<IonCardContent>
 								<IonGrid>
 									<IonRow>
-										<IonCol size="3" style={{borderRightStyle: 'solid', marginLeft: '-10%', borderWidth: '2px', borderColor: '#727272'}}>
+										<IonCol size="3" style={{
+											borderRightStyle: 'solid',
+											marginLeft: '-10%',
+											borderWidth: '1px',
+											borderColor: '#727272'
+										}}>
 											<IonItem
 												class="card-background-color"
 												button
@@ -289,7 +196,7 @@ export default function SelectPlates(props) {
 											</IonItem>
 											<Divider
 												variant='middle'
-												sx={{width: '80%', backgroundColor: '#727272', borderBottomWidth: '1px'}}
+												sx={{width: '80%', backgroundColor: '#727272', borderBottomWidth: '0.5px'}}
 											/>
 											<IonItem
 												class="card-background-color"
@@ -320,7 +227,7 @@ export default function SelectPlates(props) {
 												detail={false}
 											>
 												<IonText>{el.plate}</IonText>
-												<IonIcon icon={carOutline} slot="end" color="#000" />
+												<IonIcon icon={carOutline} slot="end" color="#000"/>
 											</IonItem>
 										</IonCol>
 									</IonRow>
@@ -329,7 +236,12 @@ export default function SelectPlates(props) {
 						</IonCard>
 					))}
 				</IonList>
-			</IonContent>
+			</IonContent>)}
+			<Toast
+				message={props.message}
+				toastOpen={props.toastOpen}
+				setToastOpen={props.setToastOpen}
+			/>
 		</IonPage>
 	);
 }

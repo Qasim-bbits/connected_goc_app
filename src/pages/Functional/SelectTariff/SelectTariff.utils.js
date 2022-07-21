@@ -11,6 +11,8 @@ export default function SelectTariffUtils() {
     const [rateData, setRateData] = rate;
     const [parkingUnavailable, setParkingUnavailable] = useState(false);
     const [message, setMessage] = useState("");
+    const [toastOpen, setToastOpen] = useState(false);
+    const [toastMessage, setToastMessage] = useState("");
 
     const getSteps = async (data) => {
         if (loading) {
@@ -47,7 +49,8 @@ export default function SelectTariffUtils() {
                 setMessage(result.msg)
                 setParkingUnavailable(true)
             } else {
-                alert("Steps Could Not be Fetched!");
+                setToastMessage("Steps Could Not be Fetched!");
+                setToastOpen(true)
             }
             return null;
         } else {
@@ -57,6 +60,9 @@ export default function SelectTariffUtils() {
     return <SelectTariff
       fetchSteps={getSteps}
       message={message}
+      toastMessage={toastMessage}
+      toastOpen={toastOpen}
+      setToastOpen={setToastOpen}
       parkingUnavailable={parkingUnavailable}
     />;
 }

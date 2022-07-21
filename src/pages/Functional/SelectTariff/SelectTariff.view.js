@@ -2,12 +2,7 @@ import React, { useContext, useState } from "react";
 import { CircleSlider } from "react-circle-slider";
 import "../../../assets/styles/SelectTariff.css";
 import {
-	IonBackButton,
-	IonHeader,
-	IonToolbar,
-	IonTitle,
 	IonContent,
-	IonButtons,
 	IonPage,
 	IonCard,
 	IonText,
@@ -18,6 +13,7 @@ import { Divider } from "@mui/material";
 import PaymentForm from "./Payment/PaymentForm";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
 import Header from "../../../Common/header";
+import Toast from "../../../components/toast";
 let moment = require('moment-timezone');
 
 export default function SelectTariff(props) {
@@ -142,6 +138,11 @@ export default function SelectTariff(props) {
 						</IonContent>) :
 						<IonSkeletonText animated style={{width: '60%'}}/>
 				)}
+			<Toast
+				message={props.toastMessage}
+				toastOpen={props.toastOpen}
+				setToastOpen={props.setToastOpen}
+			/>
 		</IonPage>
 	);
 }

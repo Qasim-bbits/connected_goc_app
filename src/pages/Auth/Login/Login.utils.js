@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import LoginView from "./Login.view";
 import { useHistory } from "react-router";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
-import { retrieveLocal } from "../../../localStorage/saveLocal";
+import {retrieveLocal, storeLocal} from "../../../localStorage/saveLocal";
 
 let bool;
 let result = false;
@@ -17,7 +17,7 @@ export default function LoginUtils() {
 	const history = useHistory();
 
 	React.useEffect(async () => {
-		if ((await retrieveLocal("remember")) == "true") {
+		if ((await retrieveLocal("remember")) === "true") {
 			history.push("/home");
 		}
 	}, []);
@@ -58,6 +58,7 @@ export default function LoginUtils() {
 				setEmail(result.result.email);
 				setMessage('Signed in successfully')
 				setToastOpen(true)
+				storeLocal("userId", result.result._id)
 			}
 		} catch (e) {
 			alert("Oops", e.message);
