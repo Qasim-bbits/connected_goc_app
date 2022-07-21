@@ -10,15 +10,22 @@ export default function SelectPlatesUtils() {
 	const [userId, setUserId] = user;
 
 	const [plates, setPlates] = React.useState([]);
+	const [inputPlate, setInputPlate] = React.useState({});
+	const [button, setButton] = React.useState("Add");
+	const [edit, setEdit] = React.useState({});
+
+	const [showModal, setShowModal] = React.useState(false);
 
 	React.useEffect(() => {
 		getPlates();
 		console.log(plates, "plates");
 	}, []);
-	const getPlates = async (data) => {
-		if (loading) {
-			return;
-		}
+
+	const handleChange = (e) => {
+		setInputPlate({ ...inputPlate, [e.target.name]: e.target.value });
+	};
+
+	const getPlates = async () => {
 		setLoading(true);
 		try {
 			const response = await fetch(
@@ -31,57 +38,54 @@ export default function SelectPlatesUtils() {
 					},
 					body: JSON.stringify({
 						id: userId,
-						// id: "62d020100b3d07ce4bf73c09",
 					}),
 				}
 			);
 			result = await response.json();
+			setPlates(result);
 			console.log(result);
-			if (result.plate == "") {
-				bool = false;
-			} else {
-				bool = true;
-			}
 		} catch (e) {
 			alert("Oops", e.message);
 		}
 		setLoading(false);
-		if (!bool) {
-			alert("Plates Could Not be Fetched!");
-			return null;
-		} else {
-			// return result;
-			setPlates(result);
-		}
 	};
-	const addPlates = async (data) => {
+	const addPlates = async (e) => {
+		console.log("input plate", inputPlate);
 		try {
-			const response = await fetch("http://35.192.138.41/api/addPlate/", {
-				method: "POST",
-				headers: {
-					Accept: "application/json",
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					plate: data,
-					user_id: userId,
-				}),
-			});
-			result = await response.json();
-			console.log(result);
-			if (result.plate == "") {
-				bool = false;
+			if (button === "Update") {
+				const response = await fetch("http://35.192.138.41/api/editPlate/", {
+					method: "POST",
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						plate: inputPlate["plate"],
+						id: edit._id,
+					}),
+				});
+				result = await response.json();
 			} else {
-				bool = true;
+				const response = await fetch("http://35.192.138.41/api/addPlate/", {
+					method: "POST",
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						plate: inputPlate["plate"],
+						user_id: userId,
+					}),
+				});
+				result = await response.json();
+				console.log(result);
 			}
+			getPlates();
+			setButton("Add");
+			inputPlate["plate"] = "";
+			setShowModal(false);
 		} catch (e) {
 			alert("Oops", e.message);
-		}
-		if (!bool) {
-			alert("Plates Could Not Be Added!");
-			return null;
-		} else {
-			return result;
 		}
 	};
 
@@ -109,50 +113,29 @@ export default function SelectPlatesUtils() {
 		}
 		if (!bool) {
 			alert("Plates Could Not Be Deleted!");
-			return null;
 		} else {
-			return result;
+			getPlates();
 		}
 	};
 
-	const editPlates = async (...data) => {
-		try {
-			const response = await fetch("http://35.192.138.41/api/editPlate/", {
-				method: "POST",
-				headers: {
-					Accept: "application/json",
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					plate: data[0],
-					id: data[1],
-				}),
-			});
-			result = await response.json();
-			console.log(result);
-			if (result.plate == "") {
-				bool = false;
-			} else {
-				bool = true;
-			}
-		} catch (e) {
-			alert("Oops", e.message);
-		}
-		if (!bool) {
-			alert("Plates Could Not Be Edited!");
-			return null;
-		} else {
-			return result;
-		}
+	const onEditPlate = (e) => {
+		console.log(e);
+		inputPlate["plate"] = e.plate;
+		setEdit(e);
+		setButton("Update");
 	};
 
 	return (
 		<SelectPlates
-			getPlates={getPlates}
 			plates={plates}
-			editPlates={editPlates}
-			delPlates={delPlates}
-			addPlates={addPlates}
+			delPlates={(e) => delPlates(e)}
+			addPlates={(e) => addPlates(e)}
+			handleChange={(e) => handleChange(e)}
+			inputPlate={inputPlate}
+			onEditPlate={(e) => onEditPlate(e)}
+			button={button}
+			setShowModal={setShowModal}
+			showModal={showModal}
 		/>
 	);
 }

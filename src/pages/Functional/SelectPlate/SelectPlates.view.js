@@ -48,130 +48,9 @@ const platesTest = [
 ];
 
 export default function SelectPlates(props) {
-	const [showModalAdd, setShowModalAdd] = React.useState(false);
-	const [showModalEdit, setShowModalEdit] = React.useState(false);
-	const [inputPlateAdd, setInputPlateAdd] = React.useState(null);
-	const [inputPlateEdit, setInputPlateEdit] = React.useState(null);
-	// const [plates, setPlates] = React.useState([]);
 	const { plateName, user } = useContext(globalStateContext);
 	const [plate, setPlate] = plateName;
 	const [userId, setUserId] = user;
-
-	const handleAddPlate = (event) => {
-		setInputPlateAdd(event.target.value);
-
-		console.log("value is:", event.target.value);
-		console.log("PlateAdd:", inputPlateAdd);
-	};
-	const handleEditPlate = (event) => {
-		setInputPlateEdit(event.target.value);
-
-		console.log("value is:", event.target.value);
-		console.log("PlateEdit:", inputPlateEdit);
-	};
-
-	// const addPlates = async (data) => {
-	// 	try {
-	// 		const response = await fetch("http://35.192.138.41/api/addPlate/", {
-	// 			method: "POST",
-	// 			headers: {
-	// 				Accept: "application/json",
-	// 				"Content-Type": "application/json",
-	// 			},
-	// 			body: JSON.stringify({
-	// 				plate: data,
-	// 				user_id: userId,
-	// 			}),
-	// 		});
-	// 		result = await response.json();
-	// 		console.log(result);
-	// 		if (result.plate == "") {
-	// 			bool = false;
-	// 		} else {
-	// 			bool = true;
-	// 		}
-	// 	} catch (e) {
-	// 		alert("Oops", e.message);
-	// 	}
-	// 	if (!bool) {
-	// 		alert("Plates Could Not Be Added!");
-	// 		return null;
-	// 	} else {
-	// 		return result;
-	// 	}
-	// };
-
-	// const delPlates = async (data) => {
-	// 	try {
-	// 		const response = await fetch("http://35.192.138.41/api/delPlate/", {
-	// 			method: "POST",
-	// 			headers: {
-	// 				Accept: "application/json",
-	// 				"Content-Type": "application/json",
-	// 			},
-	// 			body: JSON.stringify({
-	// 				id: data,
-	// 			}),
-	// 		});
-	// 		result = await response.json();
-	// 		console.log(result);
-	// 		if (result.deletedCount == 0) {
-	// 			bool = false;
-	// 		} else {
-	// 			bool = true;
-	// 		}
-	// 	} catch (e) {
-	// 		alert("Oops", e.message);
-	// 	}
-	// 	if (!bool) {
-	// 		alert("Plates Could Not Be Deleted!");
-	// 		return null;
-	// 	} else {
-	// 		return result;
-	// 	}
-	// };
-
-	// const editPlates = async (data) => {
-	// 	try {
-	// 		const response = await fetch("http://35.192.138.41/api/editPlate/", {
-	// 			method: "POST",
-	// 			headers: {
-	// 				Accept: "application/json",
-	// 				"Content-Type": "application/json",
-	// 			},
-	// 			body: JSON.stringify({
-	// 				plate: inputPlateEdit,
-	// 				id: data,
-	// 			}),
-	// 		});
-	// 		result = await response.json();
-	// 		console.log(result);
-	// 		if (result.plate == "") {
-	// 			bool = false;
-	// 		} else {
-	// 			bool = true;
-	// 		}
-	// 	} catch (e) {
-	// 		alert("Oops", e.message);
-	// 	}
-	// 	if (!bool) {
-	// 		alert("Plates Could Not Be Edited!");
-	// 		return null;
-	// 	} else {
-	// 		return result;
-	// 	}
-	// };
-
-	// React.useEffect(() => {
-	// 	let isMounted = true;
-	// 	props.getPlates().then((data) => {
-	// 		if (isMounted) setPlates(data);
-	// 	});
-	// 	console.log(plates, "plates");
-	// 	return () => {
-	// 		isMounted = false;
-	// 	};
-	// }, []);
 
 	return (
 		<IonPage>
@@ -179,95 +58,45 @@ export default function SelectPlates(props) {
 			<IonContent>
 				<IonCol className="ion-text-center">
 					<IonModal
-						isOpen={showModalAdd}
+						isOpen={props.showModal}
 						cssClass="my-custom-class"
 						initialBreakpoint={-0.5}
 						// initialBreakpoint={0.25}
 						// breakpoints={[0.25, 0.5, 0.75]}
 						// backdropBreakpoint={0.5}
-						onDidDismiss={() => setShowModalAdd(false)}
+						onDidDismiss={() => props.setShowModal(false)}
 						id="modal"
 						class="modalBottom"
 					>
 						<IonContent className="ion-padding modalBottom">
+							{/* <form onSubmit={props.handleChange}> */}
 							<IonItem>
 								<IonLabel position="stacked">Enter Plate</IonLabel>
 								<IonInput
-									value={inputPlateAdd}
+									value={props.inputPlate["plate"]}
 									type="text"
 									placeholder="Plate"
-									onIonChange={handleAddPlate}
+									onIonChange={props.handleChange}
+									name="plate"
 								/>
 							</IonItem>
 
 							<IonButton
 								color="secondary"
 								onClick={() => {
-									setShowModalAdd(false);
+									props.setShowModal(false);
 									// props.getPlates().then((data) => {
 									// 	setPlates(data);
 									// });
-									props.getPlates();
-									setInputPlateAdd(null);
+									// props.getPlates();
+									// setInputPlateAdd(null);
 								}}
 							>
 								Close
 							</IonButton>
 
-							<IonButton
-								onClick={() => {
-									props.addPlates(inputPlateAdd);
-									props.getPlates();
-									setShowModalAdd(false);
-									setInputPlateAdd(null);
-								}}
-							>
-								Confirm
-							</IonButton>
-						</IonContent>
-					</IonModal>
-
-					<IonModal
-						isOpen={showModalEdit}
-						cssClass="my-custom-class"
-						initialBreakpoint={-0.5}
-						// breakpoints={[0.25, 0.5, 0.75]}
-						// backdropBreakpoint={0.5}
-						onDidDismiss={() => setShowModalEdit(false)}
-						id="modal"
-					>
-						<IonContent className="ion-padding">
-							<IonItem>
-								<IonLabel position="stacked">Edit Plate</IonLabel>
-								<IonInput
-									value={inputPlateEdit}
-									type="text"
-									placeholder={plateData}
-									onIonChange={handleEditPlate}
-								/>
-							</IonItem>
-
-							<IonButton
-								color="secondary"
-								onClick={() => {
-									setShowModalEdit(false);
-									setInputPlateEdit(null);
-									props.getPlates();
-								}}
-							>
-								Close
-							</IonButton>
-
-							<IonButton
-								onClick={() => {
-									props.editPlates(inputPlateEdit, plateId);
-									props.getPlates();
-									setShowModalEdit(false);
-									setInputPlateEdit(null);
-								}}
-							>
-								Confirm
-							</IonButton>
+							<IonButton onClick={props.addPlates}>{props.button}</IonButton>
+							{/* </form> */}
 						</IonContent>
 					</IonModal>
 				</IonCol>
@@ -276,7 +105,7 @@ export default function SelectPlates(props) {
 					<IonButton
 						color="primary"
 						fill="solid"
-						onClick={() => setShowModalAdd(true)}
+						onClick={() => props.setShowModal(true)}
 					>
 						Add plate
 					</IonButton>
@@ -293,9 +122,8 @@ export default function SelectPlates(props) {
 												class="card-background-color"
 												button
 												onClick={() => {
-													plateId = el._id;
-													plateData = el.plate;
-													setShowModalEdit(true);
+													props.onEditPlate(el);
+													props.setShowModal(true);
 												}}
 												lines="none"
 												detail={false}
@@ -307,7 +135,6 @@ export default function SelectPlates(props) {
 												button
 												onClick={async () => {
 													await props.delPlates(el._id);
-													props.getPlates();
 												}}
 												lines="none"
 												detail={false}
