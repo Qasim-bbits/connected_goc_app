@@ -6,6 +6,8 @@ let result = false;
 
 export default function SignupUtils() {
 	const [loading, setLoading] = React.useState(false);
+	const [toastOpen, setToastOpen] = React.useState(false);
+	const [message, setMessage] = React.useState("");
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
@@ -45,14 +47,20 @@ export default function SignupUtils() {
 				bool = false;
 			} else {
 				bool = true;
-				alert(result.msg);
+				// alert(result.msg);
+				setMessage(result.msg);
+				setToastOpen(true);
 			}
 		} catch (e) {
-			alert("Oops", e.message);
+			// alert("Oops", e.message);
+			setMessage(e.message);
+			setToastOpen(true);
 		}
 		setLoading(false);
 		if (!bool) {
-			alert("Unsuccessful Signup!");
+			// alert("Unsuccessful Signup!");
+			setMessage("Unsuccessful Signup!");
+			setToastOpen(true);
 		} else {
 			// TODO:navigate to home
 			// navigation.navigate("Sync Screen", {

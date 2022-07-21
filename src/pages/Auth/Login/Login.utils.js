@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import LoginView from "./Login.view";
 import { useHistory } from "react-router";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
-import {retrieveLocal, storeLocal} from "../../../localStorage/saveLocal";
+import { retrieveLocal, storeLocal } from "../../../localStorage/saveLocal";
 
 let bool;
 let result = false;
@@ -56,16 +56,20 @@ export default function LoginUtils() {
 				bool = true;
 				setUserId(result.result._id);
 				setEmail(result.result.email);
-				setMessage('Signed in successfully')
-				setToastOpen(true)
-				storeLocal("userId", result.result._id)
+				setMessage("Signed in successfully");
+				setToastOpen(true);
+				storeLocal("userId", result.result._id);
 			}
 		} catch (e) {
-			alert("Oops", e.message);
+			// alert("Oops", e.message);
+			setMessage("Could Not Sign In!");
+			setToastOpen(true);
 		}
 		setLoading(false);
 		if (!bool) {
-			alert(result.msg);
+			// alert(result.msg);
+			setMessage(result.msg);
+			setToastOpen(true);
 		} else if (result.result.forget_password) {
 			history.push("/changePassword");
 		} else {

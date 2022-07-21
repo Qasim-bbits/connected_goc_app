@@ -7,7 +7,7 @@ const UserDetailsProvider = (props) => {
 	// this state will be shared with all components
 	const [userId, setUserId] = useState();
 	const [cityId, setCityId] = useState();
-	const [zoneId, setZoneId] = useState();
+	const [zoneData, setZoneData] = useState({});
 	const [plate, setPlate] = useState();
 	const [coord, setCoord] = useState();
 	const [rateData, setRateData] = useState();
@@ -21,7 +21,7 @@ const UserDetailsProvider = (props) => {
 			value={{
 				user: [userId, setUserId],
 				city: [cityId, setCityId],
-				zone: [zoneId, setZoneId],
+				zone: [zoneData, setZoneData],
 				plateName: [plate, setPlate],
 				currCoord: [coord, setCoord],
 				rate: [rateData, setRateData],
@@ -38,8 +38,8 @@ const UserDetailsProvider = (props) => {
 				userId,
 				"\ncityId:",
 				cityId,
-				"\nzoneId:",
-				zoneId,
+				"\nzone:",
+				zoneData,
 				"\nplateName:",
 				plate,
 				"\ncoord:",

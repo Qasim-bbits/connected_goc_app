@@ -2,14 +2,14 @@ import React, { useContext } from "react";
 import "../assets/styles/home.css";
 import Box from "@mui/material/Box";
 import { GoogleMap, useJsApiLoader, Polygon } from "@react-google-maps/api";
-import {IonButton, IonSpinner} from "@ionic/react";
+import { IonButton, IonSpinner } from "@ionic/react";
 import { isPointInPolygon } from "geolib";
 import { globalStateContext } from "../context/GlobalStateProvider";
 
 const containerStyle = {
 	width: "100%",
 	height: "91%",
-	transform: 'translateY(-1%)'
+	transform: "translateY(-1%)",
 };
 
 const c = {
@@ -21,7 +21,7 @@ const libraries = ["drawing"];
 
 export default function Map(props) {
 	const { zone, city, currCoord } = useContext(globalStateContext);
-	const [zoneId, setZoneId] = zone;
+	const [zoneData, setZoneData] = zone;
 	const [cityId, setCityId] = city;
 	const [coord, setCoord] = currCoord;
 
@@ -49,7 +49,7 @@ export default function Map(props) {
 
 	const setContext = () => {
 		setCityId(props.city._id);
-		setZoneId(props.zone._id);
+		setZoneData(props.zone);
 		setCoord(mapCenter);
 	};
 
@@ -115,11 +115,11 @@ export default function Map(props) {
 
 					<Box
 						sx={{
-							display: 'flex',
-							height: '100%',
-							flexDirection: 'column',
-							justifyContent: 'flex-end',
-							paddingBottom: '20%',
+							display: "flex",
+							height: "100%",
+							flexDirection: "column",
+							justifyContent: "flex-end",
+							paddingBottom: "20%",
 						}}
 					>
 						<IonButton
@@ -169,8 +169,17 @@ export default function Map(props) {
 		);
 	};
 
-	return isLoaded ? renderMap() :
-		<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+	return isLoaded ? (
+		renderMap()
+	) : (
+		<div
+			style={{
+				display: "flex",
+				justifyContent: "center",
+				alignItems: "center",
+			}}
+		>
 			<IonSpinner name="crescent" />
-		</div>;
+		</div>
+	);
 }
