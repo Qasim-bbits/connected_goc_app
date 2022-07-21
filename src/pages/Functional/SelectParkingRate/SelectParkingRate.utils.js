@@ -33,7 +33,7 @@ export default function SelectParkingRateUtils() {
 			});
 			result = await response.json();
 			console.log(result);
-			if (result.success == false) {
+			if (result.success === false) {
 				bool = false;
 			} else {
 				bool = true;

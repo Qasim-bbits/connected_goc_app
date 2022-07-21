@@ -50,6 +50,7 @@ export default function SelectPlatesUtils() {
 			);
 			result = await response.json();
 			setPlates(result);
+			setShowModal(false);
 			console.log(result);
 		} catch (e) {
 			setMessage(e.message);
@@ -60,6 +61,7 @@ export default function SelectPlatesUtils() {
 
 	const addPlates = async (e) => {
 		console.log("input plate", inputPlate);
+		e.preventDefault();
 		try {
 			if (button === "Update") {
 				const response = await fetch("http://35.192.138.41/api/editPlate/", {
@@ -89,13 +91,13 @@ export default function SelectPlatesUtils() {
 				result = await response.json();
 				console.log(result);
 				setAddLoading(false)
+				setShowModal(false);
 				setMessage('Plates added successfully')
 				setToastOpen(true)
 			}
 			getPlates();
 			setButton("Add");
 			inputPlate["plate"] = "";
-			setShowModal(false);
 		} catch (e) {
 			setMessage(e.message);
 			setToastOpen(true)
@@ -157,6 +159,7 @@ export default function SelectPlatesUtils() {
 				}),
 			});
 			result = await response.json();
+			setShowModal(false);
 			console.log(result);
 			if (result.plate) {
 				bool = false;
