@@ -50,7 +50,6 @@ export default function SelectPlates(props) {
 						class="modalBottom"
 					>
 						<IonContent className="ion-padding modalBottom">
-							 <form onSubmit={props.addPlates}>
 							<IonItem>
 								<IonLabel position="stacked">Enter Plate</IonLabel>
 								<IonInput
@@ -69,12 +68,9 @@ export default function SelectPlates(props) {
 							>
 								Close
 							</IonButton>
-
 							<IonButton onClick={props.addPlates}>
-								<input type="submit" className="submit-enter" />
 								{props.button}
 							</IonButton>
-							 </form>
 						</IonContent>
 					</IonModal>
 				</IonCol>

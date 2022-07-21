@@ -36,7 +36,7 @@ export default function SelectPlatesUtils() {
 		setLoadingSkeleton(true);
 		try {
 			const response = await fetch(
-				"http://35.192.138.41/api/getPlatesByUser/",
+				"https://connectedparking.ca/api/getPlatesByUser/",
 				{
 					method: "POST",
 					headers: {
@@ -64,7 +64,7 @@ export default function SelectPlatesUtils() {
 		e.preventDefault();
 		try {
 			if (button === "Update") {
-				const response = await fetch("http://35.192.138.41/api/editPlate/", {
+				const response = await fetch("https://connectedparking.ca/api/editPlate/", {
 					method: "POST",
 					headers: {
 						Accept: "application/json",
@@ -77,7 +77,7 @@ export default function SelectPlatesUtils() {
 				});
 				result = await response.json();
 			} else {
-				const response = await fetch("http://35.192.138.41/api/addPlate/", {
+				const response = await fetch("https://connectedparking.ca/api/addPlate/", {
 					method: "POST",
 					headers: {
 						Accept: "application/json",
@@ -113,7 +113,7 @@ export default function SelectPlatesUtils() {
 
 	const delPlates = async (data) => {
 		try {
-			const response = await fetch("http://35.192.138.41/api/delPlate/", {
+			const response = await fetch("https://connectedparking.ca/api/delPlate/", {
 				method: "POST",
 				headers: {
 					Accept: "application/json",
@@ -147,7 +147,7 @@ export default function SelectPlatesUtils() {
 
 	const editPlates = async (...data) => {
 		try {
-			const response = await fetch("http://35.192.138.41/api/editPlate/", {
+			const response = await fetch("https://connectedparking.ca/api/editPlate/", {
 				method: "POST",
 				headers: {
 					Accept: "application/json",
@@ -171,11 +171,12 @@ export default function SelectPlatesUtils() {
 			setToastOpen(true)
 		}
 		if (!bool) {
-			setMessage("Plates Could Not Be Edited!");
+			setMessage("Plate edited successfully");
 			setToastOpen(true)
 			return null;
 		} else {
-			return result;
+			setMessage("Unable to edit plate");
+			setToastOpen(true)
 		}}
 
 	const onEditPlate = (e) => {

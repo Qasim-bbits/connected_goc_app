@@ -7,7 +7,6 @@ import {
 	IonCard,
 	IonCardContent,
 	IonSkeletonText,
-	IonIcon,
 	IonText,
 } from "@ionic/react";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
@@ -45,9 +44,9 @@ export default function SelectParkingRate(props) {
 				</>
 				:
 				props.parkingPurchased ? (
-					<IonContent style={{ display: "flex" }}>
+					<IonContent style={{display: "flex", height: '100%' }}>
 						<IonItem>
-							<IonText>{props.message}</IonText>
+							<IonText style={{ marginTop: '3%',height: '10vh'}}>{props.parkingMessage}</IonText>
 						</IonItem>
 					</IonContent>
 				) : (<IonContent>

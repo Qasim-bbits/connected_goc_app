@@ -20,7 +20,7 @@ export default function SelectParkingRateUtils() {
 		}
 		setLoading(true);
 		try {
-			const response = await fetch("http://35.192.138.41/api/getRateById/", {
+			const response = await fetch("https://connectedparking.ca/api/getRateById/", {
 				method: "POST",
 				headers: {
 					Accept: "application/json",
@@ -60,6 +60,7 @@ export default function SelectParkingRateUtils() {
 		loading={loading}
 		setLoading={setLoading}
 		message={message}
+		parkingMessage={parkingMessage}
 		toastOpen={toastOpen}
 		setToastOpen={setToastOpen}
 		parkingPurchased={parkingPurchased}

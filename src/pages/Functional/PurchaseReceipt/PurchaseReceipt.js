@@ -26,6 +26,7 @@ import Paid from '../../../assets/icons/9.png';
 import {globalStateContext} from "../../../context/GlobalStateProvider";
 import Header from "../../../Common/header";
 import Toast from "../../../components/toast";
+import moment from "moment-timezone";
 
 export default function PurchaseReceipt(props) {
   const [isLoading, setIsLoading] = useState(false);
@@ -39,7 +40,7 @@ export default function PurchaseReceipt(props) {
     e.preventDefault();
     setIsLoading(true)
     try {
-      let res = await fetch("http://35.192.138.41/api/emailReciept", {
+      let res = await fetch("https://connectedparking.ca/api/emailReciept", {
         method: "POST",
         body: JSON.stringify({
           parking_id: paymentData._id,
@@ -87,8 +88,8 @@ export default function PurchaseReceipt(props) {
             <IonItem>
               <IonThumbnail slot="start" style={{width: '30%', height: '30%'}}>
                 <IonImg src={TimeFromCar} />
-                <IonLabel style={{marginLeft: '15%', fontSize: '9px', width: '100%'}}>
-                  {paymentData?.from}
+                <IonLabel style={{marginLeft: '5%', fontSize: '9px', width: '100%'}}>
+                  {moment(paymentData?.to).format('MMMM Do YYYY, h:mm:ss a')}
                 </IonLabel>
               </IonThumbnail>
               <IonThumbnail>
@@ -96,8 +97,8 @@ export default function PurchaseReceipt(props) {
               </IonThumbnail>
               <IonThumbnail slot="end" style={{width: '45%', height: '45%'}}>
                 <IonImg src={TimeToCar} />
-                <IonLabel style={{marginTop: '15%', marginLeft: '9%', fontSize: '9px', width: '100%'}}>
-                  {paymentData?.to}
+                <IonLabel style={{marginTop: '15%', fontSize: '9px', width: '100%'}}>
+                  {moment(paymentData?.to).format('MMMM Do YYYY, h:mm:ss a')}
                 </IonLabel>
               </IonThumbnail>
             </IonItem>

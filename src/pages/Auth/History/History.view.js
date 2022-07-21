@@ -29,7 +29,7 @@ export default function History(props) {
   const getHistory = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("http://35.192.138.41/api/getUserHistory/", {
+      const response = await fetch("https://connectedparking.ca/api/getUserHistory/", {
         method: "POST",
         headers: {
           Accept: "application/json",

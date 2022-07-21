@@ -20,7 +20,7 @@ export default function SelectTariffUtils() {
         }
         setLoading(true);
         try {
-            const response = await fetch("http://35.192.138.41/api/getRateSteps/", {
+            const response = await fetch("https://connectedparking.ca/api/getRateSteps/", {
                 method: "POST",
                 headers: {
                     Accept: "application/json",

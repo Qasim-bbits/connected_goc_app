@@ -41,7 +41,7 @@ export default function HistoryReceipt(props) {
     e.preventDefault();
     setIsLoading(true)
     try {
-      let res = await fetch("http://35.192.138.41/api/emailReciept", {
+      let res = await fetch("https://connectedparking.ca/api/emailReciept", {
         method: "POST",
         body: JSON.stringify({
           parking_id: detail._id,

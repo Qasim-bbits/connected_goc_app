@@ -22,7 +22,7 @@ export default function SignupUtils() {
 		}
 		setLoading(true);
 		try {
-			const response = await fetch("http://35.192.138.41/api/signup/", {
+			const response = await fetch("https://connectedparking.ca/api/signup/", {
 				method: "POST",
 				headers: {
 					Accept: "application/json",

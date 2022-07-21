@@ -59,7 +59,7 @@ export default function Home(props) {
 
 	const getCities = async () => {
 		try {
-			const response = await fetch("http://35.192.138.41/api/getCities").then(
+			const response = await fetch("https://connectedparking.ca/api/getCities").then(
 				(response) => response.json()
 			);
 			setCities(response)
@@ -87,7 +87,7 @@ export default function Home(props) {
 		}
 		setLoading(true);
 		try {
-			const response = await fetch("http://35.192.138.41/api/getZonesById/", {
+			const response = await fetch("https://connectedparking.ca/api/getZonesById/", {
 				method: "POST",
 				headers: {
 					Accept: "application/json",

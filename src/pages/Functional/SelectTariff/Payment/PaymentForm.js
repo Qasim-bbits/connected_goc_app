@@ -32,14 +32,15 @@ function PaymentForm(props) {
   const {payment, rate} = useContext(globalStateContext);
   const [paymentData, setPaymentData] = payment;
   const [rateData, setRateData] = rate;
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
+  const [invalidCard, setInvalidCard] = useState(false)
   const history = useHistory();
 
   let handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true)
     try {
-      let res = await fetch("http://localhost:3001/mobileParking", {
+      let res = await fetch("https://connectedparking.ca/api/mobileParking", {
         method: "POST",
         body: JSON.stringify({
           cardNum: cardNum,
@@ -64,9 +65,15 @@ function PaymentForm(props) {
       setPaymentData(resJson)
       setIsLoading(false)
       if (res.status === 200) {
-        setMessage("Payment Successful");
-        setToastOpen(true)
-        history.push('/purchaseReceipt')
+        if(resJson.amount && resJson.paymentMethod){
+          setMessage("Payment Successful");
+          setToastOpen(true)
+          history.push('/purchaseReceipt')
+        } else {
+          setIsLoading(false);
+          setMessage("Your card is invalid");
+          setToastOpen(true)
+        }
       } else {
         setMessage("Payment Failed. Something went wrong");
         setToastOpen(true)
