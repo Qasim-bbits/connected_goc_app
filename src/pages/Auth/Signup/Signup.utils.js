@@ -73,6 +73,9 @@ export default function SignupUtils() {
 		<SignupView
 			handleSubmit={(e) => handleSubmit(e)}
 			dataStatus={result.status}
+			message={message}
+			setToastOpen={setToastOpen}
+			toastOpen={toastOpen}
 		/>
 	);
 }

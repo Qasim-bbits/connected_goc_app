@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { IonRouterLink } from "@ionic/react";
+import Toast from "../../../components/toast";
 
 export default function SignupView(props) {
 	return (
@@ -69,6 +70,7 @@ export default function SignupView(props) {
 						name="password"
 						autoComplete="password"
 						variant="standard"
+						type="password"
 					/>
 
 					<Grid container alignItems="center" justifyContent="center">
@@ -97,6 +99,11 @@ export default function SignupView(props) {
 					</Grid>
 				</Box>
 			</Box>
+			<Toast
+				message={props.message}
+				toastOpen={props.toastOpen}
+				setToastOpen={props.setToastOpen}
+			/>
 		</Container>
 	);
 }
