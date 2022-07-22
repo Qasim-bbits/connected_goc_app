@@ -21,8 +21,8 @@ export default function SignupView(props) {
 						<img
 							src={require("../../../assets/logo/goc_logo_variant.svg").default}
 							alt="Connected GOC"
-							height="220px"
-							width="220px"
+							height="200px"
+							width="200px"
 						/>
 					</IonCol>
 				</IonRow>
@@ -130,6 +130,7 @@ export default function SignupView(props) {
 								expand="block"
 								size="medium"
 								type="submit"
+								style={{marginTop: '2%'}}
 							>
 								<input type="submit" className="submit-enter" />
 								Signup
