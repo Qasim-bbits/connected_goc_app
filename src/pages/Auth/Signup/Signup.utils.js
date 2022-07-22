@@ -71,13 +71,8 @@ export default function SignupUtils() {
 			handleSubmit={(e) => handleSubmit(e)}
 			dataStatus={result.status}
 			message={message}
-<<<<<<< HEAD
 			toastOpen={toastOpen}
 			setToastOpen={setToastOpen}
-=======
-			setToastOpen={setToastOpen}
-			toastOpen={toastOpen}
->>>>>>> 6c329a1fdeb0906fb5d444b6a25da42c2eddc89a
 		/>
 	);
 }
