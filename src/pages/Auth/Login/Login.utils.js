@@ -67,7 +67,6 @@ export default function LoginUtils() {
 		}
 		setLoading(false);
 		if (!bool) {
-			// alert(result.msg);
 			setMessage(result.msg);
 			setToastOpen(true);
 		} else if (result.result.forget_password) {

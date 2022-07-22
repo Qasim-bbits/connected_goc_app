@@ -29,7 +29,7 @@ export default function SelectParkingRateUtils() {
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						id: zoneData._id,
+						id: zoneData?._id,
 						plate: plate,
 					}),
 				}

@@ -120,6 +120,7 @@ export default function SelectTariff(props) {
 								value={step}
 								min={0}
 								max={stepData?.length - 1}
+								knobRadius={stepData?.length - 1 === 0 ? '0' : 10}
 								onChange={(e) => setStep(e)}
 								size={280}
 							/>
@@ -129,7 +130,7 @@ export default function SelectTariff(props) {
 								amount={stepData?.[step]?.total / 100}
 								user={userId}
 								city={cityId}
-								zone={zoneData._id}
+								zone={zoneData?._id}
 								currentCoordinates={coord}
 								plate={plate}
 								serviceFee={stepData?.[step]?.service_fee}

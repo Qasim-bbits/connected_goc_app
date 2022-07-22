@@ -7,7 +7,7 @@ const UserDetailsProvider = (props) => {
 	// this state will be shared with all components
 	const [userId, setUserId] = useState();
 	const [cityId, setCityId] = useState();
-	const [zoneData, setZoneData] = useState({});
+	const [zoneData, setZoneData] = useState();
 	const [plate, setPlate] = useState();
 	const [coord, setCoord] = useState();
 	const [rateData, setRateData] = useState();

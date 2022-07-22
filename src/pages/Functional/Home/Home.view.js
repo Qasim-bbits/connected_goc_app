@@ -143,9 +143,7 @@ export default function Home(props) {
 					<IonItem
 						button
 						onClick={async () => {
-							// await deleteLocal("remember");
 							await storeLocal("remember", "false");
-							console.log("SSSSSSS");
 							history.push("/login");
 						}}
 					>
