@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="app_name">Connected Parking</string>
-    <string name="title_activity_main">connected_parking</string>
+    <string name="title_activity_main">Connected Parking</string>
     <string name="package_name">com.company.connected_parking</string>
     <string name="custom_url_scheme">com.company.connected_parking</string>
 </resources>
