@@ -52,7 +52,7 @@ const App: React.FC = () => (
           <Route path="/history" component={History} exact={true} />
           <Route path="/historyReceipt" component={HistoryReceipt} exact={true} />
 
-          <Redirect path="/" to='/signup' exact={true} />
+          <Redirect path="/" to='/login' exact={true} />
         </UserDetailsProvider>
       </IonRouterOutlet>
     </IonReactRouter>

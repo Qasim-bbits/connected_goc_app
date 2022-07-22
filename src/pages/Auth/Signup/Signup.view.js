@@ -21,9 +21,8 @@ export default function SignupView(props) {
 						<img
 							src={require("../../../assets/logo/goc_logo_variant.svg").default}
 							alt="Connected GOC"
-							style={{ marginTop: 30 }}
-							height="250px"
-							width="250px"
+							height="220px"
+							width="220px"
 						/>
 					</IonCol>
 				</IonRow>
@@ -35,7 +34,8 @@ export default function SignupView(props) {
 									margin="normal"
 									name="fname"
 									type="name"
-									placeholder="Type your first name"
+									required
+									placeholder="First Name*"
 									style={{
 										marginTop: "1%",
 										marginBottom: "2%",
@@ -50,7 +50,38 @@ export default function SignupView(props) {
 									margin="normal"
 									name="lname"
 									type="name"
-									placeholder="Type your last name"
+									required
+									placeholder="Last Name*"
+									style={{
+										marginTop: "1%",
+										marginBottom: "2%",
+										padding: "5px",
+									}}
+								/>
+							</IonItem>
+						</IonCol>
+						<IonCol size="10" offset="1">
+							<IonItem>
+								<IonInput
+									margin="normal"
+									name="address"
+									type="street-address"
+									placeholder="Address.(Optional)"
+									style={{
+										marginTop: "1%",
+										marginBottom: "2%",
+										padding: "5px",
+									}}
+								/>
+							</IonItem>
+						</IonCol>
+						<IonCol size="10" offset="1">
+							<IonItem>
+								<IonInput
+									margin="normal"
+									name="mobileNo"
+									type="tel"
+									placeholder="Mobile No.(Optional)"
 									style={{
 										marginTop: "1%",
 										marginBottom: "2%",
@@ -65,7 +96,8 @@ export default function SignupView(props) {
 									margin="normal"
 									name="email"
 									type="email"
-									placeholder="Type your email here"
+									required
+									placeholder="Email Address*"
 									style={{
 										marginTop: "1%",
 										marginBottom: "2%",
@@ -80,7 +112,8 @@ export default function SignupView(props) {
 									margin="normal"
 									name="password"
 									type="password"
-									placeholder="Type your password here"
+									required
+									placeholder="Password*"
 									style={{
 										marginTop: "1%",
 										marginBottom: "2%",
