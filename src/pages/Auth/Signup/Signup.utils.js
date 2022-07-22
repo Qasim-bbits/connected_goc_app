@@ -35,8 +35,8 @@ export default function SignupUtils() {
 					lname: data.get("lName"),
 					email: data.get("email"),
 					password: data.get("password"),
-					address: "Canada",
-					ph_no: "1233123",
+					address: data.get("address"),
+					ph_no: data.get("mobileNo"),
 					language: "en",
 					role: "user",
 				}),
@@ -73,6 +73,9 @@ export default function SignupUtils() {
 		<SignupView
 			handleSubmit={(e) => handleSubmit(e)}
 			dataStatus={result.status}
+			message={message}
+			setToastOpen={setToastOpen}
+			toastOpen={toastOpen}
 		/>
 	);
 }

@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { IonRouterLink } from "@ionic/react";
+import Toast from "../../../components/toast";
 
 export default function SignupView(props) {
 	return (
@@ -22,18 +23,18 @@ export default function SignupView(props) {
 				<img
 					src={require("../../../assets/logo/goc_logo_variant.svg").default}
 					alt="Blinkay Logo."
-					style={{ margin: 50, maxWidth: 250 }}
+					style={{ margin: 10, maxWidth: 250 }}
 				/>
-				<Typography variant="h6" component="h6">
+				{/* <Typography variant="h6" component="h6">
 					What is your email address?
-				</Typography>
+				</Typography> */}
 				<Box component="form" onSubmit={props.handleSubmit} sx={{ mt: 6 }}>
 					<TextField
 						margin="normal"
 						required
 						fullWidth
 						id="fName"
-						label="Type your first name"
+						label="First Name"
 						name="fName"
 						autoComplete="fName"
 						autoFocus
@@ -44,9 +45,31 @@ export default function SignupView(props) {
 						required
 						fullWidth
 						id="lName"
-						label="Type your last name"
+						label="Last Name"
 						name="lName"
 						autoComplete="lName"
+						variant="standard"
+					/>
+					<TextField
+						margin="normal"
+						// required
+						fullWidth
+						id="address"
+						label="Address.(Optional)"
+						name="address"
+						autoComplete="address"
+						autoFocus
+						variant="standard"
+					/>
+					<TextField
+						margin="normal"
+						// required
+						fullWidth
+						id="mobileNo"
+						label="Mobile No.(Optional)"
+						name="mobileNo"
+						autoComplete="mobileNo"
+						autoFocus
 						variant="standard"
 					/>
 					<TextField
@@ -54,7 +77,7 @@ export default function SignupView(props) {
 						required
 						fullWidth
 						id="email"
-						label="Type your email address"
+						label="Email Address"
 						name="email"
 						autoComplete="email"
 						variant="standard"
@@ -65,10 +88,11 @@ export default function SignupView(props) {
 						required
 						fullWidth
 						id="password"
-						label="Type your password"
+						label="Password"
 						name="password"
 						autoComplete="password"
 						variant="standard"
+						type="password"
 					/>
 
 					<Grid container alignItems="center" justifyContent="center">
@@ -97,6 +121,11 @@ export default function SignupView(props) {
 					</Grid>
 				</Box>
 			</Box>
+			<Toast
+				message={props.message}
+				toastOpen={props.toastOpen}
+				setToastOpen={props.setToastOpen}
+			/>
 		</Container>
 	);
 }
