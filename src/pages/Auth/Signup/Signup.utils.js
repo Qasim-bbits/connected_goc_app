@@ -47,18 +47,15 @@ export default function SignupUtils() {
 				bool = false;
 			} else {
 				bool = true;
-				// alert(result.msg);
 				setMessage(result.msg);
 				setToastOpen(true);
 			}
 		} catch (e) {
-			// alert("Oops", e.message);
 			setMessage(e.message);
 			setToastOpen(true);
 		}
 		setLoading(false);
 		if (!bool) {
-			// alert("Unsuccessful Signup!");
 			setMessage("Unsuccessful Signup!");
 			setToastOpen(true);
 		} else {
@@ -73,6 +70,9 @@ export default function SignupUtils() {
 		<SignupView
 			handleSubmit={(e) => handleSubmit(e)}
 			dataStatus={result.status}
+			message={message}
+			toastOpen={toastOpen}
+			setToastOpen={setToastOpen}
 		/>
 	);
 }
