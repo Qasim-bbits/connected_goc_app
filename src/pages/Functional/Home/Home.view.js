@@ -15,7 +15,7 @@ import {
 import { getCenterOfBounds } from "geolib";
 import Map from "../../../components/map";
 import Header from "../../../Common/header";
-import { logOutOutline } from "ionicons/icons";
+import {calendarOutline, cashOutline, logOutOutline} from "ionicons/icons";
 import { Autocomplete, TextField } from "@mui/material";
 import Toast from "../../../components/toast";
 import { useHistory } from "react-router";
@@ -64,7 +64,6 @@ export default function Home(props) {
 			);
 			setCities(response)
 			setSelectedCity(response[0]);
-			console.log(response[0]);
 			const citiesP = response[0].polygon.map(function (row) {
 				return { latitude: row.lat, longitude: row.lng };
 			});
@@ -98,7 +97,6 @@ export default function Home(props) {
 				}),
 			}).then((response) => response.json());
 			setZones(response);
-			console.log(zones, "zonesResponse");
 		} catch (e) {
 			setMessage("Zones could not be fetched");
 			setToastOpen(true);
@@ -135,9 +133,14 @@ export default function Home(props) {
 					</IonHeader>
 					<IonContent>
 						<IonList>
-							<IonItem>Pay for Parking</IonItem>
-							<IonItem>Pay for Infraction</IonItem>
-							<IonItem routerLink={'/history'}>History</IonItem>
+							<IonItem routerLink={'/home'}>
+								<IonIcon src={cashOutline} slot="start" />
+								<IonLabel>Pay for Parking</IonLabel>
+							</IonItem>
+							<IonItem routerLink={'/history'}>
+								<IonIcon src={calendarOutline} slot="start" />
+								<IonLabel>History</IonLabel>
+							</IonItem>
 						</IonList>
 					</IonContent>
 					<IonItem
@@ -157,7 +160,7 @@ export default function Home(props) {
 							id="free-solo-2-demo"
 							disableClearable
 							blurOnSelect={true}
-							options={zones}
+							options={zones || []}
 							style={{transform: 'translateY(-8%)', height: '50px'}}
 							getOptionLabel={(option) => option.zone_name}
 							onChange={(event, newValue) => onSelectedZone(newValue)}

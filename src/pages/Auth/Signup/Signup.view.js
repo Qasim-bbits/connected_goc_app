@@ -1,23 +1,26 @@
 import {
 	IonButton,
 	IonCol,
-	IonGrid,
+	IonGrid, IonIcon,
 	IonInput,
-	IonItem,
+	IonItem, IonLabel,
 	IonPage,
 	IonRouterLink,
-	IonRow,
+	IonRow, IonSpinner,
 	IonText,
 } from "@ionic/react";
-import React from "react";
+import React, {useState} from "react";
 import Toast from "../../../components/toast";
+import {eyeOffOutline, eyeOutline} from "ionicons/icons";
 
 export default function SignupView(props) {
+	const [passwordShow, setPasswordShow] = useState(false)
+
 	return (
 		<IonPage style={{ display: "flex" }}>
 			<IonGrid>
 				<IonRow>
-					<IonCol size="12" offset="2">
+					<IonCol size="12" offset="3">
 						<img
 							src={require("../../../assets/logo/goc_logo_variant.svg").default}
 							alt="Connected GOC"
@@ -111,8 +114,9 @@ export default function SignupView(props) {
 								<IonInput
 									margin="normal"
 									name="password"
-									type="password"
+									type={passwordShow ? 'text' : 'password'}
 									required
+									pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
 									placeholder="Password*"
 									style={{
 										marginTop: "1%",
@@ -120,7 +124,17 @@ export default function SignupView(props) {
 										padding: "5px",
 									}}
 								/>
+								<IonIcon
+									src={passwordShow ? eyeOffOutline : eyeOutline}
+									onClick={() => setPasswordShow(!passwordShow)}
+									size='small'
+								/>
 							</IonItem>
+							<IonLabel
+								style={{fontSize: '10px'}}
+							>
+								Include minimum eight characters, at least one letter and one number
+							</IonLabel>
 						</IonCol>
 					</IonRow>
 					<IonRow>
@@ -133,7 +147,7 @@ export default function SignupView(props) {
 								style={{marginTop: '2%'}}
 							>
 								<input type="submit" className="submit-enter" />
-								Signup
+								{props.loading ? (<IonSpinner name="crescent" />) : 'Signup'}
 							</IonButton>
 						</IonCol>
 					</IonRow>
@@ -149,6 +163,7 @@ export default function SignupView(props) {
 				message={props.message}
 				toastOpen={props.toastOpen}
 				setToastOpen={props.setToastOpen}
+				color={props.toastColor}
 			/>
 		</IonPage>
 	);

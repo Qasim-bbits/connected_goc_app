@@ -11,6 +11,8 @@ const UserDetailsProvider = (props) => {
 	const [plate, setPlate] = useState();
 	const [coord, setCoord] = useState();
 	const [rateData, setRateData] = useState();
+	const [selectedRateData, setSelectedRateData] = useState();
+	const [stepsData, setStepsData] = useState();
 	const [paymentData, setPaymentData] = useState();
 	const [email, setEmail] = useState();
 	const [remember, setRemember] = useState(false);
@@ -25,7 +27,9 @@ const UserDetailsProvider = (props) => {
 				plateName: [plate, setPlate],
 				currCoord: [coord, setCoord],
 				rate: [rateData, setRateData],
+				selectedRate: [selectedRateData, setSelectedRateData],
 				payment: [paymentData, setPaymentData],
+				steps: [stepsData, setStepsData],
 				emailU: [email, setEmail],
 				rememberMe: [remember, setRemember],
 			}}
@@ -46,12 +50,16 @@ const UserDetailsProvider = (props) => {
 				coord,
 				"\nrateData:",
 				rateData,
+				"\nselectedRate",
+				selectedRateData,
 				"\nemail:",
 				email,
 				"\npaymentData:",
 				paymentData,
 				"\nrememberMe:",
-				remember
+				remember,
+				"\nsteps",
+				stepsData,
 			)}
 		</globalStateContext.Provider>
 	);

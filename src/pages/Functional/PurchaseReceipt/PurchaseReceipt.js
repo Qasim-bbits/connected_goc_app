@@ -1,11 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {
-  IonBackButton,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
-  IonButtons,
   IonPage,
   IonCard,
   IonText,
@@ -32,9 +27,10 @@ export default function PurchaseReceipt(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [toastOpen, setToastOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const { payment, rate, user } = useContext(globalStateContext);
+  const [toastColor, setToastColor] = useState('')
+  const { payment, selectedRate } = useContext(globalStateContext);
   const [paymentData, setPaymentData] = payment;
-  const [rateDate, setRateData] = rate;
+  const [selectedRateData, setSelectedRateData] = selectedRate;
 
   let handleSendEmail = async (e) => {
     e.preventDefault();
@@ -48,17 +44,11 @@ export default function PurchaseReceipt(props) {
         headers: { 'Content-Type': 'application/json' },
       });
       let resJson = await res.json();
-      console.log(resJson)
-      console.log(res)
       setIsLoading(false)
-      if (res.status === 200) {
-        if(resJson.msg){
+      if (resJson.status === 'success') {
+          setToastColor('success')
           setMessage(resJson.msg);
           setToastOpen(true)
-        }else{
-          setMessage("Email successfully sent");
-          setToastOpen(true)
-        }
       } else {
         setMessage("Could not send email");
         setToastOpen(true)
@@ -119,7 +109,7 @@ export default function PurchaseReceipt(props) {
             <IonItem>
               <IonImg src={Rate} slot='start' style={{width: '15%', height: '15%'}}/>
               <IonLabel>
-                {rateDate.rate_name}
+                {selectedRateData.rate_name}
               </IonLabel>
             </IonItem>
             <IonItem>
@@ -151,6 +141,7 @@ export default function PurchaseReceipt(props) {
         message={message}
         toastOpen={toastOpen}
         setToastOpen={setToastOpen}
+        color={toastColor}
       />
     </IonPage>
   );

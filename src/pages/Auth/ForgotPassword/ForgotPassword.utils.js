@@ -1,18 +1,18 @@
-import React from "react";
+import React, {useState} from "react";
 import ForgotPassword from "./ForgotPassword.view";
+import {useHistory} from "react-router";
 
 let bool;
 let result = false;
 export default function ForgotPasswordUtils() {
 	const [loading, setLoading] = React.useState(false);
+	const [toastOpen, setToastOpen] = useState(false);
+	const [message, setMessage] = useState("");
+	const [toastColor, setToastColor] = useState('');
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
-		console.log({
-			email: data.get("email"),
-		});
-
 		sendData(data);
 	};
 	const sendData = async (data) => {
@@ -32,24 +32,36 @@ export default function ForgotPasswordUtils() {
 				}),
 			});
 			result = await response.json();
-			console.log(result);
-			if (result.status != "success") {
+			if (result.status !== "success") {
 				bool = false;
 			} else {
 				bool = true;
-				alert(result.msg);
+				setToastColor('primary')
+				setMessage(result.msg);
+				setToastOpen(true);
 			}
 		} catch (e) {
-			alert("Oops", e.message);
+			setMessage('Action failed');
+			setToastOpen(true);
 		}
 		setLoading(false);
 		if (!bool && !result.exist) {
-			alert(result.msg);
+			setMessage(result.msg);
+			setToastOpen(true);
 		} else if (!bool) {
-			alert("Password Reset Unsuccessful!");
+			setMessage('Password reset unsuccessful');
+			setToastOpen(true);
 		} else {
-			// history.push("/home");
+			//nothing
 		}
 	};
-	return <ForgotPassword handleSubmit={(e) => handleSubmit(e)} />;
+	return (
+		<ForgotPassword
+			handleSubmit={(e) => handleSubmit(e)}
+			message={message}
+			setToastOpen={setToastOpen}
+			toastOpen={toastOpen}
+			toastColor={toastColor}
+		/>
+	);
 }

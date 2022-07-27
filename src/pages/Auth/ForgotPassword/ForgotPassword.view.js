@@ -5,66 +5,97 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import {
+	IonButton,
+	IonCheckbox,
+	IonCol,
+	IonGrid,
+	IonIcon,
+	IonInput,
+	IonItem,
+	IonLabel, IonPage,
+	IonRouterLink,
+	IonRow,
+	IonText
+} from "@ionic/react";
+import {lockClosedOutline, personOutline} from "ionicons/icons";
+import Toast from "../../../components/toast";
+import React from "react";
 
 export default function ForgotPassword(props) {
 	return (
-			<Container component="main" maxWidth="xs">
-				<CssBaseline />
-				<Box
-					sx={{
-						marginTop: 8,
-						display: "flex",
-						flexDirection: "column",
-						alignItems: "center",
-					}}
-				>
-					<Box component="form" onSubmit={props.handleSubmit} sx={{ mt: 1 }}>
-						<Typography component="p">
-							Please write your username and we will send your password to the
-							associated email address:
-						</Typography>
-						<TextField
-							margin="normal"
-							required
-							fullWidth
-							id="email"
-							label="Email"
-							name="email"
-							autoComplete="email"
-							autoFocus
-							variant="standard"
-						/>
-						<Typography component="p">
-							Don't forget to check your spam folder in case you do not find our
-							message.
-						</Typography>
-
-						<Grid container alignItems="center" justifyContent="center">
-							<Box
-								m={1}
-								//margin
-								display="flex"
-								justifyContent="flex-end"
-								alignItems="flex-end"
-							>
-								<Button
-									type="submit"
-									variant="contained"
-									sx={{
-										mt: 3,
-										mb: 2,
-										borderRadius: 30,
-										padding: 2,
-										width: 200,
-										display: "block",
+		<IonPage>
+			<IonGrid style={{
+				display: 'flex',
+				flexDirection: 'column',
+				justifyContent: 'center',
+				alignItems: 'center',
+				alignContent: 'center',
+				marginTop: '-25%'
+			}}>
+				<IonRow style={{ marginBottom: '5%'}}>
+					<IonCol size="12">
+						<IonItem>
+							<IonText style={{fontSize: '16px', padding: '20px'}}>
+								Please write your username and we will send your password to the
+								associated email address:
+							</IonText>
+						</IonItem>
+					</IonCol>
+				</IonRow>
+				<form onSubmit={props.handleSubmit}>
+					<IonRow>
+						<IonCol size="12">
+							<IonItem>
+								<IonIcon src={personOutline} />
+								<IonInput
+									margin="normal"
+									name="email"
+									type="email"
+									placeholder="Email"
+									style={{
+										marginLeft: "20px",
 									}}
-								>
-									Request
-								</Button>
-							</Box>
-						</Grid>
-					</Box>
-				</Box>
-			</Container>
+								/>
+							</IonItem>
+						</IonCol>
+					</IonRow>
+					<IonRow style={{ marginTop: '5%', marginBottom: '10%'}}>
+						<IonCol size="12">
+							<IonItem>
+								<IonText style={{fontSize: '16px', padding: '20px'}}>
+									Don't forget to check your spam folder in case you do not find our message.
+								</IonText>
+							</IonItem>
+						</IonCol>
+					</IonRow>
+					<IonRow>
+						<IonCol size="10" offset="1">
+							<IonButton
+								className="login-button"
+								expand="block"
+								size="medium"
+								type="submit"
+							>
+								<input type="submit" className="submit-enter" />
+								Request
+							</IonButton>
+						</IonCol>
+					</IonRow>
+				</form>
+				<div style={{ display: "flex", justifyContent: "center" }}>
+					<IonText style={{ fontSize: "13px" }}>
+						Go back to&nbsp;
+						<IonRouterLink routerLink={"login"}>Login</IonRouterLink>
+					</IonText>
+				</div>
+			</IonGrid>
+			<Toast
+				message={props.message}
+				toastOpen={props.toastOpen}
+				setToastOpen={props.setToastOpen}
+				color={props.toastColor}
+			/>
+		</IonPage>
 	);
 }

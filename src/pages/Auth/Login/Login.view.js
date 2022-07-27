@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, {useContext, useState} from "react";
 import {
 	IonButton,
 	IonCheckbox,
@@ -13,25 +13,15 @@ import {
 	IonText,
 } from "@ionic/react";
 import "../../../assets/styles/login.css";
-import { lockClosedOutline, personOutline } from "ionicons/icons";
+import {eyeOffOutline, eyeOutline, lockClosedOutline, personOutline} from "ionicons/icons";
 import { IonRouterLink } from "@ionic/react";
 import Toast from "../../../components/toast";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
-import { useHistory } from "react-router";
-
-import {
-	storeLocal,
-	retrieveLocal,
-	deleteLocal,
-} from "../../../localStorage/saveLocal";
-// let localEmail = retrieveLocal("email");
 
 export default function LoginView(props) {
-	const { user, emailU, rememberMe } = useContext(globalStateContext);
-	const [userId, setUserId] = user;
-	const [email, setEmail] = emailU;
+	const { rememberMe } = useContext(globalStateContext);
 	const [remember, setRemember] = rememberMe;
-	const history = useHistory();
+	const [passwordShow, setPasswordShow] = useState(false)
 
 	return (
 		<IonPage style={{ display: "flex" }}>
@@ -58,9 +48,7 @@ export default function LoginView(props) {
 									type="email"
 									placeholder="Email"
 									style={{
-										marginTop: "1%",
-										marginBottom: "1%",
-										padding: "5px",
+										marginLeft: "20px",
 									}}
 								/>
 							</IonItem>
@@ -71,13 +59,16 @@ export default function LoginView(props) {
 								<IonInput
 									margin="normal"
 									name="password"
-									type="password"
+									type={passwordShow ? 'text' : 'password'}
 									placeholder="Password"
 									style={{
-										marginTop: "1%",
-										marginBottom: "1%",
-										padding: "5px",
+										marginLeft: "20px",
 									}}
+								/>
+								<IonIcon
+									src={passwordShow ? eyeOffOutline : eyeOutline}
+									onClick={() => setPasswordShow(!passwordShow)}
+									size='small'
 								/>
 							</IonItem>
 						</IonCol>
@@ -124,8 +115,8 @@ export default function LoginView(props) {
 				</form>
 				<div style={{ display: "flex", justifyContent: "center" }}>
 					<IonText style={{ fontSize: "13px" }}>
-						Don't have an account? &nbsp;
-						<IonRouterLink routerLink={"signup"}> Signup</IonRouterLink>
+						Don't have an account?&nbsp;
+						<IonRouterLink routerLink={"signup"}>Signup</IonRouterLink>
 					</IonText>
 				</div>
 			</IonGrid>

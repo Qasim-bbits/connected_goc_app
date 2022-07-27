@@ -24,10 +24,6 @@ export default function LoginUtils() {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
-		console.log({
-			email: data.get("email"),
-			password: data.get("password"),
-		});
 		sendData(data);
 	};
 
@@ -49,8 +45,7 @@ export default function LoginUtils() {
 				}),
 			});
 			result = await response.json();
-			console.log(result);
-			if (result.auth != true) {
+			if (result.auth !== true) {
 				bool = false;
 			} else {
 				bool = true;
@@ -61,7 +56,6 @@ export default function LoginUtils() {
 				storeLocal("userId", result.result._id);
 			}
 		} catch (e) {
-			// alert("Oops", e.message);
 			setMessage("Could Not Sign In!");
 			setToastOpen(true);
 		}

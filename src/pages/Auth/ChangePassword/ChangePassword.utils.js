@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
 import SignupView from "./ChangePassword.view";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
+import {useHistory} from "react-router";
+import ChangePasswordView from "./ChangePassword.view";
 
 let bool;
 let result = false;
@@ -9,13 +11,14 @@ export default function ChangePasswordUtils() {
 	const { emailU } = useContext(globalStateContext);
 	const [email, setEmail] = emailU;
 	const [loading, setLoading] = React.useState(false);
+	const [toastOpen, setToastOpen] = React.useState(false);
+	const [message, setMessage] = React.useState("");
+	const [toastColor, setToastColor] = React.useState("");
+	const history = useHistory();
+
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
-		console.log({
-			email: email,
-			password: data.get("password2"),
-		});
 		sendData(data);
 	};
 
@@ -37,31 +40,37 @@ export default function ChangePasswordUtils() {
 				}),
 			});
 			result = await response.json();
-			console.log(result);
-			if (!result.auth) {
+			if (result.auth !== true) {
 				bool = false;
 			} else {
 				bool = true;
-				alert("Password Changed!");
+				setToastColor('primary')
+				setMessage("Password changed successfully");
+				setToastOpen(true);
 			}
 		} catch (e) {
-			alert("Oops", e.message);
+			setMessage(e.message);
+			setToastOpen(true);
+			setToastColor('danger')
 		}
 		setLoading(false);
 		if (!bool) {
-			alert("Unsuccessful Change!");
+			setMessage("Could not change password");
+			setToastOpen(true);
+			setToastColor('danger')
 		} else {
-			// TODO:navigate to home
-			// navigation.navigate("Sync Screen", {
-			// 	token: t,
-			// });
+			// history.push('/login')
 		}
 	};
 
 	return (
-		<SignupView
+		<ChangePasswordView
 			handleSubmit={(e) => handleSubmit(e)}
 			dataStatus={result.status}
+			message={message}
+			toastOpen={toastOpen}
+			setToastOpen={setToastOpen}
+			toastColor={toastColor}
 		/>
 	);
 }

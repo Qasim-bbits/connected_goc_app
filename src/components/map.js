@@ -8,7 +8,7 @@ import { globalStateContext } from "../context/GlobalStateProvider";
 
 const containerStyle = {
 	width: "100%",
-	height: "91%",
+	height: "92%",
 	transform: "translateY(-1%)",
 };
 
@@ -39,7 +39,6 @@ export default function Map(props) {
 	const toggleConfrimBtn = (centerC) => {
 		if (props.zone.polygon != null) {
 			setShowConfirmBtn(isPointInPolygon(centerC, props.zone.polygon));
-			console.log("ddddd", showConfirmBtn);
 		}
 	};
 
@@ -56,8 +55,6 @@ export default function Map(props) {
 	React.useEffect(() => {
 		if (props.center != null) {
 			mapCenter = props.center;
-			console.log("prop center", props.center);
-			console.log("mapCenter", mapCenter);
 		} else console.log("props center is null");
 
 		toggleConfrimBtn(mapCenter);
@@ -72,12 +69,9 @@ export default function Map(props) {
 			if (map) {
 				const Tlat = map.getCenter().lat();
 				const Tlng = map.getCenter().lng();
-				console.log("center", Tlat, ":", Tlng);
 				let tempCenter = { lat: Tlat, lng: Tlng };
 				if (map.getZoom() != 10 && props.zone.polygon == null) map.setZoom(10);
 				else if (props.zone.polygon != null) map.setZoom(20);
-				console.log("curr zoom", map.getZoom());
-
 				toggleConfrimBtn(tempCenter);
 			}
 		};
@@ -91,7 +85,6 @@ export default function Map(props) {
 					onLoad={onLoad}
 					onUnmount={onUnmount}
 					onCenterChanged={handleCenterChanged}
-					onZoomChanged={() => console.log("zoom Changed")}
 				>
 					<div
 						id="map_canvas"

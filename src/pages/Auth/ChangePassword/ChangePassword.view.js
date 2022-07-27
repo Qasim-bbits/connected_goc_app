@@ -6,7 +6,21 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { IonRouterLink } from "@ionic/react";
+import {
+	IonButton,
+	IonCheckbox,
+	IonCol,
+	IonGrid,
+	IonIcon,
+	IonInput,
+	IonItem,
+	IonLabel, IonPage,
+	IonRouterLink,
+	IonRow,
+	IonText
+} from "@ionic/react";
+import {lockClosedOutline, personOutline} from "ionicons/icons";
+import Toast from "../../../components/toast";
 
 export default function ChangePasswordView(props) {
 
@@ -25,78 +39,101 @@ export default function ChangePasswordView(props) {
 	};
 
 	return (
-		<Container component="main" maxWidth="xs">
-			<CssBaseline />
-			<Box
-				sx={{
-					marginTop: 8,
-					display: "flex",
-					flexDirection: "column",
-					alignItems: "center",
-				}}
-			>
-				<img
-					src={require("../../../assets/logo/goc_logo_variant.svg").default}
-					alt="GOC Logo."
-					style={{ margin: 50, maxWidth: 250 }}
-				/>
-				<Typography variant="h6" component="h6">
-					Create your new password
-				</Typography>
-				<Box component="form" onSubmit={props.handleSubmit} sx={{ mt: 6 }}>
-					<TextField
-						margin="normal"
-						required
-						fullWidth
-						type="password"
-						id="password1"
-						label="Type your new password"
-						name="password1"
-						autoComplete="password"
-						autoFocus
-						variant="standard"
-						onChange={(e)=>handlePasswordChange(e.target.value)}
-					/>
-					<TextField
-						margin="normal"
-						required
-						type="password"
-						fullWidth
-						id="password2"
-						label={wrongPassword ? 'Error' : "Type your new password again"}
-						name="password2"
-						autoComplete="password"
-						variant="standard"
-						helperText={wrongPassword && "Passwords do not match"}
-						onChange={(e) => handleConfirmPassword(e.target.value)}
-					/>
-
-					<Grid container alignItems="center" justifyContent="center">
-						<Button
-							type="submit"
-							variant="contained"
-							sx={{
-								mt: 7,
-								mb: 5,
-								borderRadius: 30,
-								padding: 2,
-								width: 200,
-								display: "block",
-							}}
-							onClick={() => {}}
-							// routerLink={"login"}
-						>
-							Change Password
-						</Button>
-					</Grid>
-					<Grid container>
-						<Grid item>
-							Go to
-							<IonRouterLink routerLink={"login"}> login</IonRouterLink>
-						</Grid>
-					</Grid>
-				</Box>
-			</Box>
-		</Container>
+		<IonPage style={{ display: "flex" }}>
+			<IonGrid>
+				<IonRow>
+					<IonCol size="12" offset="2">
+						<img
+							src={require("../../../assets/logo/goc_logo_variant.svg").default}
+							alt="Connected GOC"
+							height="200px"
+							width="200px"
+						/>
+					</IonCol>
+				</IonRow>
+				<IonRow style={{marginBottom: '5%'}}>
+					<IonCol size="12" offset="2">
+						<IonText style={{ fontSize: "20px"}}>
+							Create your new password
+						</IonText>
+					</IonCol>
+				</IonRow>
+				<form onSubmit={props.handleSubmit}>
+					<IonRow>
+						<IonCol size="10" offset="1">
+							<IonItem>
+								<IonIcon src={lockClosedOutline} />
+								<IonInput
+									margin="normal"
+									name="password"
+									type="password"
+									pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+									placeholder="Type your new password"
+									style={{
+										marginLeft: "20px",
+									}}
+									onIonChange={(e)=>handlePasswordChange(e.target.value)}
+								/>
+							</IonItem>
+						</IonCol>
+						<IonCol size="10" offset="1">
+							<IonItem>
+								<IonIcon src={lockClosedOutline} />
+								<IonInput
+									margin="normal"
+									name="password2"
+									type="password"
+									pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+									placeholder="Type your new password again"
+									style={{
+										marginLeft: "20px",
+									}}
+									onIonChange={(e) => handleConfirmPassword(e.target.value)}
+									color={wrongPassword && 'danger'}
+								/>
+							</IonItem>
+							{wrongPassword ? (
+								<IonText style={{fontSize: '14px', color: 'red'}}>
+								Passwords do not match
+							</IonText>
+							) : (
+								<IonLabel
+									style={{fontSize: '10px'}}
+								>
+									Include minimum eight characters, at least one letter and one number
+								</IonLabel>
+							)}
+						</IonCol>
+					</IonRow>
+					<IonRow>
+						<IonCol size="10" offset="1">
+							<IonButton
+								className="login-button"
+								expand="block"
+								size="medium"
+								type="submit"
+								disabled={wrongPassword}
+								style={{marginTop: '10%'}}
+							>
+								<input type="submit" className="submit-enter" />
+								Change Password
+							</IonButton>
+						</IonCol>
+					</IonRow>
+				</form>
+				<div style={{ display: "flex", justifyContent: "center" }}>
+					<IonText style={{ fontSize: "13px" }}>
+						Go to?&nbsp;
+						<IonRouterLink routerLink={"login"}>Login</IonRouterLink>
+					</IonText>
+				</div>
+			</IonGrid>
+			<Toast
+				message={props.message}
+				toastOpen={props.toastOpen}
+				setToastOpen={props.setToastOpen}
+				color={props.toastColor}
+			/>
+		</IonPage>
 	);
 }

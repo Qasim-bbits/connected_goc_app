@@ -1,5 +1,6 @@
 import React from "react";
 import SignupView from "./Signup.view";
+import {useHistory} from "react-router";
 
 let bool;
 let result = false;
@@ -8,13 +9,12 @@ export default function SignupUtils() {
 	const [loading, setLoading] = React.useState(false);
 	const [toastOpen, setToastOpen] = React.useState(false);
 	const [message, setMessage] = React.useState("");
+	const [toastColor, setToastColor] = React.useState("");
+	const history = useHistory();
+
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
-		console.log({
-			email: data.get("email"),
-			password: data.get("password"),
-		});
 		sendData(data);
 	};
 
@@ -42,27 +42,26 @@ export default function SignupUtils() {
 				}),
 			});
 			result = await response.json();
-			console.log(result);
-			if (result.status != "success") {
+			if (result.status !== "success") {
 				bool = false;
 			} else {
 				bool = true;
+				setToastColor('primary')
 				setMessage(result.msg);
 				setToastOpen(true);
 			}
 		} catch (e) {
 			setMessage(e.message);
 			setToastOpen(true);
+			setToastColor('danger')
 		}
 		setLoading(false);
 		if (!bool) {
-			setMessage("Unsuccessful Signup!");
+			setMessage(result.msg);
 			setToastOpen(true);
+			setToastColor('danger')
 		} else {
-			// TODO:navigate to home
-			// navigation.navigate("Sync Screen", {
-			// 	token: t,
-			// });
+			// history.push('/login')
 		}
 	};
 
@@ -73,6 +72,8 @@ export default function SignupUtils() {
 			message={message}
 			setToastOpen={setToastOpen}
 			toastOpen={toastOpen}
+			toastColor={toastColor}
+			loading={loading}
 		/>
 	);
 }

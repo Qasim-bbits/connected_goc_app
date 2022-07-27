@@ -14,22 +14,17 @@ import Header from "../../../Common/header";
 import Toast from "../../../components/toast";
 
 export default function SelectParkingRate(props) {
-	const [rates, setRates] = React.useState([]);
-	const { rate } = useContext(globalStateContext);
+	const { rate, steps, selectedRate } = useContext(globalStateContext);
 	const [rateData, setRateData] = rate;
+	const [stepsData, setStepsData] = steps;
+	const [selectedRateData, setSelectedRateData] = selectedRate;
 
-	React.useEffect(() => {
-		let isMounted = true;
-		props.fetchRates().then((data) => {
-			if (isMounted) {
-				setRates(data);
-			}
+	const handleRateClick = async (val) => {
+		setSelectedRateData(val);
+		await props.fetchSteps().then((data) => {
+			setStepsData(data);
 		});
-		console.log(rates, "rates");
-		return () => {
-			isMounted = false;
-		};
-	}, []);
+	}
 
 	return (
 		<IonPage>
@@ -43,23 +38,18 @@ export default function SelectParkingRate(props) {
 					<IonSkeletonText animated style={{display: 'flex', width: '90%', height: '80%', margin: '10% auto'}}/>
 				</>
 				:
-				props.parkingPurchased ? (
-					<IonContent style={{display: "flex", height: '100%' }}>
-						<IonItem>
-							<IonText style={{ marginTop: '3%',height: '10vh'}}>{props.parkingMessage}</IonText>
-						</IonItem>
-					</IonContent>
-				) : (<IonContent>
-				{rates.map((el) => (
+				(
+					<IonContent>
+				{rateData?.map((el) => (
 					<IonCard class="card-background-color">
 						<IonCardContent>
 							<IonItem
 								class="card-background-color"
 								button
 								onClick={() => {
-									setRateData(el)
+									handleRateClick(el)
 								}}
-								routerLink={"/selectTariff"}
+								lines="none"
 							>
 								<img
 									src={require("../../../assets/logo/rate.png")}
@@ -75,8 +65,10 @@ export default function SelectParkingRate(props) {
 						message={props.message}
 						toastOpen={props.toastOpen}
 						setToastOpen={props.setToastOpen}
+						color={props.toastColor}
 						/>
-			</IonContent>)}
+			</IonContent>
+				)}
 		</IonPage>
 	);
 }

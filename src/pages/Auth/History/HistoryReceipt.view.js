@@ -32,6 +32,7 @@ export default function HistoryReceipt(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [toastOpen, setToastOpen] = useState(false);
   const [message, setMessage] = useState('');
+  const [toastColor, setToastColor] = useState('')
 
   const {
     detail
@@ -50,14 +51,10 @@ export default function HistoryReceipt(props) {
       });
       let resJson = await res.json();
       setIsLoading(false)
-      if (res.status === 200) {
-        if(resJson.msg){
-          setMessage(resJson.msg);
-          setToastOpen(true)
-        }else{
-          setMessage("Email successfully sent");
-          setToastOpen(true)
-        }
+      if (resJson.status === 'success') {
+        setToastColor('success')
+        setMessage(resJson.msg);
+        setToastOpen(true)
       } else {
         setMessage("Could not send email");
         setToastOpen(true)
@@ -102,7 +99,6 @@ export default function HistoryReceipt(props) {
             </IonThumbnail>
           </IonItem>
         </IonCard>
-        <Divider sx={{width: '80%'}}/>
         <IonItem>
           <IonImg src={Location} slot='start' style={{width: '15%', height: '15%'}}/>
           <IonLabel>
@@ -150,6 +146,7 @@ export default function HistoryReceipt(props) {
         message={message}
         toastOpen={toastOpen}
         setToastOpen={setToastOpen}
+        color={toastColor}
       />
     </IonPage>
   );

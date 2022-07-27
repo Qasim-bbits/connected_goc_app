@@ -29,8 +29,17 @@ import {Divider} from "@mui/material";
 import Toast from "../../../components/toast";
 
 export default function SelectPlates(props) {
-	const { plateName, user } = useContext(globalStateContext);
+	const { plateName, user, rate } = useContext(globalStateContext);
 	const [plate, setPlate] = plateName;
+	const [rateData, setRateData] = rate;
+
+
+	const handlePlateClick = async (val) => {
+		setPlate(val.plate);
+		await props.getRates().then((data) => {
+			setRateData(data);
+		});
+	}
 
 	return (
 		<IonPage>
@@ -133,9 +142,8 @@ export default function SelectPlates(props) {
 												class="card-background-color"
 												button
 												onClick={() => {
-													setPlate(el.plate);
+													handlePlateClick(el)
 												}}
-												routerLink={"/selectParkingRate"}
 												lines="none"
 												detail={false}
 											>
@@ -154,6 +162,7 @@ export default function SelectPlates(props) {
 				message={props.message}
 				toastOpen={props.toastOpen}
 				setToastOpen={props.setToastOpen}
+				color={props.toastColor}
 			/>
 		</IonPage>
 	);

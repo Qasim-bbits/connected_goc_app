@@ -1,5 +1,5 @@
 {
-	"appId": "com.company.connected_parking",
+	"appId": "com.company.connectedParking",
 	"appName": "Connected Parking",
 	"webDir": "build",
 	"bundledWebRuntime": false

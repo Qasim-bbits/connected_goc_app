@@ -33,7 +33,6 @@ export default function SelectTariffUtils() {
                 }),
             });
             result = await response.json();
-            console.log(result);
 
             if (!result.some((step) => step.rate)) {
                 bool = false;

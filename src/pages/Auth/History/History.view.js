@@ -40,7 +40,6 @@ export default function History(props) {
         }),
       }).then((response) => response.json());
       setHistoryData(response);
-      console.log(historyData, "historyResponse");
     } catch (e) {
       setMessage("History could not be fetched");
       setToastOpen(true);
@@ -53,7 +52,6 @@ export default function History(props) {
   }, [])
 
   let handleShowReceipt = (value) => {
-    console.log(value)
     history.push({
       pathname: '/historyReceipt',
       state: { detail: value }
@@ -71,11 +69,17 @@ export default function History(props) {
         {isLoading ? <><IonSkeletonText animated style={{display: 'flex', width: '90%', height: '80%', margin: '10% auto'}}/></> : (
           historyData.map((data) => {
             return (
-              <IonItem onClick={()=>handleShowReceipt(data)}>
+              <IonItem
+                onClick={()=>handleShowReceipt(data)}
+                style={{margin: '5%', borderRadius: '20px', boxShadow: '2px 4px rgba(0, 0, 0, 0.2)'}}
+                className='receipt-item'
+                lines='none'
+                color='light'
+              >
                 <IonThumbnail slot="start" style={{width: '30%', height: '30%'}}>
                   <IonImg src={TimeFromCar} />
                   <IonLabel style={{marginLeft: '5%', fontSize: '9px', width: '100%'}}>
-                    {moment(data?.from).format('MMMM Do YYYY, h:mm:ss a')}
+                    {moment(data?.from).format('MMMM Do YYYY, h:mm a')}
                   </IonLabel>
                 </IonThumbnail>
                 <IonThumbnail>
@@ -84,7 +88,7 @@ export default function History(props) {
                 <IonThumbnail slot="end" style={{width: '45%', height: '45%'}}>
                   <IonImg src={TimeToCar} />
                   <IonLabel style={{marginTop: '18%', fontSize: '9px', width: '100%'}}>
-                    {moment(data?.to).format('MMMM Do YYYY, h:mm:ss a')}
+                    {moment(data?.to).format('MMMM Do YYYY, h:mm a')}
                   </IonLabel>
                 </IonThumbnail>
               </IonItem>

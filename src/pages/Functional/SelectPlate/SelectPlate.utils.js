@@ -1,6 +1,7 @@
 import React, {useContext, useState} from "react";
 import SelectPlates from "./SelectPlates.view";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
+import {useHistory} from "react-router";
 
 let bool;
 let result = false;
@@ -9,19 +10,22 @@ export default function SelectPlatesUtils() {
 	const [addLoading, setAddLoading] = React.useState(false)
 	const [toastOpen, setToastOpen] = useState(false);
 	const [message, setMessage] = useState("");
-	const { user } = useContext(globalStateContext);
+	const { user, zone, plateName } = useContext(globalStateContext);
+	const [plate, setPlate] = plateName;
 	const [userId, setUserId] = user;
-
+	const [zoneData, setZoneData] = zone;
 	const [plates, setPlates] = React.useState([]);
 	const [inputPlate, setInputPlate] = React.useState({});
 	const [button, setButton] = React.useState("Add");
 	const [edit, setEdit] = React.useState({});
-
+	const [loading, setLoading] = React.useState(false);
 	const [showModal, setShowModal] = React.useState(false);
+	const [toastColor, setToastColor] = useState('')
+
+	const history = useHistory();
 
 	React.useEffect(() => {
 		getPlates();
-		console.log(plates, "plates");
 	}, []);
 
 
@@ -51,7 +55,6 @@ export default function SelectPlatesUtils() {
 			result = await response.json();
 			setPlates(result);
 			setShowModal(false);
-			console.log(result);
 		} catch (e) {
 			setMessage(e.message);
 			setToastOpen(true)
@@ -60,7 +63,6 @@ export default function SelectPlatesUtils() {
 	};
 
 	const addPlates = async (e) => {
-		console.log("input plate", inputPlate);
 		e.preventDefault();
 		try {
 			if (button === "Update") {
@@ -89,7 +91,6 @@ export default function SelectPlatesUtils() {
 					}),
 				});
 				result = await response.json();
-				console.log(result);
 				setAddLoading(false)
 				setShowModal(false);
 				setMessage('Plates added successfully')
@@ -124,7 +125,6 @@ export default function SelectPlatesUtils() {
 				}),
 			});
 			result = await response.json();
-			console.log(result);
 			if (result.deletedCount === 0) {
 				bool = false;
 				setMessage("Plate deleted successfully")
@@ -160,7 +160,6 @@ export default function SelectPlatesUtils() {
 			});
 			result = await response.json();
 			setShowModal(false);
-			console.log(result);
 			if (result.plate) {
 				bool = false;
 			} else {
@@ -180,15 +179,62 @@ export default function SelectPlatesUtils() {
 		}}
 
 	const onEditPlate = (e) => {
-		console.log(e);
 		inputPlate["plate"] = e.plate;
 		setEdit(e);
 		setButton("Update");
 	};
 
+	const getRates = async (data) => {
+		if (loading) {
+			return;
+		}
+		setLoading(true);
+		try {
+			const response = await fetch(
+				'https://connectedparking.ca/api/getRateById',
+				{
+					method: "POST",
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						id: zoneData?._id,
+						plate: plate,
+					}),
+				}
+			);
+			result = await response.json();
+			if (result.success === false) {
+				bool = false;
+			} else {
+				bool = true;
+			}
+		} catch (e) {
+			setMessage(e.message);
+			setToastOpen(true);
+		}
+		setLoading(false);
+		if (!bool) {
+			if (result.msg) {
+				setToastColor('primary')
+				setMessage(result.msg);
+				setToastOpen(true);
+			} else {
+				setMessage("Rates Could Not be Fetched!");
+				setToastOpen(true);
+			}
+			return null;
+		} else {
+			history.push('/selectParkingRate')
+			return result;
+		}
+	};
+
 	return (
 		<SelectPlates
 			plates={plates}
+			getRates={getRates}
 			addLoading={addLoading}
 			setAddLoading={setAddLoading}
 			loading={loadingSkeleton}
@@ -196,6 +242,7 @@ export default function SelectPlatesUtils() {
 			editPlates={editPlates}
 			message={message}
 			toastOpen={toastOpen}
+			toastColor={toastColor}
 			setToastOpen={setToastOpen}
 			delPlates={(e) => delPlates(e)}
 			addPlates={(e) => addPlates(e)}

@@ -27,13 +27,13 @@ function PaymentForm(props) {
   const [expYear, setExpYear] = useState("");
   const [cvv, setCvv] = useState(null);
   const [toastOpen, setToastOpen] = useState(false);
+  const [toastColor, setToastColor] = useState('')
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [message, setMessage] = useState('');
-  const {payment, rate} = useContext(globalStateContext);
+  const {payment, selectedRate} = useContext(globalStateContext);
   const [paymentData, setPaymentData] = payment;
-  const [rateData, setRateData] = rate;
+  const [selectedRateData, setSelectedRateData] = selectedRate;
   const [isLoading, setIsLoading] = useState(false)
-  const [invalidCard, setInvalidCard] = useState(false)
   const history = useHistory();
 
   let handleSubmit = async (e) => {
@@ -52,7 +52,7 @@ function PaymentForm(props) {
           user: user,
           city: city,
           zone: zone,
-          rate: rateData._id,
+          rate: selectedRateData._id,
           coord: currentCoordinates,
           plate: plate,
           from: from,
@@ -61,17 +61,17 @@ function PaymentForm(props) {
         headers: { 'Content-Type': 'application/json' },
       });
       let resJson = await res.json();
-      console.log(resJson)
       setPaymentData(resJson)
       setIsLoading(false)
       if (res.status === 200) {
         if(resJson.amount && resJson.paymentMethod){
+          setToastColor('success')
           setMessage("Payment Successful");
           setToastOpen(true)
           history.push('/purchaseReceipt')
         } else {
           setIsLoading(false);
-          setMessage("Your card is invalid");
+          setMessage(resJson.message);
           setToastOpen(true)
         }
       } else {
@@ -96,7 +96,6 @@ function PaymentForm(props) {
     } else {
       setCardNum(value);
     }
-    console.log(cardNum)
   }
   return (
     <>
@@ -167,14 +166,18 @@ function PaymentForm(props) {
         message={message}
         toastOpen={toastOpen}
         setToastOpen={setToastOpen}
+        color={toastColor}
         />
         </>) :
-        (<IonButton
-        onClick={() => setIsFormVisible(true)}
-        style={{width: '80%', marginTop: '10%'}}
-        >
-        Pay ${amount}
-        </IonButton>) }
+        (
+          <IonButton
+            onClick={() => setIsFormVisible(true)}
+            style={{width: '80%', marginTop: '10%'}}
+          >
+            Pay ${amount}
+          </IonButton>
+        )
+      }
       </>
   );
 }
