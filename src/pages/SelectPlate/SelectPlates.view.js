@@ -1,11 +1,5 @@
-import React, { useContext } from "react";
-import "../../../assets/styles/selectplates.css";
-import {
-	carOutline,
-	trashOutline,
-	pencil,
-	createOutline,
-} from "ionicons/icons";
+import "../../assets/styles/selectplates.css";
+import { carOutline, trashOutline, pencil } from "ionicons/icons";
 import {
 	IonContent,
 	IonList,
@@ -24,8 +18,7 @@ import {
 	IonCol,
 	IonListHeader,
 } from "@ionic/react";
-import { globalStateContext } from "../../../context/GlobalStateProvider";
-import Header from "../../../Common/header";
+import Header from "../../Common/header";
 import { Divider } from "@mui/material";
 
 // let plateId, plateData;
@@ -33,10 +26,6 @@ import { Divider } from "@mui/material";
 // let result = false;
 
 export default function SelectPlates(props) {
-	const { plateName, user } = useContext(globalStateContext);
-	const [plate, setPlate] = plateName;
-	const [userId, setUserId] = user;
-
 	return (
 		<IonPage>
 			<Header title="Select Plate" isHome={false} backLink="/home" />
@@ -70,11 +59,6 @@ export default function SelectPlates(props) {
 								color="secondary"
 								onClick={() => {
 									props.setShowModal(false);
-									// props.getPlates().then((data) => {
-									// 	setPlates(data);
-									// });
-									// props.getPlates();
-									// setInputPlateAdd(null);
 								}}
 							>
 								Close
@@ -148,7 +132,7 @@ export default function SelectPlates(props) {
 												class="card-background-color"
 												button
 												onClick={() => {
-													setPlate(el.plate);
+													props.setPlate(el.plate);
 												}}
 												routerLink={"/selectParkingRate"}
 												lines="none"

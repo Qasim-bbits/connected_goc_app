@@ -7,9 +7,10 @@ import { retrieveLocal } from "../../../localStorage/saveLocal";
 let bool;
 let result = false;
 export default function LoginUtils() {
-	const { user, emailU } = useContext(globalStateContext);
+	const { user, emailU, rememberMe } = useContext(globalStateContext);
 	const [userId, setUserId] = user;
 	const [email, setEmail] = emailU;
+	const [remember, setRemember] = rememberMe;
 
 	const [loading, setLoading] = React.useState(false);
 	const [toastOpen, setToastOpen] = useState(false);
@@ -56,8 +57,8 @@ export default function LoginUtils() {
 				bool = true;
 				setUserId(result.result._id);
 				setEmail(result.result.email);
-				setMessage('Signed in successfully')
-				setToastOpen(true)
+				setMessage("Signed in successfully");
+				setToastOpen(true);
 			}
 		} catch (e) {
 			alert("Oops", e.message);
@@ -73,10 +74,14 @@ export default function LoginUtils() {
 	};
 	return (
 		<LoginView
-			handleSubmit={(e) => handleSubmit(e)}
+			//Variables
 			message={message}
-			setToastOpen={setToastOpen}
 			toastOpen={toastOpen}
+			remember={remember}
+			setRemember={setRemember}
+			//Functions
+			setToastOpen={setToastOpen}
+			handleSubmit={(e) => handleSubmit(e)}
 		/>
 	);
 }

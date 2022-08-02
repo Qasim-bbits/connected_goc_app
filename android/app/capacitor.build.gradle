@@ -16,7 +16,7 @@ dependencies {
     implementation project(':capacitor-keyboard')
     implementation project(':capacitor-status-bar')
     implementation project(':capacitor-storage')
-
+    implementation "com.stripe:stripe-android:4.1.2"
 }
 
 

@@ -1,16 +1,31 @@
 import React, { useState, useContext } from "react";
 import SelectParkingRate from "./SelectParkingRate.view";
-import { globalStateContext } from "../../../context/GlobalStateProvider";
+import { globalStateContext } from "../../context/GlobalStateProvider";
 
 let bool;
 let result = false;
 export default function SelectParkingRateUtils() {
 	const [loading, setLoading] = React.useState(false);
-	const { zone, plateName } = useContext(globalStateContext);
+	const { zone, plateName, rate } = useContext(globalStateContext);
 	const [zoneId, setZoneId] = zone;
 	const [plate, setPlate] = plateName;
+	const [rateData, setRateData] = rate;
 	const [message, setMessage] = React.useState("");
 	const [parkingPurchased, setParkingPurchased] = useState(false);
+	const [rates, setRates] = React.useState([]);
+
+	React.useEffect(() => {
+		let isMounted = true;
+		getRates().then((data) => {
+			if (isMounted) {
+				setRates(data);
+			}
+		});
+		console.log(rates, "rates");
+		return () => {
+			isMounted = false;
+		};
+	}, []);
 
 	const getRates = async (data) => {
 		if (loading) {
@@ -54,9 +69,10 @@ export default function SelectParkingRateUtils() {
 	};
 	return (
 		<SelectParkingRate
-			fetchRates={getRates}
 			message={message}
 			parkingPurchased={parkingPurchased}
+			rates={rates}
+			setRateData={setRateData}
 		/>
 	);
 }

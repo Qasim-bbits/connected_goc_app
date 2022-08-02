@@ -9,6 +9,21 @@ export default function ChangePasswordUtils() {
 	const { emailU } = useContext(globalStateContext);
 	const [email, setEmail] = emailU;
 	const [loading, setLoading] = React.useState(false);
+	const [wrongPassword, setWrongPassword] = useState(false);
+	const [matchPassword, setMatchPassword] = useState("");
+
+	const handlePasswordChange = (event) => {
+		setMatchPassword(event);
+	};
+
+	const handleConfirmPassword = (event) => {
+		if (event !== matchPassword) {
+			setWrongPassword(true);
+		} else {
+			setWrongPassword(false);
+		}
+	};
+
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
@@ -60,8 +75,16 @@ export default function ChangePasswordUtils() {
 
 	return (
 		<SignupView
-			handleSubmit={(e) => handleSubmit(e)}
+			//Variables
 			dataStatus={result.status}
+			wrongPassword={wrongPassword}
+			matchPassword={matchPassword}
+			//Functions
+			handleSubmit={(e) => handleSubmit(e)}
+			setMatchPassword={setMatchPassword}
+			setWrongPassword={setWrongPassword}
+			handlePasswordChange={handlePasswordChange}
+			handleConfirmPassword={handleConfirmPassword}
 		/>
 	);
 }

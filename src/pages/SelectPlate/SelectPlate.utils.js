@@ -1,13 +1,14 @@
 import React, { useState, useContext } from "react";
 import SelectPlates from "./SelectPlates.view";
-import { globalStateContext } from "../../../context/GlobalStateProvider";
+import { globalStateContext } from "../../context/GlobalStateProvider";
 
 let bool;
 let result = false;
 export default function SelectPlatesUtils() {
 	const [loading, setLoading] = React.useState(false);
-	const { user } = useContext(globalStateContext);
+	const { plateName, user } = useContext(globalStateContext);
 	const [userId, setUserId] = user;
+	const [plate, setPlate] = plateName;
 
 	const [plates, setPlates] = React.useState([]);
 	const [inputPlate, setInputPlate] = React.useState({});
@@ -127,15 +128,18 @@ export default function SelectPlatesUtils() {
 
 	return (
 		<SelectPlates
+			//Variables
 			plates={plates}
+			inputPlate={inputPlate}
+			button={button}
+			showModal={showModal}
+			setPlate={setPlate}
+			//Functions
 			delPlates={(e) => delPlates(e)}
 			addPlates={(e) => addPlates(e)}
 			handleChange={(e) => handleChange(e)}
-			inputPlate={inputPlate}
-			onEditPlate={(e) => onEditPlate(e)}
-			button={button}
 			setShowModal={setShowModal}
-			showModal={showModal}
+			onEditPlate={(e) => onEditPlate(e)}
 		/>
 	);
 }

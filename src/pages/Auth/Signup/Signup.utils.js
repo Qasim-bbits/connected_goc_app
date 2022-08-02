@@ -63,8 +63,10 @@ export default function SignupUtils() {
 
 	return (
 		<SignupView
-			handleSubmit={(e) => handleSubmit(e)}
+			//Variables
 			dataStatus={result.status}
+			//Functions
+			handleSubmit={(e) => handleSubmit(e)}
 		/>
 	);
 }

@@ -1,22 +1,17 @@
-import React from 'react';
-import {IonToast} from "@ionic/react";
+import { IonToast } from "@ionic/react";
 
 function Toast(props) {
-  const {
-    message,
-    toastOpen,
-    setToastOpen,
-  } = props;
-  return (
-    <>
-      <IonToast
-        isOpen={toastOpen}
-        onDidDismiss={() => setToastOpen(false)}
-        message={message}
-        duration={5000}
-      />
-    </>
-  );
+	const { message, toastOpen, setToastOpen } = props;
+	return (
+		<>
+			<IonToast
+				isOpen={toastOpen}
+				onDidDismiss={() => setToastOpen(false)}
+				message={message}
+				duration={5000}
+			/>
+		</>
+	);
 }
 
 export default Toast;

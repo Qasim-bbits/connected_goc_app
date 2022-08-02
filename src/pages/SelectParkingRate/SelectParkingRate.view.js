@@ -1,41 +1,15 @@
-import React, { useContext } from "react";
-import "../../../assets/styles/selectparkingrate.css";
-import { wifi } from "ionicons/icons";
+import "../../assets/styles/selectparkingrate.css";
 import {
-	IonBackButton,
-	IonHeader,
-	IonToolbar,
-	IonTitle,
 	IonContent,
 	IonItem,
-	IonButtons,
 	IonPage,
 	IonCard,
 	IonCardContent,
-	IonIcon,
 	IonText,
 } from "@ionic/react";
-import { globalStateContext } from "../../../context/GlobalStateProvider";
-import Header from "../../../Common/header";
+import Header from "../../Common/header";
 
 export default function SelectParkingRate(props) {
-	const [rates, setRates] = React.useState([]);
-	const { rate } = useContext(globalStateContext);
-	const [rateData, setRateData] = rate;
-
-	React.useEffect(() => {
-		let isMounted = true;
-		props.fetchRates().then((data) => {
-			if (isMounted) {
-				setRates(data);
-			}
-		});
-		console.log(rates, "rates");
-		return () => {
-			isMounted = false;
-		};
-	}, []);
-
 	return (
 		<IonPage>
 			<Header
@@ -51,19 +25,19 @@ export default function SelectParkingRate(props) {
 						</IonItem>
 					</IonContent>
 				) : (
-					rates.map((el) => (
+					props.rates.map((el) => (
 						<IonCard class="card-background-color">
 							<IonCardContent>
 								<IonItem
 									class="card-background-color"
 									button
 									onClick={() => {
-										setRateData(el);
+										props.setRateData(el);
 									}}
 									routerLink={"/selectTariff"}
 								>
 									<img
-										src={require("../../../assets/logo/rate.png")}
+										src={require("../../assets/logo/rate.png")}
 										width="40"
 										height="40"
 									/>

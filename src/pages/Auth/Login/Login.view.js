@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import { useContext } from "react";
 import {
 	IonButton,
 	IonCheckbox,
@@ -19,20 +19,14 @@ import Toast from "../../../components/toast";
 import { globalStateContext } from "../../../context/GlobalStateProvider";
 import { useHistory } from "react-router";
 
-import {
-	storeLocal,
-	retrieveLocal,
-	deleteLocal,
-} from "../../../localStorage/saveLocal";
+// import {
+// 	storeLocal,
+// 	retrieveLocal,
+// 	deleteLocal,
+// } from "../../../localStorage/saveLocal";
 // let localEmail = retrieveLocal("email");
 
 export default function LoginView(props) {
-	const { user, emailU, rememberMe } = useContext(globalStateContext);
-	const [userId, setUserId] = user;
-	const [email, setEmail] = emailU;
-	const [remember, setRemember] = rememberMe;
-	const history = useHistory();
-
 	return (
 		<IonPage style={{ display: "flex" }}>
 			<IonGrid>
@@ -88,8 +82,8 @@ export default function LoginView(props) {
 								<IonLabel style={{ fontSize: "13px" }}>Remember me</IonLabel>
 								<IonCheckbox
 									classname="checkbox"
-									checked={remember}
-									onIonChange={(e) => setRemember(e.detail.checked)}
+									checked={props.remember}
+									onIonChange={(e) => props.setRemember(e.detail.checked)}
 									slot="start"
 									style={{ marginInlineEnd: "10px", borderColor: "red" }}
 								/>

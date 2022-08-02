@@ -1,4 +1,4 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import {
   IonApp,
   IonRouterOutlet,
@@ -25,14 +25,14 @@ import Signup from './pages/Auth/Signup/Signup.utils';
 import Login from './pages/Auth/Login/Login.utils';
 import ForgotPassword from './pages/Auth/ForgotPassword/ForgotPassword.utils';
 import ChangePassword from './pages/Auth/ChangePassword/ChangePassword.utils';
-import Home from './pages/Functional/Home/Home.utils';
-import SelectPlate from './pages/Functional/SelectPlate/SelectPlate.utils';
-import SelectParkingRate from './pages/Functional/SelectParkingRate/SelectParkingRate.utils';
-import SelectTariff from "./pages/Functional/SelectTariff/SelectTariff.utils";
-import PurchaseReceipt from "./pages/Functional/PurchaseReceipt/PurchaseReceipt";
-import History from "./pages/Auth/History/History.view";
-import HistoryReceipt from "./pages/Auth/History/HistoryReceipt.view";
-
+import Home from './pages/Home/Home.utils';
+import SelectPlate from './pages/SelectPlate/SelectPlate.utils';
+import SelectParkingRate from './pages/SelectParkingRate/SelectParkingRate.utils';
+import SelectTariff from "./pages/SelectTariff/SelectTariff.utils";
+import PurchaseReceipt from "./pages/PurchaseReceipt/PurchaseReceipt";
+import History from "./pages/Auth/History/History.utils";
+import HistoryReceipt from "./pages/Auth/HistoryReceipt/HistoryReceipt.utils";
+import Stripe from "./pages/Stripe/Stripe.utils";
 setupIonicReact();
 
 const App: React.FC = () => (
@@ -51,8 +51,10 @@ const App: React.FC = () => (
           <Route path="/changePassword" component={ChangePassword} exact={true} />
           <Route path="/history" component={History} exact={true} />
           <Route path="/historyReceipt" component={HistoryReceipt} exact={true} />
+          <Route path="/stripePage" component={Stripe} exact={true} />
 
-          <Route path="/" component={Login} exact={true} />
+
+          <Route path="/" component={Stripe} exact={true} />
         </UserDetailsProvider>
       </IonRouterOutlet>
     </IonReactRouter>
