@@ -11,13 +11,17 @@ import {
 	IonIcon,
 	IonLabel,
 } from "@ionic/react";
+import { Typography } from "@mui/material";
 
 export default function StripeScreen(props) {
 	return (
 		<IonPage>
 			<IonContent>
-				<form onSubmit={props.handleSubmit} style={{ backgroundColor: "#eee" }}>
-					<IonRow style={{ margin: "10px", padding: "15px" }}>
+				<form
+					onSubmit={props.handleSubmit}
+					style={{ backgroundColor: "#eee", margin: "20px" }}
+				>
+					<IonRow style={{ padding: "15px" }}>
 						<IonCol style={{ padding: "0 10px 0 10px" }}>
 							<IonLabel>Card Number</IonLabel>
 							<IonItem
@@ -61,14 +65,15 @@ export default function StripeScreen(props) {
 					</IonRow>
 					<IonRow
 						style={{
-							display: "flex",
-							flexDirection: "row",
+							// display: "flex",
+							// flexDirection: "row",
 							justifyContent: "space-evenly",
 							alignItems: "center",
-							margin: "10px",
+							marginLeft: "20px",
+							marginRight: "20px",
 						}}
 					>
-						<IonCol size={4}>
+						<IonCol>
 							<IonLabel>Expiry Month</IonLabel>
 							<IonItem
 								style={
@@ -94,8 +99,8 @@ export default function StripeScreen(props) {
 								/>
 							</IonItem>
 						</IonCol>
-						/
-						<IonCol size={3}>
+						{/* <Typography>/</Typography> */}
+						<IonCol>
 							<IonLabel>Expiry Year</IonLabel>
 							<IonItem
 								style={
@@ -121,7 +126,7 @@ export default function StripeScreen(props) {
 								/>
 							</IonItem>
 						</IonCol>
-						<IonCol size={3}>
+						<IonCol>
 							<IonLabel>CVC</IonLabel>
 							<IonItem
 								style={
