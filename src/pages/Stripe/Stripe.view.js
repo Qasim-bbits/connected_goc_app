@@ -43,10 +43,7 @@ export default function StripeScreen(props) {
 									value={props.cardNum["cardNumber"]}
 									name="cardNumber"
 									id="cardNumber"
-									onIonChange={(e) => {
-										props.handleChange(e);
-										// props.handleCardNum(e.target.value);
-									}}
+									onIonChange={props.handleChange}
 									placeholder="Card Number"
 									pattern="[\d| ]{16,22}"
 									maxlength={19}
@@ -84,10 +81,7 @@ export default function StripeScreen(props) {
 									type="text"
 									value={props.expMonth["expiryMonth"]}
 									name="expiryMonth"
-									onIonChange={(e) => {
-										// setExpMonth(e.target.value);
-										props.handleChange(e);
-									}}
+									onIonChange={props.handleChange}
 									placeholder="MM"
 									maxlength={2}
 									minlength={2}
@@ -114,10 +108,7 @@ export default function StripeScreen(props) {
 									type="text"
 									value={props.expYear["expiryYear"]}
 									name="expiryYear"
-									onIonChange={(e) => {
-										// setExpYear(e.target.value);
-										props.handleChange(e);
-									}}
+									onIonChange={props.handleChange}
 									placeholder="YY"
 									maxlength={2}
 									minlength={2}
@@ -145,10 +136,7 @@ export default function StripeScreen(props) {
 									id="cvc"
 									maxlength="3"
 									name="cvc"
-									onIonChange={(e) => {
-										// setCvc(e.target.value);
-										props.handleChange(e);
-									}}
+									onIonChange={props.handleChange}
 									placeholder="CVC"
 									style={{
 										backgroundColor: "#fff",

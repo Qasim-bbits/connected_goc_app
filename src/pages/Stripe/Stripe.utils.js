@@ -43,45 +43,88 @@ export default function StripeScreenUtils() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setIsLoading(true);
-		Stripe.validateCardNumber(
-			cardNum["cardNumber"],
-			async () => {
-				setMessage("Card Number is Valid :" + cardNum["cardNumber"]);
-				setToastOpen(true);
-				// findCardType();
-				setIncorrectCardNum(false);
-
-				let card = {
-					number: cardNum["cardNumber"],
-					expMonth: expMonth["expiryMonth"],
-					expYear: expYear["expiryYear"],
-					cvc: cvc["cvc"],
-				};
-				await Stripe.setPublishableKey(
-					"pk_test_51JDF8yFMPgCzegFZyQVzPTBid8gLHHR1j67hjQM1sLSmbYBONnQ12xgq3Oz8DeRuezJYM1qds3IuQh7EZsw8r1wq00ms9dzlAA"
-				);
-
-				await Stripe.createCardToken(card)
-					.then((token) => {
-						setMessage(token.id);
-						setToastOpen(true);
-						setCardToken(token.id);
-					})
-					.catch((error) => console.error(error));
-
-				validateDate();
-				validateCvc();
-			},
-			() => {
-				// alert("Card Number isnt Valid");
-				setIncorrectCardNum(true);
-				cardNum["cardNumber"] = "";
-				setMessage("Card Number isnt Valid");
-				setToastOpen(true);
-			}
+		let card = {
+			number: cardNum["cardNumber"],
+			expMonth: expMonth["expiryMonth"],
+			expYear: expYear["expiryYear"],
+			cvc: cvc["cvc"],
+		};
+		await Stripe.setPublishableKey(
+			"pk_test_51JDF8yFMPgCzegFZyQVzPTBid8gLHHR1j67hjQM1sLSmbYBONnQ12xgq3Oz8DeRuezJYM1qds3IuQh7EZsw8r1wq00ms9dzlAA"
 		);
 
+		await Stripe.createCardToken(card)
+			.then((token) => {
+				setMessage(token.id);
+				setToastOpen(true);
+				setCardToken(token.id);
+			})
+			.catch((error) => console.error(error));
+
+		// Stripe.validateCardNumber(
+		// 	cardNum["cardNumber"],
+		// 	async () => {
+		// 		setMessage("Card Number is Valid :" + cardNum["cardNumber"]);
+		// 		setToastOpen(true);
+		// 		// findCardType();
+		// 		setIncorrectCardNum(false);
+
+		// 		let card = {
+		// 			number: cardNum["cardNumber"],
+		// 			expMonth: expMonth["expiryMonth"],
+		// 			expYear: expYear["expiryYear"],
+		// 			cvc: cvc["cvc"],
+		// 		};
+		// 		await Stripe.setPublishableKey(
+		// 			"pk_test_51JDF8yFMPgCzegFZyQVzPTBid8gLHHR1j67hjQM1sLSmbYBONnQ12xgq3Oz8DeRuezJYM1qds3IuQh7EZsw8r1wq00ms9dzlAA"
+		// 		);
+
+		// 		await Stripe.createCardToken(card)
+		// 			.then((token) => {
+		// 				setMessage(token.id);
+		// 				setToastOpen(true);
+		// 				setCardToken(token.id);
+		// 			})
+		// 			.catch((error) => console.error(error));
+
+		// 		validateDate();
+		// 		validateCvc();
+		// 	},
+		// 	() => {
+		// 		// alert("Card Number isnt Valid");
+		// 		setIncorrectCardNum(true);
+		// 		cardNum["cardNumber"] = "";
+		// 		setMessage("Card Number isnt Valid");
+		// 		setToastOpen(true);
+		// 	}
+		// );
+
 		setIsLoading(false);
+	};
+
+	const handleChange = (e) => {
+		console.log(e.target.name, e.target.value);
+		switch (e.target.name) {
+			case "cardNumber":
+				setCardNum({
+					...cardNum,
+					[e.target.name]: handleCardNum(e.target.value),
+				});
+				// validateCardNum();
+				break;
+			case "expiryYear":
+				setExpYear({ ...expYear, [e.target.name]: e.target.value });
+				// validateDate();
+				break;
+			case "expiryMonth":
+				setExpMonth({ ...expMonth, [e.target.name]: e.target.value });
+				// validateDate();
+				break;
+			case "cvc":
+				setCvc({ ...cvc, [e.target.name]: e.target.value });
+				// validateCvc();
+				break;
+		}
 	};
 
 	const handleCardNum = (value) => {
@@ -102,6 +145,25 @@ export default function StripeScreenUtils() {
 		// console.log(cardNum);
 	};
 
+	const validateCardNum = () => {
+		if (cardNum["cardNumber"] != undefined)
+			Stripe.validateCardNumber(
+				cardNum["cardNumber"],
+				() => {
+					setMessage("Card Number is Valid :" + cardNum["cardNumber"]);
+					setToastOpen(true);
+					setIncorrectCardNum(false);
+				},
+				() => {
+					// alert("Card Number isnt Valid");
+					setIncorrectCardNum(true);
+					setMessage("Card Number isnt Valid " + cardNum["cardNumber"]);
+					setToastOpen(true);
+					// cardNum["cardNumber"] = "";
+				}
+			);
+	};
+
 	const findCardType = () => {
 		Stripe.getCardType(cardNum["cardNumber"], function (ct) {
 			console.log(ct);
@@ -111,41 +173,59 @@ export default function StripeScreenUtils() {
 	};
 
 	const validateDate = () => {
-		Stripe.validateExpiryDate(
-			expMonth["expiryMonth"],
-			expYear["expiryYear"],
-			() => {
-				console.log("Date is Valid");
-				setMessage("Date is Valid");
-				setToastOpen(true);
-				setIncorrectDate(false);
-			},
-			() => {
-				alert("Date isnt Valid");
-				setIncorrectDate(true);
-				setMessage("Date isnt Valid");
-				setToastOpen(true);
-				expMonth["expiryMonth"] = "";
-				expYear["expiryYear"] = "";
-			}
-		);
+		if (
+			expMonth["expiryMonth"] != undefined ||
+			expYear["expiryYear"] != undefined
+		)
+			Stripe.validateExpiryDate(
+				expMonth["expiryMonth"],
+				expYear["expiryYear"],
+				() => {
+					console.log("Date is Valid");
+					setMessage(
+						"Date is Valid " +
+							expMonth["expiryMonth"] +
+							" " +
+							expYear["expiryYear"]
+					);
+					setToastOpen(true);
+					setIncorrectDate(false);
+				},
+				() => {
+					// alert("Date isnt Valid");
+					setIncorrectDate(true);
+					setMessage(
+						"Date isnt Valid" +
+							expMonth["expiryMonth"] +
+							" " +
+							expYear["expiryYear"]
+					);
+					setToastOpen(true);
+					// expMonth["expiryMonth"] = "";
+					// expYear["expiryYear"] = "";
+				}
+			);
 	};
 
 	const validateCvc = () => {
-		Stripe.validateCVC(
-			cvc["cvc"],
-			() => {
-				alert("Cvc is Valid");
-				setMessage("Cvc is Valid");
-				setToastOpen(true);
-				setIncorrectCvc(false);
-			},
-			() => {
-				alert("Cvc isnt Valid");
-				setIncorrectCvc(true);
-				cvc["cvc"] = "";
-			}
-		);
+		console.log("validateCvc" + cvc["cvc"]);
+		if (cvc["cvc"] != undefined)
+			Stripe.validateCVC(
+				cvc["cvc"],
+				() => {
+					// alert("Cvc is Valid");
+					setMessage("Cvc is Valid " + cvc["cvc"]);
+					setToastOpen(true);
+					setIncorrectCvc(false);
+				},
+				() => {
+					// alert("Cvc isnt Valid");
+					setMessage("Cvc isnt Valid " + cvc["cvc"]);
+					setToastOpen(true);
+					setIncorrectCvc(true);
+					// cvc["cvc"] = "";
+				}
+			);
 	};
 
 	// useEffect(() => {
@@ -157,6 +237,23 @@ export default function StripeScreenUtils() {
 	// 		setIncorrectCardNum(false);
 	// 	}
 	// }, [setIncorrectCardNum]);
+
+	useEffect(() => {
+		console.log("CVC:" + cvc["cvc"]);
+		validateCvc();
+	}, [cvc]);
+
+	useEffect(() => {
+		console.log("Card Number:" + cardNum["carNumber"]);
+		validateCardNum();
+	}, [cardNum]);
+
+	useEffect(() => {
+		console.log(
+			"Date:" + expMonth["expiryMonth"] + " " + expYear["expiryYear"]
+		);
+		validateDate();
+	}, [expMonth, expYear]);
 
 	useEffect(() => {
 		findCardType();
@@ -182,28 +279,7 @@ export default function StripeScreenUtils() {
 				console.log("NO image");
 		}
 	};
-	const handleChange = (e) => {
-		// setInputPlate({ ...inputPlate, [e.target.name]: e.target.value });
-		// handleCardNum(e.target.value);
-		console.log(e.target.name, e.target.value);
-		switch (e.target.name) {
-			case "cardNumber":
-				setCardNum({
-					...cardNum,
-					[e.target.name]: handleCardNum(e.target.value),
-				});
-				break;
-			case "expiryYear":
-				setExpYear({ ...expYear, [e.target.name]: e.target.value });
-				break;
-			case "expiryMonth":
-				setExpMonth({ ...expMonth, [e.target.name]: e.target.value });
-				break;
-			case "cvc":
-				setCvc({ ...cvc, [e.target.name]: e.target.value });
-				break;
-		}
-	};
+
 	return (
 		<StripeScreen
 			incorrectCardNum={incorrectCardNum}
@@ -222,6 +298,7 @@ export default function StripeScreenUtils() {
 			handleSubmit={handleSubmit}
 			handleChange={handleChange}
 			handleCardNum={handleCardNum}
+			validateCvc={validateCvc}
 		/>
 	);
 }
