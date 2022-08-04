@@ -5,6 +5,8 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 import '@ionic/react/css/core.css';
 import '@ionic/react/css/normalize.css';
@@ -35,7 +37,12 @@ import HistoryReceipt from "./pages/Auth/HistoryReceipt/HistoryReceipt.utils";
 import Stripe from "./pages/Stripe/Stripe.utils";
 setupIonicReact();
 
+const stripePromise = loadStripe(
+	"pk_test_51JDF8yFMPgCzegFZyQVzPTBid8gLHHR1j67hjQM1sLSmbYBONnQ12xgq3Oz8DeRuezJYM1qds3IuQh7EZsw8r1wq00ms9dzlAA"
+);
+
 const App: React.FC = () => (
+  <Elements stripe={stripePromise}>
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
@@ -59,6 +66,7 @@ const App: React.FC = () => (
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
+  </Elements>
 );
 
 export default App;

@@ -1,13 +1,8 @@
 import { Stripe } from "@awesome-cordova-plugins/stripe";
 import { useState, useContext, useEffect } from "react";
 import { card } from "ionicons/icons";
-import StripeScreen from "./Stripe.view";
-// import { width } from "@mui/system";
 
-const visaImg = require("../../assets/logo/visa.png");
-const mastercardImg = require("../../assets/logo/mastercard.png");
-const americanImg = require("../../assets/logo/american.png");
-const paypalImg = require("../../assets/logo/paypal.png");
+import StripeScreen from "./Stripe.view";
 
 export default function StripeScreenUtils() {
 	const [cardNum, setCardNum] = useState({});
@@ -23,7 +18,18 @@ export default function StripeScreenUtils() {
 	const [cardIcon, setCardIcon] = useState(card);
 	const [incorrectCardNum, setIncorrectCardNum] = useState(false);
 	const [incorrectCvc, setIncorrectCvc] = useState(false);
-	const [incorrectDate, setIncorrectDate] = useState(false);
+	const [incorrectMonth, setIncorrectMonth] = useState(false);
+	const [incorrectYear, setIncorrectYear] = useState(false);
+
+	const cardImages = {
+		visa: require("../../assets/logo/visa.png"),
+		mastercard: require("../../assets/logo/mastercard.png"),
+		american: require("../../assets/logo/american.png"),
+		union: require("../../assets/logo/union.png"),
+		jcb: require("../../assets/logo/jcb.png"),
+		diners: require("../../assets/logo/diners.png"),
+		discover: require("../../assets/logo/discover.png"),
+	};
 
 	// const handleStripe = async () => {
 	// 	await Stripe.setPublishableKey(
@@ -38,6 +44,33 @@ export default function StripeScreenUtils() {
 	// 	await Stripe.createCardToken(card)
 	// 		.then((token) => console.log(token.id))
 	// 		.catch((error) => console.error(error));
+	// };
+
+	// const googlePay = () => {
+	// 	window.sgap
+	// 		.setKey(
+	// 			"pk_test_51JDF8yFMPgCzegFZyQVzPTBid8gLHHR1j67hjQM1sLSmbYBONnQ12xgq3Oz8DeRuezJYM1qds3IuQh7EZsw8r1wq00ms9dzlAA"
+	// 		)
+	// 		.then(function (output) {
+	// 			window.sgap
+	// 				.isReadyToPay()
+	// 				.then(function () {
+	// 					window.sgap
+	// 						.requestPayment(amount, "USD")
+	// 						.then(function (token) {
+	// 							alert(token);
+	// 						})
+	// 						.catch(function (err) {
+	// 							alert(err);
+	// 						});
+	// 				})
+	// 				.catch(function (err) {
+	// 					alert(err);
+	// 				});
+	// 		})
+	// 		.catch(function (err) {
+	// 			alert(err);
+	// 		});
 	// };
 
 	const handleSubmit = async (e) => {
@@ -174,9 +207,11 @@ export default function StripeScreenUtils() {
 
 	const validateDate = () => {
 		if (
-			expMonth["expiryMonth"] != undefined ||
-			expYear["expiryYear"] != undefined
-		)
+			expMonth["expiryMonth"] != undefined &&
+			expYear["expiryYear"] != undefined &&
+			expMonth["expiryMonth"] != "" &&
+			expYear["expiryYear"] != ""
+		) {
 			Stripe.validateExpiryDate(
 				expMonth["expiryMonth"],
 				expYear["expiryYear"],
@@ -189,15 +224,20 @@ export default function StripeScreenUtils() {
 							expYear["expiryYear"]
 					);
 					setToastOpen(true);
-					setIncorrectDate(false);
+					setIncorrectMonth(false);
+					setIncorrectYear(false);
 				},
 				() => {
-					// alert("Date isnt Valid");
-					setIncorrectDate(true);
+					setIncorrectMonth(true);
+					setIncorrectYear(true);
+
+					// if (expMonth["expiryMonth"] == "") setIncorrectMonth(false);
+					// if (expYear["expiryYear"] == "") setIncorrectYear(false);
+
 					setMessage(
 						"Date isnt Valid" +
 							expMonth["expiryMonth"] +
-							" " +
+							"/" +
 							expYear["expiryYear"]
 					);
 					setToastOpen(true);
@@ -205,7 +245,36 @@ export default function StripeScreenUtils() {
 					// expYear["expiryYear"] = "";
 				}
 			);
+		} else {
+			if (
+				expMonth["expiryMonth"] != undefined &&
+				expMonth["expiryMonth"] != ""
+			) {
+				if (!(expMonth["expiryMonth"] > 0 && expMonth["expiryMonth"] < 13)) {
+					setIncorrectMonth(true);
+				}
+			} else if (expMonth["expiryMonth"] == "") setIncorrectMonth(false);
+
+			// if (expYear["expiryYear"] != undefined) setIncorrectYear(true);
+			if (expYear["expiryYear"] == "") setIncorrectYear(false);
+		}
 	};
+
+	// const validateDate = () => {
+	// 	if (expMonth["expiryMonth"] != undefined && expMonth["expiryMonth"] != "") {
+	// 		if (!(expMonth["expiryMonth"] > 0 && expMonth["expiryMonth"] < 13)) {
+	// 			setIncorrectMonth(true);
+	// 		}
+	// 	} else if (expMonth["expiryMonth"] == "") setIncorrectMonth(false);
+
+	// 	if (expYear["expiryYear"] != undefined && expYear["expiryYear"] != "") {
+	// 		const currYear = new Date().getFullYear();
+	// 		console.log(currYear);
+	// 		if (expYear["expiryYear"] < currYear) {
+	// 			setIncorrectYear(true);
+	// 		} else setIncorrectYear(false);
+	// 	} else setIncorrectYear(false);
+	// };
 
 	const validateCvc = () => {
 		console.log("validateCvc" + cvc["cvc"]);
@@ -264,17 +333,26 @@ export default function StripeScreenUtils() {
 	const findCardIcon = () => {
 		switch (cardType) {
 			case "Visa":
-				setCardIcon(visaImg);
+				setCardIcon(cardImages.visa);
 				break;
 			case "MasterCard":
-				setCardIcon(mastercardImg);
-				break;
-			case "Paypal":
-				setCardIcon(paypalImg);
+				setCardIcon(cardImages.mastercard);
 				break;
 			case "American Express":
-				setCardIcon(americanImg);
+				setCardIcon(cardImages.american);
 				break;
+			case "Discover":
+				setCardIcon(cardImages.discover);
+				break;
+			case "JCB":
+				setCardIcon(cardImages.jcb);
+				break;
+			case "Diners Club":
+				setCardIcon(cardImages.diners);
+				break;
+			// case "UnionPay":
+			// 	setCardIcon(cardImages.union);
+			// 	break;
 			default:
 				console.log("NO image");
 		}
@@ -284,7 +362,8 @@ export default function StripeScreenUtils() {
 		<StripeScreen
 			incorrectCardNum={incorrectCardNum}
 			incorrectCvc={incorrectCvc}
-			incorrectDate={incorrectDate}
+			incorrectMonth={incorrectMonth}
+			incorrectYear={incorrectYear}
 			cardIcon={cardIcon}
 			cardNum={cardNum}
 			expMonth={expMonth}
@@ -294,6 +373,7 @@ export default function StripeScreenUtils() {
 			amount={amount}
 			message={message}
 			toastOpen={toastOpen}
+			cardImages={cardImages}
 			setToastOpen={setToastOpen}
 			handleSubmit={handleSubmit}
 			handleChange={handleChange}
